@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   Zap, Bot, Sun, GraduationCap, Cpu, Layers, 
   CheckCircle2, ArrowRight, Sparkles, 
-  ChevronRight, ChevronLeft, Sprout, Activity
+  ChevronRight, ChevronLeft
 } from 'lucide-react';
 
 interface SubCategoryDetail {
@@ -702,7 +702,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   const IconComponent = sector.icon;
   const ALL_SECTOR_KEYS = Object.keys(SECTORS_DATA);
   const totalSubs = sector.subCategories.length;
-
   // Background rotating video index every 10 seconds
   const [currentVideoIdx, setCurrentVideoIdx] = useState<number>(0);
 
@@ -723,12 +722,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   const changeHeroSlide = (direction: 1 | -1) => {
     setPrevHeroSlideIdx(heroSlideIdx);
     setHeroSlideIdx(prev => (prev + direction + totalSubs) % totalSubs);
-  };
-
-  const goToHeroSlide = (index: number) => {
-    if (index === heroSlideIdx) return;
-    setPrevHeroSlideIdx(heroSlideIdx);
-    setHeroSlideIdx(index);
   };
 
   // Hero Cities Slider Auto-Play every 6 seconds
