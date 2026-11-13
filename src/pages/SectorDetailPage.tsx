@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   Zap, Bot, Sun, GraduationCap, Cpu, Layers, 
-  CheckCircle2, ArrowRight, Sparkles, 
+  ArrowRight, Sparkles, 
   ChevronRight, ChevronLeft
 } from 'lucide-react';
 
@@ -40,7 +40,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Zap,
     tagline: 'Intelligent Touch, App & Voice Space Automation for Modern Living',
     heroDescription: 'Transform residential villas, luxury apartments, and corporate workspaces with our integrated IoT automation architecture. From feather-touch glass switches to automated curtains, energy telemetry, and biometric security, experience seamless intelligence.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg',
+    image: '/img/p1.png',
     overviewPoints: [
       'Retrofittable into existing standard modular wall switch back-boxes',
       'Unified smartphone mobile application (iOS & Android) with local offline Wi-Fi control',
@@ -53,7 +53,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Smart Switches & Touch Panels',
         tagline: 'Feather-touch capacitive glass panels with dual-color LED backlight',
         description: 'Luxury tempered glass touch switches available in 2, 4, 6, and 8-gang configurations. Engineered with flame-retardant enclosures, high-amperage relays for inductive loads (fans, geysers, ACs), and instant tactile feedback.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg',
+        image: '/img/p1.png',
         features: [
           'Dual-state LED status indicators (Amber active / Cyan standby)',
           'High current 10A-25A Omron/Panasonic grade internal relay switching',
@@ -72,7 +72,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Smart Lights & Architectural Dimming',
         tagline: 'Tunable white CCT, RGB ambient glow, and automated circadian dimming',
         description: 'Dynamic illumination systems for architectural cove lighting, spotlights, and ambient fixtures. Schedule mood transitions from energizing cool white during morning hours to calming warm amber in the evening.',
-        image: '/img/s1.jpg',
+        image: '/img/p2.png',
         features: [
           'Smooth flicker-free trailing-edge 0-100% digital dimming',
           'Preset scene activations (Cinema Mode, Dinner Party, Sleep, Reading)',
@@ -91,7 +91,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'CCTV & AI Vision Surveillance',
         tagline: 'Ultra HD 4K perimeter security with intelligent person/vehicle detection',
         description: 'Commercial and residential video surveillance with optical zoom, night vision color infrared, two-way audio intercoms, and local network video recorder (NVR) with encrypted cloud backup.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.03.43 PM.jpeg',
+        image: '/img/p3.png',
         features: [
           'Smart AI human, face, and vehicle movement alert zones',
           'Starlight sensor technology for full-color night surveillance',
@@ -110,7 +110,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Smart Biometric Door Locks',
         tagline: 'Keyless multi-factor authentication with anti-peep digital keypads',
         description: 'Heavy-duty mortise biometric locks crafted from aerospace-grade aluminum. Offers swift semiconductor fingerprint unlocking, encrypted RFID cards, dynamic guest PIN codes, and emergency mechanical key overrides.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg',
+        image: '/img/p4.png',
         features: [
           '0.3-second 360-degree Swedish semiconductor fingerprint sensor',
           'One-time OTP passwords for visiting guests, domestic staff, and deliveries',
@@ -136,7 +136,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Bot,
     tagline: 'Heavy-Duty Control Panels, Motor Drives & Automated Field Machines',
     heroDescription: 'End-to-end industrial automation for textile mills, manufacturing plants, agricultural pump grids, and commercial entrances across Tamil Nadu. We engineer robust PLC/SCADA panels, heavy-duty gate actuators, and smart irrigation controllers.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg',
+    image: '/img/p4.png',
     overviewPoints: [
       'Tailor-made industrial IP65 powder-coated control panels with Siemens & Schneider switchgear',
       'Automated heavy-duty sliding & swing gate motors supporting loads up to 3500kg',
@@ -149,7 +149,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Gate Automation & Barrier Actuators',
         tagline: 'Motorized sliding, swing, and telescopic gate drives for factories & estates',
         description: 'Industrial-grade electromechanical and hydraulic gate drives built for continuous duty cycles. Equipped with safety optical photocells, soft start-stop deceleration, remote key fobs, and mobile GSM intercom triggers.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg',
+        image: '/img/p4.png',
         features: [
           'High-torque oil-bath gear motor with hardened steel drive rack',
           'Infrared safety photo-beams preventing closure on vehicles or pedestrians',
@@ -217,7 +217,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
           { label: 'Course Formats', value: '1-Week Intensive / 1-Month Hands-on Lab' },
           { label: 'Hardware Access', value: '1:1 Student to PLC Workbench Ratio' },
           { label: 'Key Platforms', value: 'Siemens TIA Portal, Delta WPLSoft, Modbus' },
-          { label: 'Location', value: 'NUO TECH Engineering Facility, Karur, TN' }
+          { label: 'Location', value: 'SMARToi Engineering Facility, Karur, TN' }
         ]
       }
     ]
@@ -245,7 +245,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: '1 - 10kW Residential Rooftop Solar',
         tagline: 'Grid-tied, off-grid and hybrid rooftop solar power for independent homes',
         description: 'Turnkey residential rooftop solar systems designed to meet daily household consumption. Generate clean power, export excess units to the TNEB grid via bidirectional net-metering, and enjoy lifetime utility savings.',
-        image: '/img/s1.jpg',
+        image: '/img/p2.png',
         features: [
           'High-efficiency bifacial / PERC solar panels with >21.5% cell efficiency',
           'Smart transformerless solar string inverter with Wi-Fi power telemetry',
@@ -352,7 +352,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
           { label: 'Drone Categories', value: 'Micro, Small & Agricultural Spray Drones' },
           { label: 'Curriculum', value: 'Aerodynamics, Avionics, Mission Planner, Rules' },
           { label: 'Field Practice', value: 'Dedicated Flying Grounds in Tamil Nadu' },
-          { label: 'Certification', value: 'NUO TECH Professional Drone Pilot Certificate' }
+          { label: 'Certification', value: 'SMARToi Professional Drone Pilot Certificate' }
         ]
       },
       {
@@ -408,7 +408,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         specs: [
           { label: 'Core Platforms', value: 'Raspberry Pi 5, ESP32, Arduino, Jetson Nano' },
           { label: 'Languages', value: 'Python, Embedded C/C++, Linux Shell' },
-          { label: 'Robots Used', value: 'NUO Autonomous 4WD Mobile Robot Testbeds' },
+          { label: 'Robots Used', value: 'SMARToi Autonomous 4WD Mobile Robot Testbeds' },
           { label: 'Certification', value: 'Advanced Robotics Specialist Certificate' }
         ]
       }
@@ -590,7 +590,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'CNC Hydraulic Sheet Bending',
         tagline: 'Multi-axis press brake sheet metal bending with precision angle control',
         description: 'Hydraulic press brake bending for control panel boxes, electrical enclosures, brackets, and structural machine guards. Programmed with multi-bend sequences guaranteeing consistent angle profiles across production batches.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg',
+        image: '/img/p4.png',
         features: [
           'CNC multi-axis backgauge positioning for rapid repetitive bending cycles',
           'Sectional hardened punches and V-dies accommodating various sheet thicknesses',
@@ -628,7 +628,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: '3D Parts Painting & Surface Finishing',
         tagline: 'Automotive polyurethane (PU) spray painting & custom enclosures',
         description: 'High-end cosmetic surface finishing for 3D printed components, metal enclosures, and display prototypes. Multi-stage primer application, fine wet sanding, polyurethane color coat, and scratch-resistant protective clear lacquer.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg',
+        image: '/img/p1.png',
         features: [
           'Fills layer lines on 3D prints to achieve injection-molded smooth aesthetics',
           'Multi-coat polyurethane (PU) automotive paint with high gloss or matte sheen',
@@ -738,51 +738,9 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   useEffect(() => {
     setHeroSlideIdx(0);
     setPrevHeroSlideIdx(-1);
-    setSliderIndex(0);
-  }, [sector.id]);
+      }, [sector.id]);
 
-  // ==========================================================
-  // 3D PERSPECTIVE MODULE SLIDER STATE
-  // ==========================================================
-  const [sliderIndex, setSliderIndex] = useState<number>(0);
-  const [isSliderPaused, setIsSliderPaused] = useState<boolean>(false);
-  const [tilt3D, setTilt3D] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const sliderStageRef = useRef<HTMLDivElement>(null);
-
-  // Auto-play 3D slider every 6 seconds unless paused
-  useEffect(() => {
-    if (isSliderPaused) return;
-    const sliderTimer = setInterval(() => {
-      setSliderIndex(prev => (prev + 1) % totalSubs);
-    }, 6000);
-    return () => clearInterval(sliderTimer);
-  }, [isSliderPaused, totalSubs]);
-
-  const next3DSlide = () => {
-    setSliderIndex(prev => (prev + 1) % totalSubs);
-  };
-
-  const prev3DSlide = () => {
-    setSliderIndex(prev => (prev - 1 + totalSubs) % totalSubs);
-  };
-
-  // Interactive 3D mouse parallax tilt on slider stage
-  const handleSliderMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!sliderStageRef.current) return;
-    const rect = sliderStageRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const tiltX = ((y - centerY) / centerY) * -6;
-    const tiltY = ((x - centerX) / centerY) * 8;
-    setTilt3D({ x: tiltX, y: tiltY });
-  };
-
-  const handleSliderMouseLeave = () => {
-    setTilt3D({ x: 0, y: 0 });
-    setIsSliderPaused(false);
-  };
+  // 3D perspective slider state removed
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#050911', color: '#FFFFFF', paddingTop: '100px', overflowX: 'hidden' }}>
@@ -1257,8 +1215,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                   <div 
                     key={`${setIdx}-${sub.id}`}
                     onClick={() => {
-                      setSliderIndex(sIdx);
-                      document.getElementById('slider-showcase')?.scrollIntoView({ behavior: 'smooth' });
+                                            document.getElementById('slider-showcase')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     style={{
                       display: 'inline-flex',
@@ -1457,13 +1414,13 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         <section 
           id="slider-showcase"
           style={{ 
-            padding: '80px 0 110px', 
+            padding: '32px 0 48px', 
             position: 'relative',
             overflow: 'hidden',
             backgroundColor: '#FFFFFF',
             backgroundImage: `
-              linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px)
+              linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
             `,
             backgroundSize: '32px 32px',
             borderTop: '1px solid #E2E8F0',
@@ -1471,342 +1428,392 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
           }}
         >
           <div className="container" style={{ maxWidth: '1360px', margin: '0 auto', padding: '0 24px' }}>
-            
+
             {/* Section Header */}
-            <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 48px' }}>
-              <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 800, color: '#0F172A', marginBottom: '14px', letterSpacing: '-0.02em' }}>
+            <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 24px' }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 800, color: '#0F172A', marginBottom: '8px', letterSpacing: '-0.02em' }}>
                 Explore <span style={{ color: sector.accentColor }}>{sector.title}</span> Modules
               </h2>
-
               <p style={{ color: '#64748B', fontSize: '1.02rem', lineHeight: 1.6, margin: 0 }}>
-                Click or swipe to navigate through all {totalSubs} sub-categories in 3D perspective depth.
+                Discover all {totalSubs} smart modules powering intelligent, connected spaces.
               </p>
             </div>
 
-            {/* 3D Perspective Stage Viewport */}
+            {/* ── Hub & Spoke Layout ─────────────────────────────────────── */}
             <div
-              ref={sliderStageRef}
-              onMouseMove={handleSliderMouseMove}
-              onMouseEnter={() => setIsSliderPaused(true)}
-              onMouseLeave={handleSliderMouseLeave}
               style={{
                 position: 'relative',
-                width: '100%',
-                minHeight: '620px',
-                perspective: '1400px',
-                perspectiveOrigin: '50% 50%',
-                display: 'flex',
+                display: 'grid',
+                gridTemplateColumns: '1fr 200px 1fr',
+                gridTemplateRows: 'auto auto auto',
+                gap: '0',
                 alignItems: 'center',
-                justifyContent: 'center',
-                userSelect: 'none',
-                padding: '30px 0'
+                justifyItems: 'center',
               }}
             >
-              {/* Cards Container with 3D Tilt */}
+              {/* ── Connector Lines using absolute positioned divs ── */}
+              {/* Horizontal line */}
+              <div style={{
+                position: 'absolute', top: '50%', left: '2%', right: '2%', height: '3px',
+                background: `linear-gradient(90deg, transparent, ${sector.accentColor}50 20%, ${sector.accentColor}90 50%, ${sector.accentColor}50 80%, transparent)`,
+                pointerEvents: 'none', zIndex: 1,
+                transform: 'translateY(-50%)'
+              }} />
+              {/* Vertical line */}
+              <div style={{
+                position: 'absolute', left: '50%', top: '2%', bottom: '2%', width: '3px',
+                background: `linear-gradient(180deg, transparent, ${sector.accentColor}50 20%, ${sector.accentColor}90 50%, ${sector.accentColor}50 80%, transparent)`,
+                pointerEvents: 'none', zIndex: 1,
+                transform: 'translateX(-50%)'
+              }} />
+
+              {/* ── TOP-LEFT MODULE (index 0) ── */}
+              {sector.subCategories[0] && (() => {
+                const sub = sector.subCategories[0];
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
+                    style={{
+                      gridColumn: '1',
+                      gridRow: '1',
+                      justifySelf: 'end',
+                      width: '100%',
+                      maxWidth: '480px',
+                      height: '320px',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
+                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
+                      cursor: 'pointer',
+                      zIndex: 2,
+                      margin: '0 24px 24px 0',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
+                    }}
+                  >
+                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+                    {/* Dark gradient overlay */}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
+                    {/* Bottom bar: Title on left, S.No on bottom right */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '18px 20px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'space-between',
+                      gap: '14px',
+                      zIndex: 3
+                    }}>
+                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
+                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>01</div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* ── TOP SPACER (hub row top) ── */}
+              <div style={{ gridColumn: '2', gridRow: '1', width: '200px', zIndex: 2 }} />
+
+              {/* ── TOP-RIGHT MODULE (index 1) ── */}
+              {sector.subCategories[1] && (() => {
+                const sub = sector.subCategories[1];
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
+                    style={{
+                      gridColumn: '3',
+                      gridRow: '1',
+                      justifySelf: 'start',
+                      width: '100%',
+                      maxWidth: '480px',
+                      height: '320px',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
+                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
+                      cursor: 'pointer',
+                      zIndex: 2,
+                      margin: '0 0 24px 24px',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
+                    }}
+                  >
+                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '18px 20px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'space-between',
+                      gap: '14px',
+                      zIndex: 3
+                    }}>
+                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
+                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>02</div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* ── CENTER HUB ── */}
+              <div style={{ gridColumn: '1', gridRow: '2', zIndex: 3 }} />
               <div
                 style={{
-                  position: 'relative',
-                  width: '100%',
-                  maxWidth: '780px',
-                  height: '560px',
-                  transformStyle: 'preserve-3d',
-                  transform: `rotateX(${tilt3D.x}deg) rotateY(${tilt3D.y}deg)`,
-                  transition: 'transform 0.15s ease-out'
+                  gridColumn: '2',
+                  gridRow: '2',
+                  zIndex: 10,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '200px',
+                  height: '200px',
+                  padding: '20px 0'
                 }}
               >
-                {sector.subCategories.map((sub, index) => {
-                  // Calculate shortest circular offset for carousel
-                  let offset = index - sliderIndex;
-                  if (offset < -Math.floor(totalSubs / 2)) offset += totalSubs;
-                  if (offset > Math.floor(totalSubs / 2)) offset -= totalSubs;
+                {/* Outer glow ring */}
+                <div style={{
+                  width: '180px', height: '180px', borderRadius: '50%',
+                  background: `radial-gradient(circle at 40% 35%, ${sector.accentColor}22 0%, ${sector.accentColor}06 60%, transparent 100%)`,
+                  border: `1.5px solid ${sector.accentColor}40`,
+                  boxShadow: `0 0 0 10px ${sector.accentColor}08, 0 0 50px ${sector.accentColor}25`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'relative',
+                  animation: 'hub-pulse 3s ease-in-out infinite'
+                }}>
+                  {/* Inner circle with logo */}
+                  <div style={{
+                    width: '144px', height: '144px', borderRadius: '50%',
+                    background: '#FFFFFF',
+                    border: `2px solid ${sector.accentColor}55`,
+                    boxShadow: `0 6px 28px ${sector.accentColor}25, inset 0 2px 6px rgba(255,255,255,0.95)`,
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px',
+                    textAlign: 'center', padding: '10px', overflow: 'hidden'
+                  }}>
+                    {/* Company Logo */}
+                    <img
+                      src="/img/logos.jpeg"
+                      alt="SMARToi Logo"
+                      style={{ width: '72px', height: '72px', objectFit: 'contain', borderRadius: '8px' }}
+                    />
+                    <span style={{
+                      fontSize: '0.52rem', fontWeight: 900, color: '#475569',
+                      textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1.2
+                    }}>SMARToi</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{ gridColumn: '3', gridRow: '2', zIndex: 3 }} />
 
-                  const isCenter = offset === 0;
-                  const isRight = offset === 1;
-                  const isLeft = offset === -1;
-                  const isVisible = Math.abs(offset) <= 1;
+              {/* ── BOTTOM-LEFT MODULE (index 2) ── */}
+              {sector.subCategories[2] && (() => {
+                const sub = sector.subCategories[2];
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
+                    style={{
+                      gridColumn: '1',
+                      gridRow: '3',
+                      justifySelf: 'end',
+                      width: '100%',
+                      maxWidth: '480px',
+                      height: '320px',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
+                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
+                      cursor: 'pointer',
+                      zIndex: 2,
+                      margin: '24px 24px 0 0',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
+                    }}
+                  >
+                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '18px 20px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'space-between',
+                      gap: '14px',
+                      zIndex: 3
+                    }}>
+                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
+                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>03</div>
+                    </div>
+                  </div>
+                );
+              })()}
 
-                  // 3D Perspective Transform Logic (matching suez 3D perspective slider)
-                  let transformValue = '';
-                  let opacityValue = 0;
-                  let zIndexValue = 1;
+              {/* ── BOTTOM CENTER SPACER ── */}
+              <div style={{ gridColumn: '2', gridRow: '3', width: '200px', zIndex: 2 }} />
 
-                  if (isCenter) {
-                    transformValue = 'translateX(0%) scale(1) translateZ(0px) rotateY(0deg)';
-                    opacityValue = 1;
-                    zIndexValue = 15;
-                  } else if (isRight) {
-                    transformValue = 'translateX(58%) scale(0.85) translateZ(-160px) rotateY(-28deg)';
-                    opacityValue = 0.72;
-                    zIndexValue = 8;
-                  } else if (isLeft) {
-                    transformValue = 'translateX(-58%) scale(0.85) translateZ(-160px) rotateY(28deg)';
-                    opacityValue = 0.72;
-                    zIndexValue = 8;
-                  } else {
-                    transformValue = `translateX(${offset * 70}%) scale(0.65) translateZ(-340px) rotateY(${offset > 0 ? -40 : 40}deg)`;
-                    opacityValue = 0;
-                    zIndexValue = 2;
-                  }
+              {/* ── BOTTOM-RIGHT MODULE (index 3) ── */}
+              {sector.subCategories[3] && (() => {
+                const sub = sector.subCategories[3];
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
+                    style={{
+                      gridColumn: '3',
+                      gridRow: '3',
+                      justifySelf: 'start',
+                      width: '100%',
+                      maxWidth: '480px',
+                      height: '320px',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
+                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
+                      cursor: 'pointer',
+                      zIndex: 2,
+                      margin: '24px 0 0 24px',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
+                    }}
+                  >
+                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '18px 20px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'space-between',
+                      gap: '14px',
+                      zIndex: 3
+                    }}>
+                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
+                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>04</div>
+                    </div>
+                  </div>
+                );
+              })()}
 
-                  return (
+              {/* Extra cards (5+) rendered as a bottom row if sectors have > 4 sub-categories */}
+              {sector.subCategories.length > 4 && (
+                <div
+                  style={{
+                    gridColumn: '1 / -1',
+                    gridRow: '4',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '24px',
+                    justifyContent: 'center',
+                    marginTop: '32px',
+                    width: '100%'
+                  }}
+                >
+                  {sector.subCategories.slice(4).map((sub, idx) => (
                     <div
                       key={sub.id}
-                      onClick={() => setSliderIndex(index)}
                       style={{
-                        position: 'absolute',
-                        inset: 0,
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '28px',
+                        width: '320px',
+                        background: '#FFFFFF',
+                        border: `1.5px solid ${sector.accentColor}22`,
+                        borderRadius: '24px',
                         overflow: 'hidden',
-                        background: 'rgba(15, 23, 42, 0.95)',
-                        border: isCenter 
-                          ? `2px solid ${sector.accentColor}` 
-                          : '1px solid rgba(255, 255, 255, 0.12)',
-                        boxShadow: isCenter
-                          ? `0 30px 80px -15px ${sector.accentColor}55, 0 15px 35px rgba(0,0,0,0.8)`
-                          : '0 20px 50px rgba(0,0,0,0.6)',
-                        transform: transformValue,
-                        opacity: opacityValue,
-                        zIndex: zIndexValue,
-                        transition: 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.55s ease, border-color 0.3s ease',
-                        cursor: isCenter ? 'default' : 'pointer',
-                        pointerEvents: isVisible ? 'auto' : 'none',
-                        display: 'grid',
-                        gridTemplateRows: '220px 1fr'
+                        boxShadow: `0 8px 32px -8px ${sector.accentColor}22`,
+                        transition: 'transform 0.28s ease, box-shadow 0.28s ease',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
+                        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}44`;
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 8px 32px -8px ${sector.accentColor}22`;
                       }}
                     >
-                      {/* Top Card Image */}
-                      <div style={{ position: 'relative', overflow: 'hidden', background: '#040711' }}>
-                        <img 
-                          src={sub.image} 
-                          alt={sub.title}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            filter: isCenter ? 'none' : 'brightness(0.7) contrast(1.1)'
-                          }}
-                        />
-                        <div 
-                          style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background: 'linear-gradient(180deg, transparent 30%, rgba(15, 23, 42, 1) 100%)'
-                          }}
-                        />
-
-                        {/* Sub-Category Badge */}
-                        <div 
-                          style={{
-                            position: 'absolute',
-                            top: '16px',
-                            left: '20px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            background: 'rgba(0, 0, 0, 0.7)',
-                            backdropFilter: 'blur(10px)',
-                            padding: '4px 14px',
-                            borderRadius: '20px',
-                            border: `1px solid ${sector.accentColor}66`,
-                            fontSize: '0.75rem',
-                            fontWeight: 800,
-                            color: sector.accentColor,
-                            fontFamily: 'monospace'
-                          }}
-                        >
-                          <span>SUB-CATEGORY 0{index + 1}</span>
-                        </div>
-
-                        {/* Slide Indicator on Top Right */}
-                        <div 
-                          style={{
-                            position: 'absolute',
-                            top: '16px',
-                            right: '20px',
-                            background: 'rgba(0, 0, 0, 0.65)',
-                            padding: '4px 12px',
-                            borderRadius: '20px',
-                            fontSize: '0.75rem',
-                            color: '#FFF',
-                            fontWeight: 700
-                          }}
-                        >
-                          {index + 1} / {totalSubs}
-                        </div>
+                      <div style={{ position: 'relative', height: '180px', overflow: 'hidden', background: '#F8FAFC' }}>
+                        <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.9) 100%)' }} />
+                        <div style={{
+                          position: 'absolute', top: '14px', left: '16px',
+                          background: `${sector.accentColor}18`, border: `1px solid ${sector.accentColor}44`,
+                          borderRadius: '20px', padding: '3px 12px',
+                          fontSize: '0.72rem', fontWeight: 800, color: sector.accentColor, fontFamily: 'monospace'
+                        }}>0{idx + 5}</div>
                       </div>
-
-                      {/* Bottom Card Content */}
-                      <div 
-                        style={{
-                          padding: '24px 28px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          background: 'rgba(15, 23, 42, 0.95)'
-                        }}
-                      >
-                        <div>
-                          <h3 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#FFFFFF', marginBottom: '6px' }}>
-                            {sub.title}
-                          </h3>
-                          <div style={{ fontSize: '0.86rem', color: sector.accentColor, fontWeight: 600, marginBottom: '12px' }}>
-                            {sub.tagline}
-                          </div>
-                          <p style={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.55, marginBottom: '16px' }}>
-                            {sub.description}
-                          </p>
-
-                          {/* Capabilities Checkmarks */}
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '16px' }}>
-                            {sub.features.slice(0, 4).map((feat, fIdx) => (
-                              <div key={fIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '0.8rem', color: '#E2E8F0' }}>
-                                <CheckCircle2 size={13} color={sector.accentColor} style={{ flexShrink: 0, marginTop: '2px' }} />
-                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{feat}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Card Action Button */}
+                      <div style={{ padding: '18px 22px 22px' }}>
+                        <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F172A', marginBottom: '4px' }}>{sub.title}</h3>
+                        <p style={{ fontSize: '0.79rem', color: '#64748B', marginBottom: '12px', lineHeight: 1.5 }}>{sub.tagline}</p>
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openQuoteModalWithSolution(`${sector.title} — ${sub.title}`);
-                          }}
-                          className="btn btn-primary"
+                          onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
                           style={{
-                            width: '100%',
-                            padding: '12px 20px',
-                            borderRadius: '16px',
-                            background: `linear-gradient(135deg, ${sector.accentColor}, #0284C7)`,
-                            fontSize: '0.92rem',
-                            fontWeight: 700,
-                            boxShadow: `0 6px 20px ${sector.accentColor}44`,
-                            justifyContent: 'center'
+                            width: '100%', padding: '9px 14px', borderRadius: '10px',
+                            background: `linear-gradient(135deg, ${sector.accentColor}, ${sector.accentColor}cc)`,
+                            border: 'none', color: '#FFF', fontSize: '0.8rem', fontWeight: 700,
+                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                            transition: 'opacity 0.2s'
                           }}
                         >
-                          <span>Inquire / Get Quote for {sub.title}</span>
-                          <ArrowRight size={16} />
+                          <span>Get Quote</span><ArrowRight size={13} />
                         </button>
                       </div>
-
                     </div>
-                  );
-                })}
-              </div>
-
-              {/* Previous 3D Slide Arrow */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prev3DSlide();
-                }}
-                aria-label="Previous Slide"
-                style={{
-                  position: 'absolute',
-                  left: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '50%',
-                  background: 'rgba(10, 16, 30, 0.85)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  zIndex: 25,
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.6)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = sector.accentColor;
-                  e.currentTarget.style.borderColor = sector.accentColor;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(10, 16, 30, 0.85)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                }}
-              >
-                <ChevronLeft size={26} />
-              </button>
-
-              {/* Next 3D Slide Arrow */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  next3DSlide();
-                }}
-                aria-label="Next Slide"
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '50%',
-                  background: 'rgba(10, 16, 30, 0.85)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  zIndex: 25,
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.6)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = sector.accentColor;
-                  e.currentTarget.style.borderColor = sector.accentColor;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(10, 16, 30, 0.85)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                }}
-              >
-                <ChevronRight size={26} />
-              </button>
-
+                  ))}
+                </div>
+              )}
             </div>
-
-            {/* Pagination Navigation Dots */}
-            <div 
-              style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: '8px', 
-                marginTop: '36px' 
-              }}
-            >
-              {sector.subCategories.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSliderIndex(idx)}
-                  aria-label={`Jump to slide ${idx + 1}`}
-                  style={{
-                    width: idx === sliderIndex ? '32px' : '10px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    background: idx === sliderIndex ? sector.accentColor : '#CBD5E1',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: idx === sliderIndex ? `0 0 12px ${sector.accentColor}` : 'none'
-                  }}
-                />
-              ))}
-            </div>
+            {/* End Hub & Spoke */}
 
           </div>
+
+          {/* Hub pulse keyframe */}
+          <style>{`
+            @keyframes hub-pulse {
+              0%, 100% { box-shadow: 0 0 0 8px ${sector.accentColor}10, 0 0 40px ${sector.accentColor}28; }
+              50% { box-shadow: 0 0 0 16px ${sector.accentColor}06, 0 0 60px ${sector.accentColor}40; }
+            }
+          `}</style>
         </section>
 
         {/* ========================================================
@@ -1926,8 +1933,8 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                   }}
                 >
                   <img
-                    src="/img/log.png"
-                    alt="Cube Logo"
+                    src="/img/logos.jpeg"
+                    alt="SMARToi Logo"
                     style={{
                       width: '96px',
                       height: '96px',

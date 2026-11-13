@@ -31,34 +31,12 @@ export const AboutUsSection: React.FC = () => {
           <path d="M0 0H180L0 180V0Z" fill="url(#gradient-ribbon-tl)" />
           <defs>
             <linearGradient id="gradient-ribbon-tl" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#F59E0B" />
-              <stop offset="0.5" stopColor="#0284C7" />
+              <stop stopColor="#0052CC" stopOpacity="0.25" />
+              <stop offset="0.5" stopColor="#0066FF" stopOpacity="0.1" />
               <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
             </linearGradient>
           </defs>
         </svg>
-      </div>
-
-      {/* Bottom Right 3D Geometric Accent */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        right: 0,
-        width: '200px',
-        height: '200px',
-        pointerEvents: 'none',
-        zIndex: 0
-      }}>
-        <img 
-          src="/img/log.png" 
-          alt="3D Cube Ribbon" 
-          style={{ 
-            width: '180px', 
-            height: 'auto', 
-            opacity: 0.85,
-            filter: 'drop-shadow(0 10px 20px rgba(2, 132, 199, 0.25))'
-          }} 
-        />
       </div>
 
       <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
@@ -66,50 +44,49 @@ export const AboutUsSection: React.FC = () => {
         {/* Top Centered Brand Logo & Headline Block */}
         <div style={{ textAlign: 'center', maxWidth: '920px', margin: '0 auto 64px' }}>
           
-          {/* Logo Brand Header - Horizontal Layout matching Image 1 */}
+          {/* Brand Text Alone - Big Font Header */}
           <div style={{ 
             display: 'inline-flex', 
+            flexDirection: 'column',
             alignItems: 'center', 
-            gap: '16px', 
-            marginBottom: '28px',
-            textAlign: 'left'
+            justifyContent: 'center',
+            marginBottom: '24px',
+            textAlign: 'center'
           }}>
-            <img 
-              src="/img/log.png" 
-              alt="NUO TECH Logo" 
-              style={{ 
-                height: '64px', 
-                width: 'auto', 
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 4px 12px rgba(2, 132, 199, 0.35))' 
-              }} 
-            />
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '2.1rem', fontWeight: 800, lineHeight: 1, letterSpacing: '0.5px' }}>
-                <span style={{ color: '#0F172A' }}>NUO</span>
-                <span style={{ color: '#E2B049' }}>TECH</span>
-              </div>
-              <span style={{ 
-                fontSize: '0.85rem', 
-                fontWeight: 700, 
-                color: '#0284C7', 
-                letterSpacing: '2.5px', 
-                textTransform: 'uppercase', 
-                marginTop: '6px' 
-              }}>
-                FUTURE BEGINS NOW
-              </span>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              gap: '4px', 
+              fontSize: 'clamp(2.8rem, 5.5vw, 4.2rem)', 
+              fontWeight: 900, 
+              lineHeight: 1, 
+              letterSpacing: '-0.02em',
+              fontFamily: 'var(--font-heading)'
+            }}>
+              <span style={{ color: '#0052CC' }}>SMART</span>
+              <span style={{ color: '#10B981' }}>oi</span>
             </div>
+            <span style={{ 
+              fontSize: 'clamp(0.85rem, 1.8vw, 1.1rem)', 
+              fontWeight: 800, 
+              color: '#0052CC', 
+              letterSpacing: '4px', 
+              textTransform: 'uppercase', 
+              marginTop: '8px' 
+            }}>
+              INTELLIGENT AUTOMATION
+            </span>
           </div>
 
           {/* Main Section Headline */}
           <h2 style={{ fontSize: 'clamp(2.1rem, 4vw, 3.3rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.18, marginBottom: '20px', letterSpacing: '-0.5px' }}>
-            Pioneering Industrial <span style={{ color: '#0284C7' }}>Automation,</span> <span style={{ color: '#E2B049' }}>Solar Energy</span> & Custom Tech.
+            Pioneering Industrial <span style={{ color: '#0052CC' }}>Automation,</span> <span style={{ color: '#10B981' }}>Solar Energy</span> & Custom Tech.
           </h2>
 
           {/* Subtitle Description */}
           <p style={{ fontSize: '1.1rem', color: '#475569', lineHeight: 1.65, maxWidth: '820px', margin: '0 auto' }}>
-            NUO TECH is a forward-thinking engineering and technology company headquartered in Karur, Tamil Nadu, India. We specialize in building the right solutions for a smarter, more sustainable and automated tomorrow.
+            SMARToi is a forward-thinking engineering and technology company headquartered in Karur, Tamil Nadu, India. We specialize in building the right solutions for a smarter, more sustainable and automated tomorrow.
           </p>
 
         </div>
@@ -125,23 +102,23 @@ export const AboutUsSection: React.FC = () => {
               position: 'absolute',
               top: '-10px',
               left: '-10px',
-              background: '#0284C7',
+              background: '#0052CC',
               width: '50px',
               height: '35px',
               borderRadius: '8px 0 16px 0',
               zIndex: 3,
-              boxShadow: '0 4px 12px rgba(2, 132, 199, 0.4)'
+              boxShadow: '0 4px 12px rgba(0, 82, 204, 0.4)'
             }} />
 
-            {/* Bottom Right Amber Frame Accent */}
+            {/* Bottom Right Blue Frame Accent */}
             <div style={{
               position: 'absolute',
               bottom: '-12px',
               right: '-12px',
               width: '80%',
               height: '80%',
-              borderRight: '5px solid #E2B049',
-              borderBottom: '5px solid #E2B049',
+              borderRight: '5px solid #0052CC',
+              borderBottom: '5px solid #0052CC',
               borderRadius: '0 0 24px 0',
               pointerEvents: 'none',
               zIndex: 1
@@ -182,7 +159,7 @@ export const AboutUsSection: React.FC = () => {
               }}>
                 {/* Dark Left Badge */}
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#E2B049', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#38BDF8', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
                     <Sun size={14} />
                     SOLAR ENERGY SOLUTIONS
                   </div>
@@ -225,7 +202,7 @@ export const AboutUsSection: React.FC = () => {
             </h3>
 
             <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.65, marginBottom: '28px' }}>
-              At NUO TECH, we turn complex industrial and energy challenges into smart, reliable and efficient systems. From solar power solutions to industrial automation, we design, develop and deploy custom technology that helps businesses grow sustainably with precision, performance and innovation.
+              At SMARToi, we turn complex industrial and energy challenges into smart, reliable and efficient systems. From solar power solutions to industrial automation, we design, develop and deploy custom technology that helps businesses grow sustainably with precision, performance and innovation.
             </p>
 
             {/* 2x2 Features Grid */}

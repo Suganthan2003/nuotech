@@ -210,7 +210,7 @@ export const CareerSection: React.FC = () => {
       responsibilities: [
         'Operate agricultural spraying drones for precision crop protection across partner farmlands.',
         'Execute autonomous GPS flight path mapping and aerial crop health telemetry.',
-        'Instruct student trainees at NUO TECH certified drone pilot training hubs.',
+        'Instruct student trainees at SMARToi certified drone pilot training hubs.',
         'Perform routine drone battery management, motor maintenance, and firmware updates.'
       ]
     },
@@ -292,11 +292,11 @@ export const CareerSection: React.FC = () => {
             }}
           >
             <Sparkles size={15} />
-            <span>JOIN NUO TECH CAREER CLUB</span>
+            <span>JOIN SMARToi CAREER CLUB</span>
           </div>
 
           <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)', fontWeight: 900, color: '#0F172A', lineHeight: 1.12, marginBottom: '14px', letterSpacing: '-0.5px' }}>
-            JOIN <span style={{ color: '#0066FF' }}>NUO TECH CAREER CLUB</span> &amp; GRAB YOUR JOB INFO CARD NOW
+            JOIN <span style={{ color: '#0052CC' }}>SMARToi</span> <span style={{ color: '#10B981' }}>CAREER CLUB</span> &amp; GRAB YOUR JOB INFO CARD NOW
           </h2>
 
           <p style={{ color: '#64748B', fontSize: '1.08rem', lineHeight: 1.65, maxWidth: '800px', margin: '0 auto' }}>

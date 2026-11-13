@@ -64,22 +64,12 @@ export const ProcessSection: React.FC = () => {
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 44px' }}>
           
-          {/* Logo Branding */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-            <img 
-              src="/img/log.png" 
-              alt="NUO TECH Logo" 
-              style={{ height: '40px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(6, 182, 212, 0.4))' }} 
-            />
-            <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '0.5px' }}>
-              NUO <span style={{ color: '#E2B049' }}>TECH</span>
-            </span>
-          </div>
+         
 
           {/* Execution Roadmap Title */}
           <div style={{ marginBottom: '14px' }}>
             <h3 style={{
-              fontSize: 'clamp(1.1rem, 2vw, 1.45rem)',
+              fontSize: 'clamp(3.1rem, 2vw, 1.45rem)',
               fontWeight: 900,
               color: '#FFFFFF',
               letterSpacing: '3px',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, ArrowRight, Cloud, Cog, Cpu, Wifi } from 'lucide-react';
+import { ArrowRight, Cog, Bot, Cpu, Lightbulb, Users } from 'lucide-react';
 
 interface CtaBannerSectionProps {
   openQuoteModal: () => void;
@@ -14,362 +14,341 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
     <section 
       style={{ 
         position: 'relative', 
-        padding: '40px 0 45px', 
-        background: '#FFFFFF', 
+        padding: '64px 0 56px', 
+        background: 'linear-gradient(135deg, #F8FAFC 0%, #F0F7FF 50%, #F3FAF6 100%)', 
         overflow: 'hidden',
-        color: '#0F172A'
+        color: '#0F172A',
+        borderTop: '1px solid #E2E8F0',
+        borderBottom: '1px solid #E2E8F0'
       }}
     >
-      {/* Background Geometric Polygonal Glow Accents */}
+      {/* Background Tech Dot Matrix on Top Right (Direct Match to Mockup) */}
       <div 
         style={{
           position: 'absolute',
-          top: '-100px',
-          right: '-100px',
-          width: '500px',
-          height: '500px',
-          background: 'linear-gradient(135deg, rgba(0, 102, 255, 0.12), rgba(255, 153, 0, 0.12))',
-          filter: 'blur(80px)',
-          borderRadius: '50%',
+          top: '20px',
+          right: '30px',
+          width: '260px',
+          height: '260px',
+          backgroundImage: 'radial-gradient(rgba(0, 82, 204, 0.15) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+          opacity: 0.85,
           pointerEvents: 'none'
         }}
       />
       <div 
         style={{
           position: 'absolute',
-          bottom: '-120px',
-          left: '-100px',
+          bottom: '20px',
+          left: '20px',
+          width: '220px',
+          height: '220px',
+          backgroundImage: 'radial-gradient(rgba(16, 185, 129, 0.15) 1.5px, transparent 1.5px)',
+          backgroundSize: '16px 16px',
+          opacity: 0.7,
+          pointerEvents: 'none'
+        }}
+      />
+
+      {/* Subtle Radial Atmosphere Glows */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '-60px',
+          left: '25%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(0, 102, 255, 0.08) 0%, transparent 70%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none'
+        }}
+      />
+      <div 
+        style={{
+          position: 'absolute',
+          bottom: '-60px',
+          right: '15%',
           width: '450px',
           height: '450px',
-          background: 'radial-gradient(circle, rgba(0, 102, 255, 0.1) 0%, rgba(255, 153, 0, 0.05) 70%)',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)',
           filter: 'blur(70px)',
           pointerEvents: 'none'
         }}
       />
 
-      {/* Decorative Geometric Polygonal Shapes in Corners */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          width: '320px',
-          height: '320px',
-          background: 'linear-gradient(135deg, rgba(0, 102, 255, 0.06) 0%, rgba(255, 153, 0, 0.12) 100%)',
-          clipPath: 'polygon(100% 0, 0 0, 100% 100%)',
-          pointerEvents: 'none'
-        }}
-      />
-      <div 
-        style={{
-          position: 'absolute',
-          bottom: '0',
-          right: '0',
-          width: '380px',
-          height: '240px',
-          background: 'linear-gradient(225deg, rgba(0, 102, 255, 0.15) 0%, rgba(0, 102, 255, 0.02) 100%)',
-          clipPath: 'polygon(100% 100%, 0 100%, 100% 0)',
-          pointerEvents: 'none'
-        }}
-      />
-
       {/* Main Container */}
-      <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 3 }}>
+      <div className="container" style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 3 }}>
         
-        {/* Top Brand Logo Banner */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+        {/* Top Brand Logo Banner (Direct Match to Mockup) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '22px' }}>
           <img 
-            src="/img/log.png" 
-            alt="NUO TECH Logo" 
+            src="/img/logos-transparent.png" 
+            alt="SMARToi Logo" 
             style={{ 
-              height: '42px', 
+              height: '68px', 
               width: 'auto', 
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 0 8px rgba(0, 102, 255, 0.4))'
+              objectFit: 'contain'
             }} 
           />
-          <div>
-            <div style={{ fontSize: '1.45rem', fontWeight: 900, lineHeight: 1 }}>
-              <span style={{ color: '#0066FF' }}>NUO </span>
-              <span style={{ color: '#FF9900' }}>TECH</span>
-            </div>
-            <div style={{ fontSize: '0.64rem', fontWeight: 800, letterSpacing: '2.5px', color: '#0284C7', textTransform: 'uppercase', marginTop: '3px' }}>
-              FUTURE BEGINS NOW
-            </div>
-          </div>
-        </div>
+                 </div>
 
         {/* 2-Column Grid Layout */}
         <div 
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: '1.2fr 0.8fr', 
-            gap: '36px', 
+            gridTemplateColumns: '1.25fr 0.85fr', 
+            gap: '48px', 
             alignItems: 'center' 
           }}
-          className="cta-grid-layout"
+          className="cta-banner-grid"
         >
-          {/* Left Column: Headline & Action Buttons */}
+          {/* Left Column: Pill, Headline, Description, Buttons, Highlights */}
           <div>
-            {/* Pill Badge */}
-            <div 
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '8px', 
-                background: '#E0F2FE', 
-                border: '1.5px solid #7DD3FC', 
-                padding: '5px 16px', 
-                borderRadius: '30px', 
-                marginBottom: '14px',
-                boxShadow: '0 4px 14px rgba(2, 132, 199, 0.12)'
-              }}
-            >
-              <Zap size={14} style={{ color: '#0066FF', fill: '#0066FF' }} />
-              <span style={{ fontSize: '0.78rem', fontWeight: 900, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#0284C7' }}>
-                READY TO INNOVATE & AUTOMATE?
-              </span>
-            </div>
+            
 
-            {/* Main Heading */}
+            {/* Main Heading (Direct Match to Mockup with Green Swoosh) */}
             <h2 
               style={{ 
-                fontSize: 'clamp(1.9rem, 3.2vw, 2.75rem)', 
+                fontSize: 'clamp(2rem, 3.6vw, 3.1rem)', 
                 fontWeight: 900, 
                 color: '#0F172A', 
                 lineHeight: 1.15, 
-                marginBottom: '14px',
+                marginBottom: '18px',
                 letterSpacing: '-0.5px'
               }}
             >
-              Transform Your Concept Into An{' '}
+              Transform Your Concept Into An<br />
               <span style={{ color: '#0066FF' }}>Automated</span>{' '}
-              <span style={{ color: '#FF9900' }}>Solution</span>
+              <span style={{ color: '#10B981', position: 'relative', display: 'inline-block' }}>
+                Solution
+                {/* Curved Green Arc Underline */}
+                <svg 
+                  style={{ 
+                    position: 'absolute', 
+                    bottom: '-8px', 
+                    left: 0, 
+                    width: '100%', 
+                    height: '10px' 
+                  }} 
+                  viewBox="0 0 100 10" 
+                  preserveAspectRatio="none"
+                >
+                  <path 
+                    d="M2,6 Q50,11 98,3" 
+                    stroke="#10B981" 
+                    strokeWidth="3.5" 
+                    fill="none" 
+                    strokeLinecap="round" 
+                  />
+                </svg>
+              </span>
             </h2>
 
             {/* Description Subtitle */}
             <p 
               style={{ 
                 color: '#475569', 
-                fontSize: '1.02rem', 
-                lineHeight: 1.6, 
-                marginBottom: '24px',
+                fontSize: '1.04rem', 
+                lineHeight: 1.65, 
+                marginBottom: '28px',
                 maxWidth: '560px'
               }}
             >
-              Work directly with NUO TECH's engineering team in Karur. From custom machines and solar power to IoT and PCB development.
+              Work closely with SMARToi's engineering team to design, develop and deploy innovative robotics and automation solutions for a smarter tomorrow.
             </p>
 
             {/* CTA Buttons */}
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
               <button 
                 onClick={openQuoteModal}
                 style={{ 
-                  background: 'linear-gradient(135deg, #0072FF 0%, #0052D4 100%)',
+                  background: 'linear-gradient(90deg, #0052CC 0%, #10B981 100%)',
                   color: '#FFFFFF',
-                  padding: '14px 28px',
-                  borderRadius: '35px',
+                  padding: '13px 28px',
+                  borderRadius: '30px',
                   border: 'none',
-                  fontSize: '0.96rem',
+                  fontSize: '0.94rem',
                   fontWeight: 800,
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
                   cursor: 'pointer',
-                  boxShadow: '0 10px 25px rgba(0, 114, 255, 0.35)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  boxShadow: '0 8px 22px rgba(0, 82, 204, 0.32)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
-                className="btn-glow-blue"
+                className="btn-primary-gradient"
               >
-                <Zap size={16} fill="#FFF" />
-                <span>Get Free Technical Estimate</span>
                 <ArrowRight size={16} />
+                <span>Get Free Technical Estimate</span>
               </button>
 
               <button 
                 onClick={onContactClick}
                 style={{ 
                   background: '#FFFFFF',
-                  color: '#004080',
-                  border: '2px solid #0066FF',
-                  padding: '13px 26px',
-                  borderRadius: '35px',
-                  fontSize: '0.96rem',
+                  color: '#0052CC',
+                  border: '1.5px solid #0052CC',
+                  padding: '12px 24px',
+                  borderRadius: '30px',
+                  fontSize: '0.94rem',
                   fontWeight: 800,
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(0, 102, 255, 0.08)',
-                  transition: 'all 0.25s ease'
+                  boxShadow: '0 4px 12px rgba(0, 82, 204, 0.08)',
+                  transition: 'all 0.2s ease'
                 }}
                 className="btn-outline-blue"
               >
+                <Users size={16} style={{ color: '#0052CC' }} />
                 <span>Contact Engineering Team</span>
-                <ArrowRight size={16} style={{ color: '#0066FF' }} />
+                <ArrowRight size={15} style={{ color: '#0052CC' }} />
               </button>
             </div>
+
+            {/* 4 Bottom Highlight Features Strip (Direct Match to Mockup) */}
+            <div 
+              style={{ 
+                display: 'flex', 
+                gap: '24px', 
+                alignItems: 'center', 
+                marginTop: '36px', 
+                paddingTop: '22px', 
+                borderTop: '1px solid #E2E8F0', 
+                flexWrap: 'wrap' 
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Cog size={18} style={{ color: '#0052CC' }} />
+                <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#334155' }}>Custom Automation</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Bot size={18} style={{ color: '#0052CC' }} />
+                <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#334155' }}>Robotics Solutions</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Cpu size={18} style={{ color: '#0052CC' }} />
+                <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#334155' }}>IoT & Smart Systems</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Lightbulb size={18} style={{ color: '#0052CC' }} />
+                <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#334155' }}>Innovative Ideas</span>
+              </div>
+            </div>
+
           </div>
 
-          {/* Right Column: Compact Hexagon Frame */}
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+          {/* Right Column: Modern Tech Curved Frame with Orbiting Rings (Direct Match to Mockup) */}
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '380px' }}>
             
-            {/* Outer Geometric Hexagonal Backdrop */}
+            {/* Orbiting Tech Rings */}
+            <div 
+              style={{
+                position: 'absolute',
+                width: '115%',
+                height: '115%',
+                borderRadius: '50%',
+                border: '1.5px solid rgba(0, 163, 255, 0.35)',
+                pointerEvents: 'none',
+                transform: 'rotate(-15deg)'
+              }}
+            />
+            <div 
+              style={{
+                position: 'absolute',
+                width: '105%',
+                height: '105%',
+                borderRadius: '50%',
+                border: '1px dashed rgba(16, 185, 129, 0.3)',
+                pointerEvents: 'none',
+                transform: 'rotate(25deg)'
+              }}
+            />
+
+            {/* Orbiting Glowing Nodes */}
+            <div 
+              style={{
+                position: 'absolute',
+                top: '10%',
+                right: '-4%',
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                background: '#00D2FF',
+                boxShadow: '0 0 12px #00D2FF',
+                zIndex: 5
+              }}
+            />
+            <div 
+              style={{
+                position: 'absolute',
+                bottom: '15%',
+                left: '-3%',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: '#10B981',
+                boxShadow: '0 0 10px #10B981',
+                zIndex: 5
+              }}
+            />
+
+            {/* Backing Royal Blue Rounded Squircle Frame */}
+            <div 
+              style={{
+                position: 'absolute',
+                width: '90%',
+                maxWidth: '340px',
+                aspectRatio: '1 / 1.05',
+                background: 'linear-gradient(135deg, #0052CC 0%, #0066FF 100%)',
+                borderRadius: '34px',
+                transform: 'rotate(-4deg)',
+                boxShadow: '0 20px 50px rgba(0, 82, 204, 0.28)',
+                zIndex: 1
+              }}
+            />
+
+            {/* Backing Emerald Green Rounded Squircle Frame */}
+            <div 
+              style={{
+                position: 'absolute',
+                width: '90%',
+                maxWidth: '340px',
+                aspectRatio: '1 / 1.05',
+                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                borderRadius: '34px',
+                transform: 'rotate(4deg)',
+                opacity: 0.85,
+                zIndex: 2
+              }}
+            />
+
+            {/* Foreground Main Photo Showcase Card */}
             <div 
               style={{
                 position: 'relative',
-                width: '100%',
-                maxWidth: '340px',
-                aspectRatio: '1 / 1.05',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                width: '88%',
+                maxWidth: '330px',
+                aspectRatio: '1 / 1.02',
+                borderRadius: '26px',
+                overflow: 'hidden',
+                background: '#FFFFFF',
+                border: '4px solid #FFFFFF',
+                boxShadow: '0 20px 40px rgba(15, 23, 42, 0.16)',
+                zIndex: 4
               }}
             >
-              {/* Backing Orange Polygon Accent */}
-              <div 
+              <img 
+                src="/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg" 
+                alt="Automated Robotics Solution"
                 style={{
-                  position: 'absolute',
-                  top: '-12px',
-                  right: '-12px',
                   width: '100%',
                   height: '100%',
-                  background: '#FF9900',
-                  clipPath: 'polygon(30% 0%, 100% 0%, 100% 70%, 70% 100%, 0% 100%, 0% 30%)',
-                  borderRadius: '24px',
-                  zIndex: 1
+                  objectFit: 'cover',
+                  display: 'block'
                 }}
               />
-
-              {/* Backing Blue Polygon Accent */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  bottom: '-12px',
-                  left: '-12px',
-                  width: '100%',
-                  height: '100%',
-                  background: '#0066FF',
-                  clipPath: 'polygon(0% 0%, 70% 0%, 100% 30%, 100% 100%, 30% 100%, 0% 70%)',
-                  borderRadius: '24px',
-                  zIndex: 2
-                }}
-              />
-
-              {/* Inner Hexagonal Image Container */}
-              <div 
-                style={{
-                  position: 'relative',
-                  width: '94%',
-                  height: '94%',
-                  background: '#0F172A',
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  overflow: 'hidden',
-                  zIndex: 3,
-                  boxShadow: '0 15px 40px rgba(0, 102, 255, 0.25)'
-                }}
-              >
-                <img 
-                  src="/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg" 
-                  alt="Automated Robotics Solution"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
-                {/* Tech Blue Overlay */}
-                <div 
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(135deg, rgba(0, 102, 255, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%)',
-                    pointerEvents: 'none'
-                  }}
-                />
-              </div>
-
-              {/* Floating Blue Hexagon Badges */}
-              {/* Badge 1: Cloud */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  top: '12%',
-                  right: '4%',
-                  zIndex: 5,
-                  background: '#0066FF',
-                  width: '38px',
-                  height: '44px',
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 6px 16px rgba(0, 102, 255, 0.5)'
-                }}
-              >
-                <Cloud size={16} color="#FFFFFF" />
-              </div>
-
-              {/* Badge 2: Gear */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  top: '20%',
-                  left: '6%',
-                  zIndex: 5,
-                  background: '#0066FF',
-                  width: '38px',
-                  height: '44px',
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 6px 16px rgba(0, 102, 255, 0.5)'
-                }}
-              >
-                <Cog size={16} color="#FFFFFF" />
-              </div>
-
-              {/* Badge 3: Chip */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  top: '48%',
-                  right: '-2%',
-                  zIndex: 5,
-                  background: '#0066FF',
-                  width: '38px',
-                  height: '44px',
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 6px 16px rgba(0, 102, 255, 0.5)'
-                }}
-              >
-                <Cpu size={16} color="#FFFFFF" />
-              </div>
-
-              {/* Badge 4: Wifi */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  bottom: '18%',
-                  left: '2%',
-                  zIndex: 5,
-                  background: '#0066FF',
-                  width: '38px',
-                  height: '44px',
-                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 6px 16px rgba(0, 102, 255, 0.5)'
-                }}
-              >
-                <Wifi size={16} color="#FFFFFF" />
-              </div>
-
             </div>
 
           </div>
@@ -379,22 +358,15 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
       </div>
 
       <style>{`
-        @media (max-width: 960px) {
-          .cta-grid-layout {
+        @media (max-width: 992px) {
+          .cta-banner-grid {
             grid-template-columns: 1fr !important;
-            text-align: center;
-          }
-          .cta-grid-layout p {
-            margin-left: auto;
-            margin-right: auto;
-          }
-          .cta-grid-layout div {
-            justify-content: center;
+            gap: 36px !important;
           }
         }
-        .btn-glow-blue:hover {
+        .btn-primary-gradient:hover {
           transform: translateY(-2px);
-          box-shadow: 0 14px 30px rgba(0, 114, 255, 0.45) !important;
+          box-shadow: 0 12px 28px rgba(0, 82, 204, 0.42) !important;
         }
         .btn-outline-blue:hover {
           background: #F0F7FF !important;

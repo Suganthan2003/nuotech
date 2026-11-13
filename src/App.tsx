@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CalculatorModal } from './components/CalculatorModal';
 import { ScrollToTop } from './components/ScrollToTop';
+import { BackToTopButton } from './components/BackToTopButton';
 import { IntroSplash } from './components/IntroSplash';
 
 import { HomePage } from './pages/HomePage';
@@ -56,6 +57,8 @@ export const App: React.FC = () => {
         </main>
 
         <Footer />
+
+        <BackToTopButton />
 
         <CalculatorModal 
           isOpen={quoteModalOpen} 

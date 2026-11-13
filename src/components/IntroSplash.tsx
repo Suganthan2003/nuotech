@@ -24,14 +24,13 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
   };
 
   const brandLetters = [
-    { char: 'N', animClass: 'bounce-from-top-left', delay: '0.1s', isTech: false },
-    { char: 'U', animClass: 'bounce-from-bottom', delay: '0.25s', isTech: false },
-    { char: 'O', animClass: 'bounce-from-top-right', delay: '0.4s', isTech: false },
-    { char: ' ', animClass: 'none', delay: '0s', isTech: false },
-    { char: 'T', animClass: 'bounce-from-left', delay: '0.6s', isTech: true },
-    { char: 'E', animClass: 'bounce-from-center-zoom', delay: '0.75s', isTech: true },
-    { char: 'C', animClass: 'bounce-from-right', delay: '0.9s', isTech: true },
-    { char: 'H', animClass: 'bounce-from-bottom-right', delay: '1.05s', isTech: true },
+    { char: 'S', animClass: 'bounce-from-top-left', delay: '0.1s', isSuffix: false },
+    { char: 'M', animClass: 'bounce-from-bottom', delay: '0.2s', isSuffix: false },
+    { char: 'A', animClass: 'bounce-from-top-right', delay: '0.3s', isSuffix: false },
+    { char: 'R', animClass: 'bounce-from-left', delay: '0.4s', isSuffix: false },
+    { char: 'T', animClass: 'bounce-from-center-zoom', delay: '0.5s', isSuffix: false },
+    { char: 'o', animClass: 'bounce-from-right', delay: '0.65s', isSuffix: true },
+    { char: 'i', animClass: 'bounce-from-bottom-right', delay: '0.8s', isSuffix: true },
   ];
 
   return (
@@ -61,7 +60,7 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
         width: '950px',
         height: '700px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(35, 127, 251, 0.14) 0%, rgba(250, 154, 1, 0.08) 50%, transparent 75%)',
+        background: 'radial-gradient(circle, rgba(0, 82, 204, 0.16) 0%, rgba(16, 185, 129, 0.12) 50%, transparent 75%)',
         filter: 'blur(75px)',
         pointerEvents: 'none'
       }} />
@@ -75,15 +74,15 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
         <defs>
           {/* Left Line Gradient */}
           <linearGradient id="leftCurveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#237FFB" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="#237FFB" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#FA9A01" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="#0052CC" stopOpacity="0.1" />
+            <stop offset="50%" stopColor="#0052CC" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.1" />
           </linearGradient>
 
           {/* Right Line Gradient */}
           <linearGradient id="rightCurveGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#FA9A01" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="#237FFB" stopOpacity="0.8" />
+            <stop offset="0%" stopColor="#10B981" stopOpacity="0.1" />
+            <stop offset="50%" stopColor="#0052CC" stopOpacity="0.8" />
             <stop offset="100%" stopColor="#00D2FF" stopOpacity="0.1" />
           </linearGradient>
 
@@ -116,25 +115,31 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
       </svg>
 
       {/* MAIN CONTAINER */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 10,
-        position: 'relative',
-        padding: '0 20px',
-        textAlign: 'center'
-      }}>
+      <div 
+        onClick={triggerComplete}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 10,
+          position: 'relative',
+          padding: '0 20px',
+          textAlign: 'center',
+          cursor: 'pointer',
+          width: '100%',
+          maxWidth: '1440px'
+        }}
+      >
 
         {/* LOGO CENTER ANIMATED CIRCLE BACKDROP LAYER */}
         <div style={{
           position: 'absolute',
-          top: '0',
+          top: '50%',
           left: '50%',
-          transform: 'translateX(-50%)',
-          width: '420px',
-          height: '240px',
+          transform: 'translate(-50%, -50%)',
+          width: '680px',
+          height: '420px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -144,126 +149,111 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
           {/* Inner Glowing Soft Aura */}
           <div style={{
             position: 'absolute',
-            width: '240px',
-            height: '240px',
+            width: '380px',
+            height: '380px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(35, 127, 251, 0.28) 0%, rgba(250, 154, 1, 0.18) 55%, transparent 75%)',
-            filter: 'blur(28px)',
+            background: 'radial-gradient(circle, rgba(0, 82, 204, 0.32) 0%, rgba(16, 185, 129, 0.22) 55%, transparent 75%)',
+            filter: 'blur(36px)',
             animation: 'logoAuraPulse 3s ease-in-out infinite'
           }} />
 
-          {/* Rotating Animated Circle 1 - Blue & Gold Gradient Ring */}
+          {/* Rotating Animated Circle 1 - Blue & Green Gradient Ring */}
           <div className="center-anim-circle-1" style={{
             position: 'absolute',
-            width: '280px',
-            height: '280px',
+            width: '440px',
+            height: '440px',
             borderRadius: '50%',
-            border: '2px dashed rgba(35, 127, 251, 0.35)',
-            boxShadow: '0 0 25px rgba(35, 127, 251, 0.15)'
+            border: '2px dashed rgba(0, 82, 204, 0.35)',
+            boxShadow: '0 0 30px rgba(0, 82, 204, 0.2)'
           }} />
 
-          {/* Counter-Rotating Animated Circle 2 - Fine Accent Ring */}
+          {/* Counter-Rotating Animated Circle 2 - Smart Green Accent Ring */}
           <div className="center-anim-circle-2" style={{
             position: 'absolute',
-            width: '350px',
-            height: '350px',
+            width: '520px',
+            height: '520px',
             borderRadius: '50%',
-            border: '1.5px solid rgba(250, 154, 1, 0.25)',
-            boxShadow: '0 0 30px rgba(250, 154, 1, 0.12)'
+            border: '1.5px solid rgba(16, 185, 129, 0.3)',
+            boxShadow: '0 0 35px rgba(16, 185, 129, 0.16)'
           }} />
 
           {/* Expanding Radar Pulse Circle 3 */}
           <div className="center-pulse-circle-3" style={{
             position: 'absolute',
-            width: '220px',
-            height: '220px',
+            width: '320px',
+            height: '320px',
             borderRadius: '50%',
-            border: '1.5px solid rgba(35, 127, 251, 0.4)'
+            border: '1.5px solid rgba(0, 82, 204, 0.4)'
           }} />
         </div>
 
-        {/* PROMINENT LARGE 3D CUBE LOGO */}
-        <div className="logo-hero-anim" style={{ marginBottom: '24px' }}>
-          <img
-            src="/img/log.png"
-            alt="NUO TECH"
-            style={{
-              height: 'clamp(150px, 22vw, 220px)',
-              width: 'auto',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 20px 35px rgba(35, 127, 251, 0.38))'
-            }}
-            onError={(e) => {
-              (e.target as HTMLElement).setAttribute('src', '/img/logo.jpeg');
-            }}
-          />
-        </div>
-
-        {/* LARGE BRAND TEXT WITH TECH IN VIBRANT LOGO GOLD/AMBER PALETTE */}
+        {/* LARGE BRAND TEXT WITH oi IN VIBRANT POWER GREEN/BLUE GRADIENT */}
         <div style={{
           fontFamily: 'var(--font-heading)',
-          fontSize: 'clamp(3.5rem, 8.5vw, 6rem)',
+          fontSize: 'clamp(5rem, 14vw, 11rem)',
           fontWeight: 900,
-          letterSpacing: '-0.02em',
-          lineHeight: 1.05,
-          marginBottom: '20px',
+          letterSpacing: '-0.03em',
+          lineHeight: 0.95,
+          marginBottom: '32px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          perspective: '1200px'
+          perspective: '1200px',
+          userSelect: 'none'
         }}>
           {brandLetters.map((item, index) => (
-            item.char === ' ' ? (
-              <span key={index} style={{ width: 'clamp(14px, 2vw, 24px)' }} />
-            ) : (
-              <span
-                key={index}
-                className={`letter-bounce-node ${item.animClass}`}
-                style={{
-                  animationDelay: item.delay,
-                  display: 'inline-block',
-                  color: item.isTech ? 'transparent' : '#0F172A',
-                  background: item.isTech
-                    ? 'linear-gradient(135deg, #FA9A01 0%, #FF6B00 100%)'
-                    : 'none',
-                  WebkitBackgroundClip: item.isTech ? 'text' : 'unset',
-                  WebkitTextFillColor: item.isTech ? 'transparent' : 'unset',
-                  textShadow: item.isTech ? '0 10px 28px rgba(250, 154, 1, 0.45)' : 'none'
-                }}
-              >
-                {item.char}
-              </span>
-            )
+            <span
+              key={index}
+              className={`letter-bounce-node ${item.animClass}`}
+              style={{
+                animationDelay: item.delay,
+                display: 'inline-block',
+                background: item.isSuffix
+                  ? 'linear-gradient(135deg, #10B981 0%, #00C853 40%, #0052CC 100%)'
+                  : 'linear-gradient(135deg, #0052CC 0%, #003A96 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: item.isSuffix 
+                  ? 'drop-shadow(0 15px 35px rgba(16, 185, 129, 0.45))' 
+                  : 'drop-shadow(0 15px 35px rgba(0, 82, 204, 0.3))'
+              }}
+            >
+              {item.char}
+            </span>
           ))}
         </div>
 
         {/* 3 TAGLINE WORDS: 1st FROM LEFT, 2nd (CENTER) FROM TOP, 3rd FROM RIGHT */}
-        <div style={{
+        <div className="tagline-row" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '16px',
-          fontSize: 'clamp(1.1rem, 2.4vw, 1.45rem)',
-          color: '#237FFB',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          gap: 'clamp(8px, 2vw, 16px)',
+          fontSize: 'clamp(0.82rem, 2.4vw, 1.65rem)',
+          color: '#0052CC',
           fontFamily: 'var(--font-heading)',
           fontWeight: 800,
-          letterSpacing: '0.24em',
+          letterSpacing: 'clamp(0.12em, 0.22em, 0.28em)',
           textTransform: 'uppercase',
           marginBottom: '20px',
-          textShadow: '0 4px 18px rgba(35, 127, 251, 0.4)'
+          padding: '0 12px',
+          maxWidth: '100vw',
+          textShadow: '0 4px 18px rgba(0, 82, 204, 0.3)'
         }}>
           {/* 1st Word: INNOVATE (Comes from Left) */}
           <span className="tagline-word tag-from-left" style={{ animationDelay: '1.2s' }}>
             INNOVATE
           </span>
 
-          <span className="tagline-dot" style={{ animationDelay: '1.4s' }}>•</span>
+          <span className="tagline-dot" style={{ animationDelay: '1.4s', color: '#10B981' }}>•</span>
 
           {/* 2nd Word (CENTER): AUTOMATE (Comes from Top) */}
-          <span className="tagline-word tag-from-top" style={{ animationDelay: '1.5s' }}>
+          <span className="tagline-word tag-from-top" style={{ animationDelay: '1.5s', color: '#10B981' }}>
             AUTOMATE
           </span>
 
-          <span className="tagline-dot" style={{ animationDelay: '1.7s' }}>•</span>
+          <span className="tagline-dot" style={{ animationDelay: '1.7s', color: '#10B981' }}>•</span>
 
           {/* 3rd Word: SUSTAIN (Comes from Right) */}
           <span className="tagline-word tag-from-right" style={{ animationDelay: '1.8s' }}>
@@ -459,8 +449,20 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
           70% { transform: scale(1.08) translateY(8px); opacity: 1; }
           100% { transform: scale(1) translateY(0); opacity: 1; }
         }
-        .logo-hero-anim {
-          animation: logo-hero-enter 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        @media (max-width: 600px) {
+          .tagline-row {
+            letter-spacing: 0.12em !important;
+            font-size: 0.88rem !important;
+            gap: 8px !important;
+          }
+          .tagline-dot {
+            margin: 0 2px;
+          }
+          .center-anim-circle-1,
+          .center-anim-circle-2,
+          .center-pulse-circle-3 {
+            transform: scale(0.7);
+          }
         }
       `}</style>
     </div>

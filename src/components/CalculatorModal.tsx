@@ -144,17 +144,21 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
               height: '36px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              background: '#F8FAFC',
+              padding: '2px 8px',
+              borderRadius: '8px',
+              border: '1px solid #E2E8F0'
             }}>
-              <img src="/img/log.png" alt="NUO TECH Logo" style={{ height: '32px', objectFit: 'contain' }} />
+              <img src="/img/logos.jpeg" alt="SMARToi Logo" style={{ height: '28px', objectFit: 'contain' }} />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '1rem', fontWeight: 900, color: '#0F172A', letterSpacing: '0.5px' }}>NUO</span>
-                <span style={{ fontSize: '1rem', fontWeight: 900, color: '#FF9900', letterSpacing: '0.5px' }}>TECH</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '1rem', fontWeight: 900, color: '#0052CC', letterSpacing: '0.5px' }}>SMART</span>
+                <span style={{ fontSize: '1rem', fontWeight: 900, color: '#10B981', letterSpacing: '0.5px' }}>oi</span>
               </div>
-              <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#0066FF', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
-                Future Begins Now
+              <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#0052CC', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
+                Intelligent Automation
               </span>
             </div>
           </div>
