@@ -42,7 +42,7 @@ export const COMPANY_INFO = {
   location: "Karur, Tamil Nadu, India",
   fullAddress: "SMARToi Technologies, South 6, Seerangai Thottam, Puliyur, Karur, Tamil Nadu, 639114",
   email: "info@smartoi.in",
-  phone: "9585076764 or 9585076765",
+  phone: "9585076764",
   whatsapp: "99656 08260",
   whatsappUrl: "https://wa.me/919965608260",
   vision: "To build a smarter and more sustainable future by making advanced technology, automation and renewable energy practical and accessible to everyone.",

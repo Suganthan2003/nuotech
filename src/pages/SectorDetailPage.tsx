@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  Zap, Bot, Sun, GraduationCap, Cpu, Layers, 
-  ArrowRight, Sparkles, 
-  ChevronRight, ChevronLeft
+import {
+  Zap, Bot, Sun, GraduationCap, Cpu, Layers,
+  ArrowRight, Sparkles,
+  ChevronRight, ChevronLeft, Check, ArrowUpRight
 } from 'lucide-react';
 
 interface SubCategoryDetail {
@@ -648,37 +648,47 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
 
 const BG_VIDEOS = ['/v/s1.mp4', '/v/s2.mp4', '/v/s3.mp4'];
 
-const SECTOR_CARD_THEMES: Record<string, { bg: string; shadow: string; border: string }> = {
-  'smart-living': {
-    bg: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
-    shadow: 'rgba(37, 99, 235, 0.45)',
-    border: '#60A5FA'
-  },
-  'industrial-automation': {
-    bg: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
-    shadow: 'rgba(234, 88, 12, 0.45)',
-    border: '#FDBA74'
-  },
-  'solar-solution': {
-    bg: 'linear-gradient(135deg, #EAB308 0%, #CA8A04 100%)',
-    shadow: 'rgba(202, 138, 4, 0.45)',
-    border: '#FEF08A'
-  },
-  'skill-development': {
-    bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
-    shadow: 'rgba(2, 132, 199, 0.45)',
-    border: '#7DD3FC'
-  },
-  'robot-services': {
-    bg: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
-    shadow: 'rgba(124, 58, 237, 0.45)',
-    border: '#C4B5FD'
-  },
-  'fabrication': {
-    bg: 'linear-gradient(135deg, #0F766E 0%, #115E59 100%)',
-    shadow: 'rgba(15, 118, 110, 0.45)',
-    border: '#5EEAD4'
-  }
+/* ============================================================
+   Scroll-reveal wrapper (IntersectionObserver, runs once)
+   ============================================================ */
+const Reveal: React.FC<{
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}> = ({ children, delay = 0, className = '', style }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShown(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`sd-rv ${shown ? 'sd-in' : ''} ${className}`}
+      style={{ transitionDelay: `${delay}ms`, ...style }}
+    >
+      {children}
+    </div>
+  );
 };
 
 interface SectorDetailPageProps {
@@ -702,6 +712,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   const IconComponent = sector.icon;
   const ALL_SECTOR_KEYS = Object.keys(SECTORS_DATA);
   const totalSubs = sector.subCategories.length;
+
   // Background rotating video index every 10 seconds
   const [currentVideoIdx, setCurrentVideoIdx] = useState<number>(0);
 
@@ -713,7 +724,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   }, []);
 
   // ==========================================================
-  // HERO CITIES SLIDER STATE (Nikolay Talanov / suez OjGQza)
+  // HERO CITIES SLIDER STATE
   // ==========================================================
   const [heroSlideIdx, setHeroSlideIdx] = useState<number>(0);
   const [prevHeroSlideIdx, setPrevHeroSlideIdx] = useState<number>(-1);
@@ -724,7 +735,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
     setHeroSlideIdx(prev => (prev + direction + totalSubs) % totalSubs);
   };
 
-  // Hero Cities Slider Auto-Play every 6 seconds
+  // Hero Slider Auto-Play every 6 seconds
   useEffect(() => {
     if (isHeroPaused) return;
     const heroTimer = setInterval(() => {
@@ -738,17 +749,21 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   useEffect(() => {
     setHeroSlideIdx(0);
     setPrevHeroSlideIdx(-1);
-      }, [sector.id]);
+  }, [sector.id]);
 
-  // 3D perspective slider state removed
+  const scrollToModules = () => {
+    document.getElementById('slider-showcase')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const modulesCols = totalSubs % 3 === 0 ? 'sd-cols-3' : 'sd-cols-2';
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#050911', color: '#FFFFFF', paddingTop: '100px', overflowX: 'hidden' }}>
-      
+    <div className="sd-root" style={{ position: 'relative', minHeight: '100vh', background: '#050911', color: '#FFFFFF', paddingTop: '100px', overflowX: 'hidden' }}>
+
       {/* ========================================================
           BACKGROUND ROTATING VIDEO (Changes every 10 seconds)
           ======================================================== */}
-      <div 
+      <div
         style={{
           position: 'fixed',
           top: 0,
@@ -781,15 +796,14 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
           />
         ))}
 
-        {/* Ambient Dark Tech Gradients for 100% Content Readability */}
-        <div 
+        <div
           style={{
             position: 'absolute',
             inset: 0,
             background: 'radial-gradient(circle at 50% 30%, rgba(5, 9, 17, 0.75) 0%, rgba(5, 9, 17, 0.96) 85%)',
           }}
         />
-        <div 
+        <div
           style={{
             position: 'absolute',
             inset: 0,
@@ -803,88 +817,35 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
       <div style={{ position: 'relative', zIndex: 10 }}>
 
         {/* ========================================================
-            1. TOP BREADCRUMBS BAR (White BG, Centered)
+            1. BREADCRUMB BAR
             ======================================================== */}
-        <div 
-          style={{ 
-            background: '#FFFFFF', 
-            borderBottom: '1px solid #E2E8F0',
-            padding: '16px 0',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.04)',
-            position: 'relative',
-            zIndex: 20
-          }}
-        >
-          <div 
-            className="container" 
-            style={{ 
-              maxWidth: '1280px', 
-              margin: '0 auto', 
-              padding: '0 24px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            {/* Centered Breadcrumb links */}
-            <div 
-              style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                gap: '8px', 
-                fontSize: '0.94rem', 
-                color: '#64748B',
-                fontWeight: 500
-              }}
-            >
-              <Link 
-                to="/" 
-                style={{ 
-                  color: '#64748B', 
-                  textDecoration: 'none', 
-                  transition: 'color 0.2s',
-                  fontWeight: 600
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#0F172A'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
-              >
-                Home
-              </Link>
-              <span style={{ color: '#CBD5E1' }}>/</span>
-              <Link 
-                to="/product" 
-                style={{ 
-                  color: '#64748B', 
-                  textDecoration: 'none', 
-                  transition: 'color 0.2s',
-                  fontWeight: 600
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#0F172A'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
-              >
-                Solutions
-              </Link>
-              <span style={{ color: '#CBD5E1' }}>/</span>
-              <span style={{ color: sector.accentColor, fontWeight: 700 }}>
+        <div className="sd-crumbs">
+          <div className="sd-container sd-crumbs-inner">
+            <nav className="sd-crumb-trail" aria-label="Breadcrumb">
+              <Link to="/" className="sd-crumb-link">Home</Link>
+              <span className="sd-crumb-sep">/</span>
+              <Link to="/product" className="sd-crumb-link">Solutions</Link>
+              <span className="sd-crumb-sep">/</span>
+              <span className="sd-crumb-current">
+                <IconComponent size={15} />
                 {sector.title}
               </span>
-            </div>
+            </nav>
           </div>
+          <div className="sd-crumb-bar" />
         </div>
 
         {/* ========================================================
-            2. HERO SECTION - FULL-WIDTH CITIES SLIDER WITH VISIBLE VIDEO
+            2. HERO SECTION - UNCHANGED
             ======================================================== */}
-        <section 
-          style={{ 
+        <section
+          style={{
             width: '100%',
             position: 'relative',
             overflow: 'hidden',
             marginBottom: '0px'
           }}
         >
-          {/* Edge-to-Edge Full Hero suez Slider */}
           <div
             className="suez-hero-slider"
             onMouseEnter={() => setIsHeroPaused(true)}
@@ -922,7 +883,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     transition: 'opacity 0.85s cubic-bezier(0.77, 0, 0.175, 1)'
                   }}
                 >
-                  {/* VIDEO BACKGROUND - FULLY VISIBLE & VIBRANT */}
                   <div
                     style={{
                       position: 'absolute',
@@ -948,7 +908,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     />
                   </div>
 
-                  {/* 4 VERTICAL SLICED SHUTTER PANELS (suez signature shutter lines) */}
                   <div
                     className="suez-slide-parts"
                     style={{
@@ -979,7 +938,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     ))}
                   </div>
 
-                  {/* Subtle Vignette for Text Contrast (keeps video clearly visible) */}
                   <div
                     style={{
                       position: 'absolute',
@@ -989,7 +947,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     }}
                   />
 
-                  {/* Top Heading (TRAVELERS style from suez pen) */}
                   <div
                     style={{
                       position: 'absolute',
@@ -1010,7 +967,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     {sector.category}
                   </div>
 
-                  {/* Centered Slide Content Overlay (CZECH REPUBLIC / PRAGUE / read more) */}
                   <div
                     className="suez-slide-content"
                     style={{
@@ -1026,7 +982,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                       boxSizing: 'border-box'
                     }}
                   >
-                    {/* Subheading (CZECH REPUBLIC style) */}
                     <h3
                       style={{
                         fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)',
@@ -1044,7 +999,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                       {sector.title}
                     </h3>
 
-                    {/* Main Heading with Staggered Split Letters (P R A G U E style) */}
                     <h2
                       style={{
                         fontSize: 'clamp(1.5rem, 3.2vw, 2.5rem)',
@@ -1074,19 +1028,17 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                         </span>
                       ))}
                     </h2>
-
-
                   </div>
                 </div>
               );
             })}
 
-            {/* Left and Right Navigation Arrows displayed on both side center corners */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 changeHeroSlide(-1);
               }}
+              className="sd-hero-arrow sd-hero-arrow-prev"
               aria-label="Previous Slide"
               style={{
                 position: 'absolute',
@@ -1125,6 +1077,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                 e.stopPropagation();
                 changeHeroSlide(1);
               }}
+              className="sd-hero-arrow sd-hero-arrow-next"
               aria-label="Next Slide"
               style={{
                 position: 'absolute',
@@ -1160,906 +1113,467 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
           </div>
         </section>
 
-         <div 
-          style={{
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-            background: 'rgba(10, 16, 30, 0.92)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-            padding: '16px 0',
-            backdropFilter: 'blur(16px)'
-          }}
-        >
-          {/* Edge Fade Gradients */}
-          <div 
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: '120px',
-              background: 'linear-gradient(90deg, rgba(5, 9, 17, 1) 0%, transparent 100%)',
-              zIndex: 5,
-              pointerEvents: 'none'
-            }}
-          />
-          <div 
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              bottom: 0,
-              width: '120px',
-              background: 'linear-gradient(270deg, rgba(5, 9, 17, 1) 0%, transparent 100%)',
-              zIndex: 5,
-              pointerEvents: 'none'
-            }}
-          />
-
-          {/* Infinite Marquee Track (Repeated 4 times for seamless infinite scroll) */}
-          <div 
-            style={{
-              display: 'flex',
-              width: 'max-content',
-              animation: 'subcategories-marquee 24s linear infinite',
-              gap: '24px'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.animationPlayState = 'paused'}
-            onMouseLeave={(e) => e.currentTarget.style.animationPlayState = 'running'}
-          >
+        {/* ========================================================
+            3. MODULE MARQUEE STRIP
+            ======================================================== */}
+        <div className="sd-marquee" aria-label="Modules in this sector">
+          <div className="sd-marquee-fade sd-fade-l" />
+          <div className="sd-marquee-fade sd-fade-r" />
+          <div className="sd-marquee-track">
             {[...Array(4)].map((_, setIdx) => (
               <React.Fragment key={setIdx}>
                 {sector.subCategories.map((sub, sIdx) => (
-                  <div 
+                  <button
+                    type="button"
                     key={`${setIdx}-${sub.id}`}
-                    onClick={() => {
-                                            document.getElementById('slider-showcase')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      padding: '8px 20px',
-                      borderRadius: '30px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      whiteSpace: 'nowrap'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = `${sector.accentColor}25`;
-                      e.currentTarget.style.borderColor = sector.accentColor;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-                    }}
+                    className="sd-pill"
+                    onClick={scrollToModules}
                   >
-                    <span 
-                      style={{ 
-                        fontSize: '0.72rem', 
-                        fontFamily: 'monospace', 
-                        fontWeight: 800, 
-                        color: sector.accentColor,
-                        background: `${sector.accentColor}20`,
-                        padding: '2px 8px',
-                        borderRadius: '12px'
-                      }}
-                    >
-                      0{sIdx + 1}
-                    </span>
-                    <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF' }}>
-                      {sub.title}
-                    </span>
-                    <Sparkles size={12} color={sector.accentColor} />
-                  </div>
+                    <span className="sd-pill-num">0{sIdx + 1}</span>
+                    <span className="sd-pill-title">{sub.title}</span>
+                    <Sparkles size={13} />
+                  </button>
                 ))}
               </React.Fragment>
             ))}
           </div>
         </div>
 
-        {/* ========================================================
-            3.5 EXPLORE OTHER CORE SECTORS (White BG + Black Grid + Color Cards)
-            ======================================================== */}
-        <section
-          style={{
-            position: 'relative',
-            width: '100%',
-            backgroundColor: '#FFFFFF',
-            backgroundImage: `
-              linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px)
-            `,
-            backgroundSize: '32px 32px',
-            borderTop: '1px solid #E2E8F0',
-            borderBottom: '1px solid #E2E8F0',
-            padding: '36px 0 42px',
-            zIndex: 10
-          }}
-        >
-          <div style={{ maxWidth: '1360px', margin: '0 auto', padding: '0 24px' }}>
-            {/* Header label */}
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <span
-                style={{
-                  fontSize: '11px',
-                  color: '#0F172A',
-                  fontWeight: 800,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  background: 'rgba(241, 245, 249, 0.95)',
-                  border: '1px solid #E2E8F0',
-                  padding: '6px 18px',
-                  borderRadius: '20px',
-                  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
-                }}
-              >
-                EXPLORE OTHER CORE SECTORS
-              </span>
-            </div>
+        {/* Everything below remounts when the sector changes so reveals replay */}
+        <div key={sector.id}>
 
-            {/* 6 Core Sector Cards Row */}
-            <div
-              className="core-sectors-grid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(6, 1fr)',
-                gap: '14px',
-                alignItems: 'stretch'
-              }}
-            >
-              {ALL_SECTOR_KEYS.map((k) => {
-                const sec = SECTORS_DATA[k];
-                const isCurrent = sec.id === sector.id;
-                const SecIcon = sec.icon;
-                const theme = SECTOR_CARD_THEMES[sec.id] || {
-                  bg: `linear-gradient(135deg, ${sec.accentColor}, #0F172A)`,
-                  shadow: `${sec.accentColor}44`,
-                  border: '#FFFFFF'
-                };
-
-                return (
+          {/* ========================================================
+              4. SECTOR OVERVIEW
+              ======================================================== */}
+          <section className="sd-section">
+            <div className="sd-blob sd-blob-a" />
+            <div className="sd-blob sd-blob-b" />
+            <div className="sd-container sd-overview">
+              <div className="sd-overview-copy">
+                <Reveal>
+                  <span className="sd-eyebrow"><i /> {sector.category}</span>
+                </Reveal>
+                <Reveal delay={80}>
+                  <h2 className="sd-h2 sd-left">{sector.tagline}</h2>
+                </Reveal>
+                <Reveal delay={160}>
+                  <p className="sd-lead">{sector.heroDescription}</p>
+                </Reveal>
+                <Reveal delay={240}>
+                  <div className="sd-stats">
+                    <div className="sd-stat">
+                      <strong>{String(totalSubs).padStart(2, '0')}</strong>
+                      <span>Modules</span>
+                    </div>
+                    <div className="sd-stat">
+                      <strong>{sector.number}</strong>
+                      <span>Core Sector</span>
+                    </div>
+                    <div className="sd-stat">
+                      <strong>Karur</strong>
+                      <span>Tamil Nadu, India</span>
+                    </div>
+                  </div>
+                </Reveal>
+                <Reveal delay={320}>
                   <button
-                    key={sec.id}
-                    onClick={() => {
-                      navigate(`/solution/${sec.id}`);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    style={{
-                      background: theme.bg,
-                      border: isCurrent
-                        ? '3px solid #0F172A'
-                        : '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '18px',
-                      padding: '16px 18px',
-                      minHeight: '106px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      transition: 'all 0.24s cubic-bezier(0.16, 1, 0.3, 1)',
-                      transform: isCurrent ? 'translateY(-4px)' : 'translateY(0)',
-                      boxShadow: isCurrent
-                        ? `0 16px 36px -6px ${theme.shadow}, 0 0 0 3px #0F172A, 0 0 0 5px #FFFFFF`
-                        : `0 8px 22px -4px ${theme.shadow}`,
-                      outline: 'none',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-                      e.currentTarget.style.boxShadow = `0 16px 32px -4px ${theme.shadow}`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = isCurrent ? 'translateY(-4px)' : 'translateY(0)';
-                      e.currentTarget.style.boxShadow = isCurrent
-                        ? `0 16px 36px -6px ${theme.shadow}, 0 0 0 3px #0F172A, 0 0 0 5px #FFFFFF`
-                        : `0 8px 22px -4px ${theme.shadow}`;
-                    }}
+                    type="button"
+                    className="sd-btn sd-btn-primary"
+                    onClick={() => openQuoteModalWithSolution(sector.title)}
                   >
-                    {/* Top Row: Icon & Number */}
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        marginBottom: '12px'
-                      }}
-                    >
-                      <SecIcon size={20} color="#FFFFFF" />
-                      <span
-                        style={{
-                          fontSize: '11px',
-                          fontFamily: 'monospace',
-                          fontWeight: 800,
-                          color: '#FFFFFF',
-                          background: 'rgba(255, 255, 255, 0.24)',
-                          backdropFilter: 'blur(4px)',
-                          padding: '2px 8px',
-                          borderRadius: '10px'
+                    Get a Quote <ArrowRight size={17} />
+                  </button>
+                </Reveal>
+              </div>
+
+              <div className="sd-points">
+                {sector.overviewPoints.map((point, i) => (
+                  <Reveal key={i} delay={120 + i * 110}>
+                    <div className="sd-point">
+                      <span className="sd-point-icon"><Check size={16} strokeWidth={3} /></span>
+                      <p>{point}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ========================================================
+              5. EXPLORE OTHER CORE SECTORS
+              ======================================================== */}
+          <section className="sd-section sd-section-white">
+            <div className="sd-container">
+              <Reveal>
+                <div className="sd-head">
+                  <span className="sd-eyebrow"><i /> Our Core Sectors</span>
+                  <h2 className="sd-h2">Explore more <span className="sd-grad">SMARToi</span> solutions</h2>
+                  <div className="sd-underline" />
+                </div>
+              </Reveal>
+
+              <div className="sd-sectors">
+                {ALL_SECTOR_KEYS.map((k, i) => {
+                  const sec = SECTORS_DATA[k];
+                  const isCurrent = sec.id === sector.id;
+                  const SecIcon = sec.icon;
+                  return (
+                    <Reveal key={sec.id} delay={i * 70}>
+                      <button
+                        type="button"
+                        className={`sd-sector ${isCurrent ? 'is-current' : ''}`}
+                        aria-current={isCurrent ? 'page' : undefined}
+                        onClick={() => {
+                          navigate(`/solution/${sec.id}`);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
-                        {sec.number}
-                      </span>
-                    </div>
-
-                    {/* Bottom Row: Title */}
-                    <div
-                      style={{
-                        fontSize: '13.5px',
-                        fontWeight: 800,
-                        color: '#FFFFFF',
-                        lineHeight: 1.28,
-                        letterSpacing: '-0.01em',
-                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.25)'
-                      }}
-                    >
-                      {sec.title}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-       
-
-  
-        <section 
-          id="slider-showcase"
-          style={{ 
-            padding: '32px 0 48px', 
-            position: 'relative',
-            overflow: 'hidden',
-            backgroundColor: '#FFFFFF',
-            backgroundImage: `
-              linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
-            `,
-            backgroundSize: '32px 32px',
-            borderTop: '1px solid #E2E8F0',
-            borderBottom: '1px solid #E2E8F0'
-          }}
-        >
-          <div className="container" style={{ maxWidth: '1360px', margin: '0 auto', padding: '0 24px' }}>
-
-            {/* Section Header */}
-            <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 24px' }}>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 800, color: '#0F172A', marginBottom: '8px', letterSpacing: '-0.02em' }}>
-                Explore <span style={{ color: sector.accentColor }}>{sector.title}</span> Modules
-              </h2>
-              <p style={{ color: '#64748B', fontSize: '1.02rem', lineHeight: 1.6, margin: 0 }}>
-                Discover all {totalSubs} smart modules powering intelligent, connected spaces.
-              </p>
-            </div>
-
-            {/* ── Hub & Spoke Layout ─────────────────────────────────────── */}
-            <div
-              style={{
-                position: 'relative',
-                display: 'grid',
-                gridTemplateColumns: '1fr 200px 1fr',
-                gridTemplateRows: 'auto auto auto',
-                gap: '0',
-                alignItems: 'center',
-                justifyItems: 'center',
-              }}
-            >
-              {/* ── Connector Lines using absolute positioned divs ── */}
-              {/* Horizontal line */}
-              <div style={{
-                position: 'absolute', top: '50%', left: '2%', right: '2%', height: '3px',
-                background: `linear-gradient(90deg, transparent, ${sector.accentColor}50 20%, ${sector.accentColor}90 50%, ${sector.accentColor}50 80%, transparent)`,
-                pointerEvents: 'none', zIndex: 1,
-                transform: 'translateY(-50%)'
-              }} />
-              {/* Vertical line */}
-              <div style={{
-                position: 'absolute', left: '50%', top: '2%', bottom: '2%', width: '3px',
-                background: `linear-gradient(180deg, transparent, ${sector.accentColor}50 20%, ${sector.accentColor}90 50%, ${sector.accentColor}50 80%, transparent)`,
-                pointerEvents: 'none', zIndex: 1,
-                transform: 'translateX(-50%)'
-              }} />
-
-              {/* ── TOP-LEFT MODULE (index 0) ── */}
-              {sector.subCategories[0] && (() => {
-                const sub = sector.subCategories[0];
-                return (
-                  <div
-                    key={sub.id}
-                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
-                    style={{
-                      gridColumn: '1',
-                      gridRow: '1',
-                      justifySelf: 'end',
-                      width: '100%',
-                      maxWidth: '480px',
-                      height: '320px',
-                      borderRadius: '20px',
-                      overflow: 'hidden',
-                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
-                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
-                      cursor: 'pointer',
-                      zIndex: 2,
-                      margin: '0 24px 24px 0',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
-                    }}
-                  >
-                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
-                    {/* Dark gradient overlay */}
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
-                    {/* Bottom bar: Title on left, S.No on bottom right */}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '18px 20px',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'space-between',
-                      gap: '14px',
-                      zIndex: 3
-                    }}>
-                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
-                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>01</div>
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {/* ── TOP SPACER (hub row top) ── */}
-              <div style={{ gridColumn: '2', gridRow: '1', width: '200px', zIndex: 2 }} />
-
-              {/* ── TOP-RIGHT MODULE (index 1) ── */}
-              {sector.subCategories[1] && (() => {
-                const sub = sector.subCategories[1];
-                return (
-                  <div
-                    key={sub.id}
-                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
-                    style={{
-                      gridColumn: '3',
-                      gridRow: '1',
-                      justifySelf: 'start',
-                      width: '100%',
-                      maxWidth: '480px',
-                      height: '320px',
-                      borderRadius: '20px',
-                      overflow: 'hidden',
-                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
-                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
-                      cursor: 'pointer',
-                      zIndex: 2,
-                      margin: '0 0 24px 24px',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
-                    }}
-                  >
-                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '18px 20px',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'space-between',
-                      gap: '14px',
-                      zIndex: 3
-                    }}>
-                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
-                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>02</div>
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {/* ── CENTER HUB ── */}
-              <div style={{ gridColumn: '1', gridRow: '2', zIndex: 3 }} />
-              <div
-                style={{
-                  gridColumn: '2',
-                  gridRow: '2',
-                  zIndex: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '200px',
-                  height: '200px',
-                  padding: '20px 0'
-                }}
-              >
-                {/* Outer glow ring */}
-                <div style={{
-                  width: '180px', height: '180px', borderRadius: '50%',
-                  background: `radial-gradient(circle at 40% 35%, ${sector.accentColor}22 0%, ${sector.accentColor}06 60%, transparent 100%)`,
-                  border: `1.5px solid ${sector.accentColor}40`,
-                  boxShadow: `0 0 0 10px ${sector.accentColor}08, 0 0 50px ${sector.accentColor}25`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  position: 'relative',
-                  animation: 'hub-pulse 3s ease-in-out infinite'
-                }}>
-                  {/* Inner circle with logo */}
-                  <div style={{
-                    width: '144px', height: '144px', borderRadius: '50%',
-                    background: '#FFFFFF',
-                    border: `2px solid ${sector.accentColor}55`,
-                    boxShadow: `0 6px 28px ${sector.accentColor}25, inset 0 2px 6px rgba(255,255,255,0.95)`,
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px',
-                    textAlign: 'center', padding: '10px', overflow: 'hidden'
-                  }}>
-                    {/* Company Logo */}
-                    <img
-                      src="/img/logos.jpeg"
-                      alt="SMARToi Logo"
-                      style={{ width: '72px', height: '72px', objectFit: 'contain', borderRadius: '8px' }}
-                    />
-                    <span style={{
-                      fontSize: '0.52rem', fontWeight: 900, color: '#475569',
-                      textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1.2
-                    }}>SMARToi</span>
-                  </div>
-                </div>
+                        <div className="sd-sector-top">
+                          <span className="sd-sector-icon"><SecIcon size={20} /></span>
+                          <span className="sd-sector-num">{sec.number}</span>
+                        </div>
+                        <div className="sd-sector-title">{sec.title}</div>
+                        <div className="sd-sector-foot">
+                          {isCurrent ? (
+                            <span className="sd-here"><i /> You are here</span>
+                          ) : (
+                            <span className="sd-go">View <ArrowUpRight size={14} /></span>
+                          )}
+                        </div>
+                      </button>
+                    </Reveal>
+                  );
+                })}
               </div>
-              <div style={{ gridColumn: '3', gridRow: '2', zIndex: 3 }} />
+            </div>
+          </section>
 
-              {/* ── BOTTOM-LEFT MODULE (index 2) ── */}
-              {sector.subCategories[2] && (() => {
-                const sub = sector.subCategories[2];
-                return (
-                  <div
-                    key={sub.id}
-                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
-                    style={{
-                      gridColumn: '1',
-                      gridRow: '3',
-                      justifySelf: 'end',
-                      width: '100%',
-                      maxWidth: '480px',
-                      height: '320px',
-                      borderRadius: '20px',
-                      overflow: 'hidden',
-                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
-                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
-                      cursor: 'pointer',
-                      zIndex: 2,
-                      margin: '24px 24px 0 0',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
-                    }}
-                  >
-                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '18px 20px',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'space-between',
-                      gap: '14px',
-                      zIndex: 3
-                    }}>
-                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
-                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>03</div>
-                    </div>
-                  </div>
-                );
-              })()}
+          {/* ========================================================
+              6. MODULES SHOWCASE
+              ======================================================== */}
+          <section id="slider-showcase" className="sd-section">
+            <div className="sd-blob sd-blob-c" />
+            <div className="sd-container">
+              <Reveal>
+                <div className="sd-head">
+                  <span className="sd-eyebrow"><i /> {totalSubs} Modules</span>
+                  <h2 className="sd-h2">
+                    Explore <span className="sd-grad">{sector.title}</span> modules
+                  </h2>
+                  <p className="sd-sub">
+                    Choose a module to see what it does, the key specifications, and request a quote.
+                  </p>
+                  <div className="sd-underline" />
+                </div>
+              </Reveal>
 
-              {/* ── BOTTOM CENTER SPACER ── */}
-              <div style={{ gridColumn: '2', gridRow: '3', width: '200px', zIndex: 2 }} />
-
-              {/* ── BOTTOM-RIGHT MODULE (index 3) ── */}
-              {sector.subCategories[3] && (() => {
-                const sub = sector.subCategories[3];
-                return (
-                  <div
-                    key={sub.id}
-                    onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
-                    style={{
-                      gridColumn: '3',
-                      gridRow: '3',
-                      justifySelf: 'start',
-                      width: '100%',
-                      maxWidth: '480px',
-                      height: '320px',
-                      borderRadius: '20px',
-                      overflow: 'hidden',
-                      boxShadow: `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`,
-                      transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease',
-                      cursor: 'pointer',
-                      zIndex: 2,
-                      margin: '24px 0 0 24px',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}55, 0 4px 16px rgba(0,0,0,0.12)`;
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLDivElement).style.transform = 'none';
-                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 10px 36px -8px ${sector.accentColor}35, 0 2px 10px rgba(0,0,0,0.08)`;
-                    }}
-                  >
-                    <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%)', pointerEvents: 'none' }} />
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '18px 20px',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'space-between',
-                      gap: '14px',
-                      zIndex: 3
-                    }}>
-                      <div style={{ fontSize: '1.02rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, textShadow: '0 2px 6px rgba(0,0,0,0.6)', flex: 1 }}>{sub.title}</div>
-                      <div style={{ background: `${sector.accentColor}`, borderRadius: '12px', padding: '5px 13px', fontSize: '0.82rem', fontWeight: 800, color: '#FFF', fontFamily: 'monospace', boxShadow: `0 3px 12px ${sector.accentColor}70`, letterSpacing: '0.04em', flexShrink: 0 }}>04</div>
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {/* Extra cards (5+) rendered as a bottom row if sectors have > 4 sub-categories */}
-              {sector.subCategories.length > 4 && (
-                <div
-                  style={{
-                    gridColumn: '1 / -1',
-                    gridRow: '4',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '24px',
-                    justifyContent: 'center',
-                    marginTop: '32px',
-                    width: '100%'
-                  }}
-                >
-                  {sector.subCategories.slice(4).map((sub, idx) => (
-                    <div
-                      key={sub.id}
-                      style={{
-                        width: '320px',
-                        background: '#FFFFFF',
-                        border: `1.5px solid ${sector.accentColor}22`,
-                        borderRadius: '24px',
-                        overflow: 'hidden',
-                        boxShadow: `0 8px 32px -8px ${sector.accentColor}22`,
-                        transition: 'transform 0.28s ease, box-shadow 0.28s ease',
-                        cursor: 'pointer'
-                      }}
-                      onMouseEnter={e => {
-                        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-6px) scale(1.02)';
-                        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 48px -10px ${sector.accentColor}44`;
-                      }}
-                      onMouseLeave={e => {
-                        (e.currentTarget as HTMLDivElement).style.transform = 'none';
-                        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 8px 32px -8px ${sector.accentColor}22`;
-                      }}
+              <div className={`sd-modules ${modulesCols}`}>
+                {sector.subCategories.map((sub, idx) => (
+                  <Reveal key={sub.id} delay={(idx % 3) * 110}>
+                    <article
+                      className="sd-card"
+                      onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
                     >
-                      <div style={{ position: 'relative', height: '180px', overflow: 'hidden', background: '#F8FAFC' }}>
-                        <img src={sub.image} alt={sub.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.9) 100%)' }} />
-                        <div style={{
-                          position: 'absolute', top: '14px', left: '16px',
-                          background: `${sector.accentColor}18`, border: `1px solid ${sector.accentColor}44`,
-                          borderRadius: '20px', padding: '3px 12px',
-                          fontSize: '0.72rem', fontWeight: 800, color: sector.accentColor, fontFamily: 'monospace'
-                        }}>0{idx + 5}</div>
+                      <div className="sd-card-media">
+                        <img
+                          src={sub.image}
+                          alt={sub.title}
+                          loading="lazy"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }}
+                        />
+                        <div className="sd-card-shade" />
+                        <span className="sd-card-badge">{String(idx + 1).padStart(2, '0')}</span>
+                        <span className="sd-card-arrow"><ArrowUpRight size={18} /></span>
                       </div>
-                      <div style={{ padding: '18px 22px 22px' }}>
-                        <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F172A', marginBottom: '4px' }}>{sub.title}</h3>
-                        <p style={{ fontSize: '0.79rem', color: '#64748B', marginBottom: '12px', lineHeight: 1.5 }}>{sub.tagline}</p>
+
+                      <div className="sd-card-body">
+                        <h3>{sub.title}</h3>
+                        <p className="sd-card-tag">{sub.tagline}</p>
+
+                        <ul className="sd-card-list">
+                          {sub.features.slice(0, 3).map((f, fi) => (
+                            <li key={fi}>
+                              <span className="sd-tick"><Check size={12} strokeWidth={3.2} /></span>
+                              <span>{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <div className="sd-specs">
+                          {sub.specs.slice(0, 2).map((s) => (
+                            <div key={s.label} className="sd-spec">
+                              <span>{s.label}</span>
+                              <strong>{s.value}</strong>
+                            </div>
+                          ))}
+                        </div>
+
                         <button
-                          onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
-                          style={{
-                            width: '100%', padding: '9px 14px', borderRadius: '10px',
-                            background: `linear-gradient(135deg, ${sector.accentColor}, ${sector.accentColor}cc)`,
-                            border: 'none', color: '#FFF', fontSize: '0.8rem', fontWeight: 700,
-                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                            transition: 'opacity 0.2s'
+                          type="button"
+                          className="sd-btn sd-btn-card"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openQuoteModalWithSolution(`${sector.title} — ${sub.title}`);
                           }}
                         >
-                          <span>Get Quote</span><ArrowRight size={13} />
+                          Get Quote <ArrowRight size={16} />
                         </button>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            {/* End Hub & Spoke */}
-
-          </div>
-
-          {/* Hub pulse keyframe */}
-          <style>{`
-            @keyframes hub-pulse {
-              0%, 100% { box-shadow: 0 0 0 8px ${sector.accentColor}10, 0 0 40px ${sector.accentColor}28; }
-              50% { box-shadow: 0 0 0 16px ${sector.accentColor}06, 0 0 60px ${sector.accentColor}40; }
-            }
-          `}</style>
-        </section>
-
-        {/* ========================================================
-            6. BOTTOM CTA & OTHER 5 SECTORS QUICK SWITCHER
-            ======================================================== */}
-        <section 
-          style={{ 
-            padding: '80px 0 110px', 
-            backgroundColor: '#FFFFFF',
-            backgroundImage: `
-              linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px)
-            `,
-            backgroundSize: '32px 32px',
-            borderTop: '1px solid #E2E8F0',
-            position: 'relative'
-          }}
-        >
-          <div className="container" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
-            
-            {/* Consultation Banner (Exact Matching Reference Design) */}
-            <div 
-              className="consultation-banner-card"
-              style={{
-                position: 'relative',
-                background: '#FFFFFF',
-                border: '1px solid #E2E8F0',
-                borderRadius: '28px',
-                padding: '48px 56px',
-                boxShadow: '0 20px 50px -15px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.08)',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '52px'
-              }}
-            >
-              {/* Top-Left Corner Diagonal Geometric Ribbon */}
-              <svg
-                width="120"
-                height="120"
-                viewBox="0 0 120 120"
-                fill="none"
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  pointerEvents: 'none',
-                  zIndex: 2
-                }}
-              >
-                {/* Red corner triangle */}
-                <polygon points="0,0 72,0 0,72" fill="#DC2626" />
-                {/* Black stripe */}
-                <polygon points="0,82 0,100 100,0 82,0" fill="#0F172A" />
-                {/* Light gray stripe */}
-                <polygon points="0,108 0,118 118,0 108,0" fill="#E2E8F0" />
-              </svg>
-
-              {/* Bottom-Right Corner Diagonal Geometric Ribbon */}
-              <svg
-                width="120"
-                height="120"
-                viewBox="0 0 120 120"
-                fill="none"
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                  pointerEvents: 'none',
-                  zIndex: 2,
-                  transform: 'rotate(180deg)'
-                }}
-              >
-                {/* Red corner triangle */}
-                <polygon points="0,0 72,0 0,72" fill="#DC2626" />
-                {/* Black stripe */}
-                <polygon points="0,82 0,100 100,0 82,0" fill="#0F172A" />
-                {/* Light gray stripe */}
-                <polygon points="0,108 0,118 118,0 108,0" fill="#E2E8F0" />
-              </svg>
-
-              {/* Left Side: 3D Isometric Cube Emblem with Soft Rings */}
-              <div
-                style={{
-                  position: 'relative',
-                  width: '180px',
-                  height: '180px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
-                }}
-              >
-                {/* Outer faint circular ring */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    width: '180px',
-                    height: '180px',
-                    borderRadius: '50%',
-                    border: '1.5px solid rgba(220, 38, 38, 0.18)',
-                    boxShadow: '0 0 20px rgba(220, 38, 38, 0.06)'
-                  }}
-                />
-                {/* Inner circular white badge with soft shadow */}
-                <div
-                  style={{
-                    position: 'relative',
-                    width: '146px',
-                    height: '146px',
-                    borderRadius: '50%',
-                    background: '#FFFFFF',
-                    boxShadow: '0 12px 35px -5px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.12)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <img
-                    src="/img/logos.jpeg"
-                    alt="SMARToi Logo"
-                    style={{
-                      width: '96px',
-                      height: '96px',
-                      objectFit: 'contain',
-                      filter: 'drop-shadow(0 12px 16px rgba(0, 0, 0, 0.16))'
-                    }}
-                  />
-                </div>
+                    </article>
+                  </Reveal>
+                ))}
               </div>
+            </div>
+          </section>
 
-              {/* Right Side: Text & Red Pill Action Button */}
-              <div style={{ flex: 1, position: 'relative', zIndex: 5 }}>
-                {/* Red accent dash */}
-                <div
-                  className="banner-dash"
-                  style={{
-                    width: '42px',
-                    height: '5px',
-                    background: '#DC2626',
-                    borderRadius: '3px',
-                    marginBottom: '16px'
-                  }}
-                />
+          {/* ========================================================
+              7. BOTTOM CTA
+              ======================================================== */}
+          <section className="sd-section sd-section-white sd-cta-section">
+            <div className="sd-container">
+              <Reveal>
+                <div className="sd-cta">
+                  <div className="sd-cta-glow sd-cta-glow-a" />
+                  <div className="sd-cta-glow sd-cta-glow-b" />
+                  <div className="sd-cta-grid" />
 
-                <h3
-                  style={{
-                    fontSize: 'clamp(1.85rem, 3.2vw, 2.5rem)',
-                    fontWeight: 900,
-                    color: '#0F172A',
-                    lineHeight: 1.2,
-                    marginBottom: '14px',
-                    letterSpacing: '-0.02em'
-                  }}
-                >
-                  Ready to deploy <span style={{ color: '#DC2626' }}>{sector.title}?</span>
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: '1.04rem',
-                    color: '#475569',
-                    maxWidth: '650px',
-                    lineHeight: 1.65,
-                    marginBottom: '26px',
-                    fontWeight: 500
-                  }}
-                >
-                  Our multi-disciplinary engineering team in Karur, Tamil Nadu handles custom sizing, layout drawings, and on-site deployment across South India.
-                </p>
-
-                <button
-                  onClick={() => openQuoteModalWithSolution(sector.title)}
-                  style={{
-                    padding: '14px 34px',
-                    fontSize: '0.98rem',
-                    fontWeight: 700,
-                    borderRadius: '40px',
-                    background: 'linear-gradient(90deg, #E11D48 0%, #DC2626 50%, #B91C1C 100%)',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    boxShadow: '0 12px 28px -4px rgba(220, 38, 38, 0.45)',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    cursor: 'pointer',
-                    transition: 'all 0.25s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                    e.currentTarget.style.boxShadow = '0 16px 36px -4px rgba(220, 38, 38, 0.6)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(220, 38, 38, 0.45)';
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: '#FFFFFF',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0
-                    }}
-                  >
-                    <IconComponent size={16} color="#DC2626" />
+                  <div className="sd-cta-logo">
+                    <img src="/img/logos.jpeg" alt="SMARToi" />
                   </div>
-                  <span>Request Custom Engineering Proposal</span>
-                  <ArrowRight size={17} />
-                </button>
-              </div>
+
+                  <div className="sd-cta-copy">
+                    <h3>
+                      Ready to deploy <span>{sector.title}?</span>
+                    </h3>
+                    <p>
+                      Our multi-disciplinary engineering team in Karur, Tamil Nadu handles custom sizing,
+                      layout drawings, and on-site deployment across South India.
+                    </p>
+                    <div className="sd-cta-actions">
+                      <button
+                        type="button"
+                        className="sd-btn sd-btn-green"
+                        onClick={() => openQuoteModalWithSolution(sector.title)}
+                      >
+                        <span className="sd-btn-ic"><IconComponent size={16} /></span>
+                        Request Custom Engineering Proposal
+                        <ArrowRight size={17} />
+                      </button>
+                      <button type="button" className="sd-btn sd-btn-ghost" onClick={scrollToModules}>
+                        Browse modules
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
             </div>
-
-          </div>
-        </section>
-
+          </section>
+        </div>
       </div>
 
       <style>{`
-        @keyframes subcategories-marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
+        /* =====================================================
+           SMARToi brand tokens (from logo)
+           ===================================================== */
+        .sd-root {
+          --navy: #12307E;
+          --navy-deep: #0A1F5C;
+          --blue: #1F5BC4;
+          --blue-soft: #E8F0FD;
+          --green: #3DA845;
+          --green-deep: #2C8A35;
+          --ink: #0B1B3F;
+          --muted: #5B6B8C;
+          --line: #DCE5F5;
+          --bg: #F4F8FE;
+          --grad: linear-gradient(135deg, var(--navy) 0%, var(--blue) 55%, var(--green) 130%);
+          --grad-text: linear-gradient(90deg, var(--blue) 0%, var(--green) 100%);
         }
-        @media (max-width: 1100px) {
-          .core-sectors-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
+
+        .sd-container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); position: relative; z-index: 2; }
+
+        /* ---------- Reveal animation ---------- */
+        .sd-rv { opacity: 0; transform: translateY(30px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; height: 100%; }
+        .sd-rv.sd-in { opacity: 1; transform: none; }
+
+        /* ---------- Breadcrumb ---------- */
+        .sd-crumbs { background: #fff; position: relative; z-index: 20; box-shadow: 0 4px 18px rgba(18,48,126,.08); }
+        .sd-crumbs-inner { display: flex; justify-content: center; padding-top: 16px; padding-bottom: 16px; }
+        .sd-crumb-trail { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: .94rem; font-weight: 600; }
+        .sd-crumb-link { color: var(--muted); text-decoration: none; transition: color .2s; }
+        .sd-crumb-link:hover { color: var(--navy); }
+        .sd-crumb-sep { color: #C3D0EA; }
+        .sd-crumb-current { display: inline-flex; align-items: center; gap: 7px; color: var(--navy); font-weight: 800; background: var(--blue-soft); padding: 5px 14px; border-radius: 999px; }
+        .sd-crumb-current svg { color: var(--green); }
+        .sd-crumb-bar { height: 3px; background: linear-gradient(90deg, var(--navy), var(--blue), var(--green), var(--blue), var(--navy)); background-size: 200% 100%; animation: sd-slide 6s linear infinite; }
+        @keyframes sd-slide { to { background-position: -200% 0; } }
+
+        /* ---------- Marquee ---------- */
+        .sd-marquee { position: relative; overflow: hidden; background: linear-gradient(90deg, var(--navy-deep), var(--navy) 50%, var(--navy-deep)); padding: 16px 0; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 3px solid var(--green); }
+        .sd-marquee-fade { position: absolute; top: 0; bottom: 0; width: clamp(40px, 9vw, 120px); z-index: 3; pointer-events: none; }
+        .sd-fade-l { left: 0; background: linear-gradient(90deg, var(--navy-deep), transparent); }
+        .sd-fade-r { right: 0; background: linear-gradient(270deg, var(--navy-deep), transparent); }
+        .sd-marquee-track { display: flex; width: max-content; animation: sd-marquee 30s linear infinite; }
+        .sd-marquee-track:hover { animation-play-state: paused; }
+        @keyframes sd-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .sd-pill { display: inline-flex; align-items: center; gap: 12px; margin-right: 20px; padding: 8px 20px 8px 10px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); color: #fff; cursor: pointer; white-space: nowrap; font-family: inherit; transition: background .25s, border-color .25s, transform .25s; }
+        .sd-pill:hover { background: rgba(61,168,69,.22); border-color: var(--green); transform: translateY(-2px); }
+        .sd-pill-num { font-size: .72rem; font-weight: 800; font-family: ui-monospace, monospace; background: var(--green); color: #fff; padding: 3px 9px; border-radius: 999px; }
+        .sd-pill-title { font-size: .9rem; font-weight: 700; }
+        .sd-pill svg { color: #8FE096; }
+
+        /* ---------- Sections ---------- */
+        .sd-section { position: relative; overflow: hidden; padding: clamp(52px, 8vw, 104px) 0; background-color: var(--bg); background-image: linear-gradient(rgba(31,91,196,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(31,91,196,.05) 1px, transparent 1px); background-size: 36px 36px; color: var(--ink); }
+        .sd-section-white { background-color: #fff; }
+        .sd-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .5; pointer-events: none; z-index: 1; animation: sd-float 14s ease-in-out infinite; }
+        .sd-blob-a { width: 380px; height: 380px; background: rgba(31,91,196,.22); top: -120px; right: -100px; }
+        .sd-blob-b { width: 300px; height: 300px; background: rgba(61,168,69,.2); bottom: -100px; left: -80px; animation-delay: -6s; }
+        .sd-blob-c { width: 420px; height: 420px; background: rgba(31,91,196,.16); top: 10%; left: -140px; }
+        @keyframes sd-float { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(24px,-26px) scale(1.08); } }
+
+        .sd-eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: 800; letter-spacing: .14em; color: var(--blue); background: #fff; border: 1px solid var(--line); padding: 7px 16px; border-radius: 999px; box-shadow: 0 4px 14px rgba(18,48,126,.07); }
+        .sd-eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(61,168,69,.6); animation: sd-ping 2s ease-out infinite; }
+        @keyframes sd-ping { 70% { box-shadow: 0 0 0 9px rgba(61,168,69,0); } 100% { box-shadow: 0 0 0 0 rgba(61,168,69,0); } }
+
+        .sd-head { text-align: center; max-width: 780px; margin: 0 auto clamp(32px, 5vw, 56px); }
+        .sd-h2 { font-size: clamp(1.7rem, 3.6vw, 2.7rem); font-weight: 900; line-height: 1.18; letter-spacing: -.02em; color: var(--navy); margin: 18px 0 0; }
+        .sd-h2.sd-left { text-align: left; }
+        .sd-grad { background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+        .sd-sub { color: var(--muted); font-size: 1.04rem; line-height: 1.65; margin: 14px auto 0; max-width: 620px; }
+        .sd-underline { width: 72px; height: 4px; border-radius: 4px; margin: 20px auto 0; background: linear-gradient(90deg, var(--blue), var(--green)); }
+
+        /* ---------- Overview ---------- */
+        .sd-overview { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+        .sd-overview-copy { display: flex; flex-direction: column; align-items: flex-start; }
+        .sd-lead { color: #34456B; font-size: clamp(1rem, 1.3vw, 1.1rem); line-height: 1.75; margin: 20px 0 0; max-width: 60ch; }
+        .sd-stats { display: flex; flex-wrap: wrap; gap: 14px; margin: 28px 0 30px; }
+        .sd-stat { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 14px; padding: 12px 20px; min-width: 120px; box-shadow: 0 8px 22px -10px rgba(18,48,126,.2); }
+        .sd-stat strong { display: block; font-size: 1.4rem; color: var(--navy); font-weight: 900; line-height: 1.1; }
+        .sd-stat span { font-size: .8rem; color: var(--muted); font-weight: 600; }
+
+        .sd-points { display: grid; gap: 14px; }
+        .sd-point { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; box-shadow: 0 10px 28px -14px rgba(18,48,126,.25); transition: transform .3s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .3s; }
+        .sd-point:hover { transform: translateX(6px); border-color: var(--blue); box-shadow: 0 16px 36px -14px rgba(31,91,196,.4); }
+        .sd-point p { margin: 0; color: #2B3C63; font-size: .98rem; line-height: 1.6; font-weight: 500; }
+        .sd-point-icon { flex-shrink: 0; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--blue), var(--green)); }
+
+        /* ---------- Buttons ---------- */
+        .sd-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; font-weight: 700; border: none; cursor: pointer; border-radius: 999px; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; position: relative; overflow: hidden; text-align: center; }
+        .sd-btn svg { transition: transform .25s ease; flex-shrink: 0; }
+        .sd-btn:hover svg:last-child { transform: translateX(4px); }
+        .sd-btn:focus-visible, .sd-sector:focus-visible, .sd-pill:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+        .sd-btn-primary { padding: 14px 30px; font-size: .98rem; color: #fff; background: var(--grad); box-shadow: 0 14px 30px -10px rgba(31,91,196,.6); }
+        .sd-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 36px -10px rgba(31,91,196,.7); }
+
+        /* ---------- Sector cards ---------- */
+        .sd-sectors { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+        .sd-sector { width: 100%; height: 100%; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; text-align: left; font-family: inherit; cursor: pointer; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px; color: var(--ink); box-shadow: 0 10px 26px -14px rgba(18,48,126,.28); transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s, border-color .3s, background .3s; position: relative; overflow: hidden; }
+        .sd-sector::after { content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width .4s ease; }
+        .sd-sector:hover { transform: translateY(-6px); border-color: var(--blue); box-shadow: 0 22px 40px -16px rgba(31,91,196,.45); }
+        .sd-sector:hover::after { width: 100%; }
+        .sd-sector-top { display: flex; align-items: center; justify-content: space-between; }
+        .sd-sector-icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; color: var(--blue); background: var(--blue-soft); transition: background .3s, color .3s, transform .3s; }
+        .sd-sector:hover .sd-sector-icon { background: var(--grad); color: #fff; transform: rotate(-8deg) scale(1.08); }
+        .sd-sector-num { font-family: ui-monospace, monospace; font-size: .76rem; font-weight: 800; color: var(--muted); }
+        .sd-sector-title { font-size: .98rem; font-weight: 800; line-height: 1.28; color: var(--navy); }
+        .sd-sector-foot { font-size: .8rem; font-weight: 700; }
+        .sd-go { display: inline-flex; align-items: center; gap: 4px; color: var(--blue); }
+        .sd-here { display: inline-flex; align-items: center; gap: 7px; color: #fff; }
+        .sd-here i { width: 8px; height: 8px; border-radius: 50%; background: #7CE085; animation: sd-ping 2s ease-out infinite; }
+        .sd-sector.is-current { background: var(--grad); border-color: transparent; transform: translateY(-6px); box-shadow: 0 22px 40px -14px rgba(18,48,126,.6); }
+        .sd-sector.is-current .sd-sector-title, .sd-sector.is-current .sd-sector-num { color: #fff; }
+        .sd-sector.is-current .sd-sector-icon { background: rgba(255,255,255,.2); color: #fff; }
+
+        /* ---------- Module cards ---------- */
+        .sd-modules { display: grid; gap: clamp(20px, 3vw, 32px); grid-template-columns: 1fr; }
+        .sd-card { height: 100%; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; cursor: pointer; box-shadow: 0 16px 40px -20px rgba(18,48,126,.35); transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, border-color .35s; position: relative; }
+        .sd-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--blue), var(--green)); transform: scaleX(0); transform-origin: left; transition: transform .45s ease; z-index: 5; }
+        .sd-card:hover { transform: translateY(-8px); border-color: rgba(31,91,196,.5); box-shadow: 0 30px 56px -22px rgba(31,91,196,.55); }
+        .sd-card:hover::before { transform: scaleX(1); }
+        .sd-card-media { position: relative; height: clamp(200px, 22vw, 250px); overflow: hidden; background: var(--grad); flex-shrink: 0; }
+        .sd-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.16,1,.3,1), opacity .3s; }
+        .sd-card:hover .sd-card-media img { transform: scale(1.08); }
+        .sd-card-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,31,92,.05) 35%, rgba(10,31,92,.7) 100%); pointer-events: none; }
+        .sd-card-badge { position: absolute; left: 16px; top: 16px; font-family: ui-monospace, monospace; font-weight: 800; font-size: .82rem; color: #fff; background: var(--grad); padding: 6px 13px; border-radius: 999px; box-shadow: 0 6px 16px rgba(10,31,92,.4); }
+        .sd-card-arrow { position: absolute; right: 16px; top: 16px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.92); color: var(--navy); transform: scale(.8) rotate(-45deg); opacity: 0; transition: all .35s cubic-bezier(.16,1,.3,1); }
+        .sd-card:hover .sd-card-arrow { opacity: 1; transform: scale(1) rotate(0); }
+        .sd-card-body { display: flex; flex-direction: column; flex: 1; padding: clamp(20px, 2.4vw, 28px); }
+        .sd-card-body h3 { margin: 0; font-size: clamp(1.1rem, 1.6vw, 1.3rem); font-weight: 800; line-height: 1.3; color: var(--navy); }
+        .sd-card-tag { margin: 8px 0 0; font-size: .92rem; line-height: 1.55; color: var(--muted); }
+        .sd-card-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+        .sd-card-list li { display: flex; gap: 10px; align-items: flex-start; font-size: .88rem; line-height: 1.5; color: #2B3C63; }
+        .sd-tick { flex-shrink: 0; margin-top: 2px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: var(--green); }
+        .sd-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0 22px; padding-top: 18px; border-top: 1px dashed var(--line); }
+        .sd-spec { background: var(--bg); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+        .sd-spec span { display: block; font-size: .7rem; font-weight: 700; color: var(--muted); letter-spacing: .02em; }
+        .sd-spec strong { display: block; font-size: .8rem; color: var(--navy); font-weight: 700; margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; }
+        .sd-btn-card { margin-top: auto; width: 100%; padding: 13px 18px; font-size: .92rem; color: #fff; background: var(--grad); border-radius: 14px; }
+        .sd-btn-card:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -10px rgba(31,91,196,.65); }
+
+        /* ---------- CTA ---------- */
+        .sd-cta-section { padding-bottom: clamp(60px, 9vw, 120px); }
+        .sd-cta { position: relative; overflow: hidden; display: flex; align-items: center; gap: clamp(28px, 5vw, 64px); padding: clamp(32px, 5vw, 64px); border-radius: clamp(22px, 3vw, 32px); background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, #1B4FB3 100%); box-shadow: 0 34px 70px -26px rgba(10,31,92,.7); color: #fff; }
+        .sd-cta-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 34px 34px; pointer-events: none; mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 75%); -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 75%); }
+        .sd-cta-glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: sd-float 12s ease-in-out infinite; }
+        .sd-cta-glow-a { width: 320px; height: 320px; background: rgba(61,168,69,.45); right: -90px; bottom: -120px; }
+        .sd-cta-glow-b { width: 260px; height: 260px; background: rgba(60,130,255,.4); left: -80px; top: -110px; animation-delay: -5s; }
+        .sd-cta-logo { position: relative; z-index: 2; flex-shrink: 0; width: clamp(200px, 24vw, 300px); background: #fff; border-radius: 22px; padding: clamp(18px, 2.4vw, 28px); box-shadow: 0 24px 50px -16px rgba(0,0,0,.5); animation: sd-bob 5s ease-in-out infinite; }
+        .sd-cta-logo img { display: block; width: 100%; height: auto; object-fit: contain; }
+        @keyframes sd-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+        .sd-cta-copy { position: relative; z-index: 2; flex: 1; min-width: 0; }
+        .sd-cta-copy h3 { margin: 0 0 14px; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 900; line-height: 1.18; letter-spacing: -.02em; }
+        .sd-cta-copy h3 span { color: #7CE085; }
+        .sd-cta-copy p { margin: 0 0 28px; max-width: 58ch; color: #CFDBF5; font-size: clamp(.98rem, 1.3vw, 1.08rem); line-height: 1.7; }
+        .sd-cta-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+        .sd-btn-green { padding: 15px 30px; font-size: .98rem; color: #fff; background: linear-gradient(90deg, var(--green) 0%, var(--green-deep) 100%); box-shadow: 0 16px 32px -10px rgba(61,168,69,.7); }
+        .sd-btn-green:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 22px 40px -10px rgba(61,168,69,.85); }
+        .sd-btn-ic { width: 28px; height: 28px; border-radius: 50%; background: #fff; color: var(--green-deep); display: grid; place-items: center; flex-shrink: 0; }
+        .sd-btn-ghost { padding: 15px 28px; font-size: .98rem; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.35); }
+        .sd-btn-ghost:hover { background: rgba(255,255,255,.18); transform: translateY(-3px); }
+
+        /* =====================================================
+           Responsive
+           ===================================================== */
+        @media (min-width: 720px) { .sd-modules.sd-cols-2 { grid-template-columns: repeat(2, 1fr); } .sd-modules.sd-cols-3 { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1100px) { .sd-modules.sd-cols-3 { grid-template-columns: repeat(3, 1fr); } }
+
+        @media (max-width: 1180px) {
+          .sd-sectors { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 920px) {
+          .sd-overview { grid-template-columns: 1fr; }
+          .sd-cta { flex-direction: column; text-align: center; }
+          .sd-cta-copy p { margin-left: auto; margin-right: auto; }
+          .sd-cta-actions { justify-content: center; }
+          .sd-cta-logo { width: min(280px, 70%); }
         }
         @media (max-width: 640px) {
-          .core-sectors-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
+          .sd-sectors { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .sd-sector { min-height: 138px; padding: 14px; }
+          .sd-sector-title { font-size: .9rem; }
+          .sd-stat { flex: 1 1 calc(50% - 14px); min-width: 0; }
+          .sd-btn-green, .sd-btn-ghost, .sd-btn-primary { width: 100%; }
+          .sd-overview-copy .sd-btn { width: 100%; }
+          .sd-crumbs-inner { padding-top: 12px; padding-bottom: 12px; }
+          .sd-crumb-trail { font-size: .86rem; }
+          .sd-card-arrow { opacity: 1; transform: none; }
         }
-        @media (max-width: 860px) {
-          .consultation-banner-card {
-            flex-direction: column !important;
-            text-align: center !important;
-            padding: 38px 20px !important;
-            gap: 28px !important;
-          }
-          .consultation-banner-card .banner-dash {
-            margin: 0 auto 16px !important;
+        @media (max-width: 380px) {
+          .sd-sectors { grid-template-columns: 1fr; }
+          .sd-specs { grid-template-columns: 1fr; }
+        }
+        @media (hover: none) {
+          .sd-card:hover, .sd-sector:hover, .sd-point:hover { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sd-rv { opacity: 1; transform: none; transition: none; }
+          .sd-marquee-track, .sd-blob, .sd-cta-glow, .sd-cta-logo, .sd-crumb-bar, .sd-eyebrow i, .sd-here i { animation: none !important; }
+        }
+
+        /* Hero responsive rules */
+        @media (max-width: 1024px) {
+          .sd-hero-arrow {
+            display: none !important;
           }
         }
         @media (max-width: 768px) {

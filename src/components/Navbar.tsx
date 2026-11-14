@@ -198,9 +198,9 @@ export const Navbar: React.FC<NavbarProps> = ({ openQuoteModal }) => {
           STYLES (Scoped & Robust)
           ========================================================= */}
       <style>{`
-        /* Header Base */
+        /* Header Base - Static / Non-sticky (scrolls with page) */
         .smartoi-navbar {
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           right: 0;

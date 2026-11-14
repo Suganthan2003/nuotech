@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { CalculatorModal } from './components/CalculatorModal';
 import { ScrollToTop } from './components/ScrollToTop';
 import { BackToTopButton } from './components/BackToTopButton';
+import { StickySocialBar } from './components/StickySocialBar';
 import { IntroSplash } from './components/IntroSplash';
 
 import { HomePage } from './pages/HomePage';
@@ -59,6 +60,8 @@ export const App: React.FC = () => {
         <Footer />
 
         <BackToTopButton />
+
+        <StickySocialBar />
 
         <CalculatorModal 
           isOpen={quoteModalOpen} 

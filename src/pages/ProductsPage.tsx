@@ -344,7 +344,7 @@ const Reviews: React.FC = () => {
    Desktop: one wide panel opens, others collapse to slim tabs.
    Mobile: panels stack and the active one grows taller.
    --------------------------------------------------------------------- */
-const SectorPanels: React.FC<ProductsPageProps> = ({ openQuoteModalWithSolution }) => {
+const SectorPanels: React.FC = () => {
   const navigate = useNavigate();
   const [act, setAct] = useState(0);
   const timer = useRef<number | undefined>(undefined);
@@ -391,13 +391,9 @@ const SectorPanels: React.FC<ProductsPageProps> = ({ openQuoteModalWithSolution 
                   </ul>
                   <p className="sx-aud"><Users size={14} /> {s.audience}</p>
                   <div className="sx-actions">
-                    <button type="button" tabIndex={on ? 0 : -1} className="sp-btn sp-btn-primary sp-btn-sm"
-                      onClick={() => openQuoteModalWithSolution(s.title)}>
-                      <span>Get a quote</span><Send size={15} />
-                    </button>
-                    <button type="button" tabIndex={on ? 0 : -1} className="sx-link"
+                    <button type="button" tabIndex={on ? 0 : -1} className="sp-btn sp-btn-primary sp-btn-sm sx-read-more-btn"
                       onClick={() => navigate(`/solution/${s.id}`)}>
-                      View details <ChevronRight size={16} />
+                      <span>Read more</span><ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
@@ -547,7 +543,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ openQuoteModalWithSo
   <div className="sp-page">
     <style>{CSS_EXTRA + CSS}</style>
     <Hero openQuoteModalWithSolution={openQuoteModalWithSolution} />
-    <SectorPanels openQuoteModalWithSolution={openQuoteModalWithSolution} />
+    <SectorPanels />
     <Stats />
     <WhyUs />
     <Process />
@@ -578,22 +574,50 @@ const CSS_EXTRA = `
 .sx-panel { position:relative; flex:1 1 0; min-width:0; border-radius:20px; overflow:hidden; background-size:cover; background-position:center; color:#fff; transition:flex-grow .6s cubic-bezier(.22,1,.36,1); border:1px solid rgba(7,21,51,.12); }
 .sx-panel.on { flex-grow:6; }
 .sx-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(7,21,51,.25),rgba(7,21,51,.85)); transition:background .5s; }
-.sx-panel.on .sx-shade { background:linear-gradient(90deg,rgba(7,21,51,.94) 0%,rgba(7,21,51,.78) 45%,rgba(7,21,51,.25) 100%); }
+.sx-panel.on .sx-shade {
+  background: linear-gradient(90deg, rgba(7,21,51,.96) 0%, rgba(7,21,51,.88) 42%, rgba(7,21,51,.45) 80%, rgba(7,21,51,.2) 100%);
+}
 .sx-tab { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:16px; padding:22px 8px; background:none; border:none; color:#fff; cursor:pointer; transition:opacity .3s; }
 .sx-panel.on .sx-tab { opacity:0; pointer-events:none; }
 .sx-ic { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:var(--a); color:${INK}; }
 .sx-tab-title { writing-mode:vertical-rl; transform:rotate(180deg); font-weight:700; font-size:1rem; letter-spacing:.01em; white-space:nowrap; }
-.sx-body { position:absolute; left:0; top:0; bottom:0; z-index:3; width:min(560px,100%); display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(22px,3vw,40px); opacity:0; visibility:hidden; transform:translateX(-12px); transition:opacity .35s,transform .45s,visibility 0s .35s; }
+.sx-body {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(28px, 4vw, 48px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-12px);
+  transition: opacity .35s, transform .45s, visibility 0s .35s;
+}
 .sx-panel.on .sx-body { opacity:1; visibility:visible; transform:none; transition:opacity .45s .2s,transform .5s .2s,visibility 0s; }
 .sx-cat { margin:0 0 8px; font-size:.88rem; font-weight:600; color:var(--a); }
-.sx-body h3 { margin:0 0 6px; font-size:clamp(1.5rem,2.4vw,2.2rem); font-weight:800; line-height:1.12; }
-.sx-tag { margin:0 0 12px; font-weight:600; color:#E8F0FF; }
-.sx-desc { margin:0 0 16px; font-size:.96rem; line-height:1.65; color:#D3DEF5; }
-.sx-list { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; margin:0 0 16px; padding:0; font-size:.9rem; font-weight:600; }
+.sx-body h3 { margin:0 0 8px; font-size:clamp(1.7rem,2.8vw,2.5rem); font-weight:800; line-height:1.1; letter-spacing:-0.02em; }
+.sx-tag { margin:0 0 14px; font-size:1.05rem; font-weight:600; color:#E8F0FF; }
+.sx-desc { margin:0 0 18px; max-width:620px; font-size:1rem; line-height:1.65; color:#D3DEF5; }
+.sx-list { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; margin:0 0 18px; padding:0; font-size:.95rem; font-weight:600; max-width:540px; }
 .sx-list li { display:flex; align-items:center; gap:8px; } .sx-list svg { flex:none; color:var(--a); }
-.sx-aud { display:flex; align-items:center; gap:8px; margin:0 0 20px; font-size:.86rem; color:#B8C8E8; }
-.sx-actions { display:flex; flex-wrap:wrap; align-items:center; gap:18px; }
-.sx-link { display:inline-flex; align-items:center; gap:4px; padding:0; background:none; border:none; cursor:pointer; color:#fff; font-weight:700; font-size:.95rem; border-bottom:2px solid var(--a); }
+.sx-aud { display:flex; align-items:center; gap:8px; margin:0 0 24px; font-size:.92rem; color:#B8C8E8; }
+.sx-actions { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:4px; }
+.sx-read-more-btn {
+  padding: 13px 28px !important;
+  font-size: 0.98rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 8px 22px rgba(0, 82, 204, 0.45) !important;
+}
+.sx-read-more-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.5) !important;
+}
 
 /* stats */
 .sx-stats {

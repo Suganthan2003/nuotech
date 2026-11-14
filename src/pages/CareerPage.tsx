@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CareerSection } from '../components/CareerSection';
 import { COMPANY_INFO } from '../data/nuoData';
 import {
-  Mail, Send, CheckCircle2, ArrowRight, ArrowUpRight, Cpu, PenTool, Plane, CircuitBoard,
-  Wrench, Layers, Users, TrendingUp, Compass, Sun, ChevronDown, MapPin, Phone, Clock, UploadCloud, FileText, X
+  Mail, Send, ArrowRight, ArrowUpRight, Cpu, PenTool, Plane, CircuitBoard,
+  Wrench, Layers, Users, TrendingUp, Compass, Sun, ChevronDown, MapPin, Phone, Clock,
+  UploadCloud, FileText, X, User, Briefcase, ShieldCheck, Zap
 } from 'lucide-react';
 
 // ----------------------------------------------------
@@ -62,6 +63,8 @@ const roles = [
   { icon: <Plane size={24} />, color: '#1A3A8F', title: 'Drone pilots', text: 'AgTech field operations and telemetry' },
   { icon: <CircuitBoard size={24} />, color: '#2E9E5B', title: 'IoT & hardware creators', text: 'Embedded firmware, PCB and connected devices' }
 ];
+
+const GENERAL_ROLE = 'Other / General application';
 
 const perks = [
   { icon: <Wrench size={26} />, color: '#0066FF', title: 'Work on real systems', text: 'Your work ends up running in homes, farms, factories and solar plants, not sitting in a slide deck.' },
@@ -143,8 +146,7 @@ const Socials: React.FC = () => {
 };
 
 // ----------------------------------------------------
-// Animated hero background: white base + curved crossing
-// ribbons in the SMARToi logo colours
+// Animated hero background
 // ----------------------------------------------------
 const HeroBackground: React.FC = () => (
   <div className="cr-bg" aria-hidden="true">
@@ -168,7 +170,6 @@ const HeroBackground: React.FC = () => (
         </linearGradient>
       </defs>
 
-      {/* ribbon 1: sweeps up from bottom-left to top-right */}
       <g className="cr-rib cr-rib-1">
         <path
           fill="url(#crGradBlue)"
@@ -176,8 +177,6 @@ const HeroBackground: React.FC = () => (
           d="M-120 700 C 250 760, 520 380, 860 420 S 1300 220, 1580 60 L1580 190 C 1330 330, 1100 560, 820 540 S 330 900, -120 820 Z"
         />
       </g>
-
-      {/* ribbon 2: crosses ribbon 1 going the other way */}
       <g className="cr-rib cr-rib-2">
         <path
           fill="url(#crGradGreen)"
@@ -185,8 +184,6 @@ const HeroBackground: React.FC = () => (
           d="M-120 150 C 220 60, 520 420, 880 380 S 1250 640, 1580 720 L1580 830 C 1260 780, 1080 520, 860 520 S 260 240, -120 270 Z"
         />
       </g>
-
-      {/* thin crossing outlines */}
       <path className="cr-line cr-line-1" fill="none" stroke="url(#crGradLine)" strokeWidth="2" d="M-100 560 C 300 640, 560 240, 920 300 S 1360 180, 1560 120" />
       <path className="cr-line cr-line-2" fill="none" stroke="url(#crGradLine)" strokeWidth="2" d="M-100 240 C 260 160, 520 560, 900 520 S 1320 700, 1560 660" />
     </svg>
@@ -194,17 +191,28 @@ const HeroBackground: React.FC = () => (
 );
 
 // ----------------------------------------------------
-// Page
+// Reusable application form (used in the page + the modal)
 // ----------------------------------------------------
-export const CareerPage: React.FC = () => {
-  const [quickName, setQuickName] = useState('');
-  const [quickEmail, setQuickEmail] = useState('');
-  const [quickPhone, setQuickPhone] = useState('');
+interface ApplyFormProps {
+  initialRole?: string;
+  variant?: 'page' | 'modal';
+  onClose?: () => void;
+}
+
+const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page', onClose }) => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState(initialRole);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState('');
   const [dragOver, setDragOver] = useState(false);
-  const [quickSubmitted, setQuickSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setRole(initialRole);
+  }, [initialRole]);
 
   const pickFile = (file: File | null | undefined) => {
     if (!file) return;
@@ -230,7 +238,7 @@ export const CareerPage: React.FC = () => {
   const formatSize = (b: number) =>
     b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`;
 
-  const handleQuickSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!resumeFile) {
       setFileError('Please upload your resume to continue.');
@@ -239,21 +247,226 @@ export const CareerPage: React.FC = () => {
 
     // TODO: send to your backend / email service, for example:
     // const data = new FormData();
-    // data.append('name', quickName);
-    // data.append('email', quickEmail);
-    // data.append('phone', quickPhone);
+    // data.append('role', role);
+    // data.append('name', name);
+    // data.append('email', email);
+    // data.append('phone', phone);
     // data.append('resume', resumeFile);
     // await fetch('/api/careers/apply', { method: 'POST', body: data });
 
-    setQuickSubmitted(true);
-    setTimeout(() => {
-      setQuickSubmitted(false);
-      setQuickName('');
-      setQuickEmail('');
-      setQuickPhone('');
-      clearFile();
-    }, 4000);
+    setSubmitted(true);
+
+    if (variant === 'page') {
+      setTimeout(() => {
+        setSubmitted(false);
+        setName('');
+        setEmail('');
+        setPhone('');
+        setRole(initialRole);
+        clearFile();
+      }, 5000);
+    }
   };
+
+  if (submitted) {
+    return (
+      <div className="cr-success">
+        <svg className="cr-tick" viewBox="0 0 52 52" aria-hidden="true">
+          <circle cx="26" cy="26" r="24" />
+          <path d="M14 27l8 8 16-17" />
+        </svg>
+        <h4>Application received!</h4>
+        <p>
+          Thank you <b>{name || 'for applying'}</b>. Our HR team will review your CV
+          {role ? <> for <b>{role}</b></> : null} and get in touch with you soon.
+        </p>
+        {variant === 'modal' && (
+          <button type="button" className="cr-btn cr-btn-primary cr-btn-auto" onClick={onClose}>
+            Close window
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  const roleOptions = [...roles.map((r) => r.title), GENERAL_ROLE];
+
+  return (
+    <form onSubmit={handleSubmit} className="cr-form">
+      <label className="cr-f" style={{ ['--i' as string]: 0 }}>
+        <span className="cr-f-label">Position *</span>
+        <div className="cr-f-box">
+          <Briefcase size={18} />
+          <select required value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="" disabled>Select the role you want</option>
+            {roleOptions.map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
+          <ChevronDown size={18} className="cr-f-chev" />
+        </div>
+      </label>
+
+      <label className="cr-f" style={{ ['--i' as string]: 1 }}>
+        <span className="cr-f-label">Full name *</span>
+        <div className="cr-f-box">
+          <User size={18} />
+          <input
+            type="text"
+            required
+            autoComplete="name"
+            placeholder="Your full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+      </label>
+
+      <div className="cr-form-row">
+        <label className="cr-f" style={{ ['--i' as string]: 2 }}>
+          <span className="cr-f-label">Phone number *</span>
+          <div className="cr-f-box">
+            <Phone size={18} />
+            <input
+              type="tel"
+              required
+              autoComplete="tel"
+              placeholder="+91 00000 00000"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+        </label>
+
+        <label className="cr-f" style={{ ['--i' as string]: 3 }}>
+          <span className="cr-f-label">Email address *</span>
+          <div className="cr-f-box">
+            <Mail size={18} />
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </label>
+      </div>
+
+      <div className="cr-f cr-upload-wrap" style={{ ['--i' as string]: 4 }}>
+        <span className="cr-f-label">Upload resume *</span>
+
+        {!resumeFile ? (
+          <label
+            className={`cr-drop ${dragOver ? 'is-over' : ''} ${fileError ? 'has-error' : ''}`}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragOver(false);
+              pickFile(e.dataTransfer.files?.[0]);
+            }}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              onChange={(e) => pickFile(e.target.files?.[0])}
+            />
+            <span className="cr-drop-icon"><UploadCloud size={26} /></span>
+            <b>Click to choose a file or drag it here</b>
+            <small>PDF, DOC or DOCX, up to {MAX_FILE_MB} MB</small>
+          </label>
+        ) : (
+          <div className="cr-file">
+            <span className="cr-file-icon"><FileText size={22} /></span>
+            <span className="cr-file-meta">
+              <b>{resumeFile.name}</b>
+              <small>{formatSize(resumeFile.size)}</small>
+            </span>
+            <button type="button" className="cr-file-x" onClick={clearFile} aria-label="Remove file">
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
+        {fileError && <p className="cr-file-error" role="alert">{fileError}</p>}
+      </div>
+
+      <button type="submit" className="cr-btn cr-btn-primary cr-submit" style={{ ['--i' as string]: 5 }}>
+        <Send size={17} /> Submit application
+      </button>
+
+      <p className="cr-secure" style={{ ['--i' as string]: 6 }}>
+        <ShieldCheck size={15} /> Your details are only used for hiring and kept confidential.
+      </p>
+    </form>
+  );
+};
+
+// ----------------------------------------------------
+// Apply modal (opens when a role card is clicked)
+// ----------------------------------------------------
+const ApplyModal: React.FC<{ role: string; onClose: () => void }> = ({ role, onClose }) => {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <div className="cr-m-overlay" onClick={onClose}>
+      <span className="cr-m-blob cr-m-blob-a" />
+      <span className="cr-m-blob cr-m-blob-b" />
+
+      <div
+        className="cr-m-card"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Apply for a position"
+      >
+        <button className="cr-m-close" onClick={onClose} aria-label="Close" type="button">
+          <X size={18} />
+        </button>
+
+        <div className="cr-m-head">
+          <img src="/img/logos.jpeg" alt="SMARToi logo" className="cr-m-logo" />
+          <h3>Apply now</h3>
+          <p>Share your details and resume. Our HR team will get back to you shortly.</p>
+          <span className="cr-m-chip">
+            <Zap size={14} /> {role}
+          </span>
+        </div>
+
+        <div className="cr-m-body">
+          <ApplyForm initialRole={role} variant="modal" onClose={onClose} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ----------------------------------------------------
+// Page
+// ----------------------------------------------------
+export const CareerPage: React.FC = () => {
+  // Apply modal
+  const [applyRole, setApplyRole] = useState<string | null>(null);
+  const [applyKey, setApplyKey] = useState(0);
+  const openApply = (roleTitle: string) => {
+    setApplyKey((k) => k + 1);
+    setApplyRole(roleTitle);
+  };
+  const closeApply = () => setApplyRole(null);
 
   // Rotating headline phrase
   const [phraseIndex, setPhraseIndex] = useState(0);
@@ -333,18 +546,20 @@ export const CareerPage: React.FC = () => {
                     key={r.title}
                     className="cr-role"
                     style={{ ['--c' as string]: r.color, animationDelay: `${0.5 + i * 0.12}s` }}
-                    onClick={scrollToPositions}
+                    onClick={() => openApply(r.title)}
                   >
                     <span className="cr-role-icon">{r.icon}</span>
                     <span className="cr-role-text">
                       <h3>{r.title}</h3>
                       <p>{r.text}</p>
                     </span>
+                    <span className="cr-role-apply">Apply</span>
                     <span className="cr-role-go">
                       <ArrowUpRight size={18} />
                     </span>
                   </button>
                 ))}
+                <div className="cr-panel-foot">Tap a role to apply instantly</div>
               </div>
             </div>
           </div>
@@ -465,10 +680,12 @@ export const CareerPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ================= CV FORM ================= */}
+      {/* ================= CONTACT + CV FORM ================= */}
       <section className="cr-contact">
         <span className="cr-co cr-co-1" />
         <span className="cr-co cr-co-2" />
+        <span className="cr-co-grid" />
+
         <div className="cr-container cr-contact-grid">
           <Reveal dir="left">
             <div className="cr-contact-info">
@@ -476,7 +693,9 @@ export const CareerPage: React.FC = () => {
                 <span className="cr-badge-dot" />
                 Do not see a matching position?
               </div>
-              <h2 className="cr-h2 cr-h2-light">Send us your CV anyway.</h2>
+              <h2 className="cr-h2">
+                Send us your <span className="cr-grad-text">CV anyway.</span>
+              </h2>
               <p className="cr-contact-p">
                 We are always eager to meet talented engineers, embedded hardware creators and field
                 innovators. Share your CV and portfolio with our engineering team.
@@ -542,104 +761,23 @@ export const CareerPage: React.FC = () => {
           </Reveal>
 
           <Reveal dir="right" delay={150}>
-            <div className="cr-form-card">
-              <h3>Quick CV form</h3>
-              <p>Fill in your details and upload your resume. Our HR team will get back to you.</p>
-
-              {quickSubmitted ? (
-                <div className="cr-success">
-                  <CheckCircle2 size={44} />
-                  <h4>Resume received!</h4>
-                  <p>Thank you {quickName}. Our HR team will review your CV and reach out.</p>
+            <div className="cr-fc">
+              <div className="cr-fc-in">
+                <div className="cr-fc-head">
+                  <img src="/img/logos.jpeg" alt="SMARToi logo" className="cr-fc-logo" />
+                  <span className="cr-fc-chip"><Zap size={14} /> Quick apply</span>
+                  <h3>Quick CV form</h3>
+                  <p>Fill in your details and upload your resume. Our HR team will get back to you.</p>
                 </div>
-              ) : (
-                <form onSubmit={handleQuickSubmit} noValidate={false}>
-                  <div className="cr-form-row">
-                    <label className="cr-field">
-                      <span>Full name *</span>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Your full name"
-                        value={quickName}
-                        onChange={(e) => setQuickName(e.target.value)}
-                      />
-                    </label>
-                    <label className="cr-field">
-                      <span>Phone number *</span>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 00000 00000"
-                        value={quickPhone}
-                        onChange={(e) => setQuickPhone(e.target.value)}
-                      />
-                    </label>
-                  </div>
-
-                  <div className="cr-form-row cr-form-row-1">
-                    <label className="cr-field">
-                      <span>Email address *</span>
-                      <input
-                        type="email"
-                        required
-                        placeholder="you@example.com"
-                        value={quickEmail}
-                        onChange={(e) => setQuickEmail(e.target.value)}
-                      />
-                    </label>
-                  </div>
-
-                  {/* Resume upload */}
-                  <div className="cr-upload-wrap">
-                    <span className="cr-upload-label">Upload resume *</span>
-
-                    {!resumeFile ? (
-                      <label
-                        className={`cr-drop ${dragOver ? 'is-over' : ''} ${fileError ? 'has-error' : ''}`}
-                        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                        onDragLeave={() => setDragOver(false)}
-                        onDrop={(e) => {
-                          e.preventDefault();
-                          setDragOver(false);
-                          pickFile(e.dataTransfer.files?.[0]);
-                        }}
-                      >
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                          onChange={(e) => pickFile(e.target.files?.[0])}
-                        />
-                        <UploadCloud size={30} />
-                        <b>Click to choose a file or drag it here</b>
-                        <small>PDF, DOC or DOCX, up to {MAX_FILE_MB} MB</small>
-                      </label>
-                    ) : (
-                      <div className="cr-file">
-                        <span className="cr-file-icon"><FileText size={22} /></span>
-                        <span className="cr-file-meta">
-                          <b>{resumeFile.name}</b>
-                          <small>{formatSize(resumeFile.size)}</small>
-                        </span>
-                        <button type="button" className="cr-file-x" onClick={clearFile} aria-label="Remove file">
-                          <X size={18} />
-                        </button>
-                      </div>
-                    )}
-
-                    {fileError && <p className="cr-file-error" role="alert">{fileError}</p>}
-                  </div>
-
-                  <button type="submit" className="cr-btn cr-btn-primary cr-submit">
-                    <Send size={17} /> Submit application
-                  </button>
-                </form>
-              )}
+                <ApplyForm initialRole="" variant="page" />
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
+
+      {/* ================= APPLY MODAL ================= */}
+      {applyRole !== null && <ApplyModal key={applyKey} role={applyRole} onClose={closeApply} />}
     </div>
   );
 };
@@ -662,7 +800,7 @@ const css = `
 }
 .cr * { box-sizing: border-box; }
 .cr-container { width: 100%; max-width: 1260px; margin: 0 auto; padding: 0 24px; }
-.cr button, .cr input { font-family: inherit; }
+.cr button, .cr input, .cr select { font-family: inherit; }
 .cr :focus-visible { outline: 3px solid rgba(11,99,206,.45); outline-offset: 2px; }
 
 /* Reveal on scroll */
@@ -682,9 +820,8 @@ const css = `
   color: var(--blue);
 }
 .cr-eyebrow-line { width: 32px; height: 2px; background: currentColor; flex: none; }
-.cr-eyebrow-light { color: #A7F3B0; }
-.cr-h2 { margin: 0 0 16px; font-size: clamp(2rem, 3.6vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
-.cr-h2-light { color: #fff; }
+.cr-h2 { margin: 0 0 16px; font-size: clamp(2rem, 3.6vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; color: var(--ink); }
+.cr-grad-text { background: linear-gradient(90deg, #0B63CE, #3BAA35); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .cr-sub { margin: 0; max-width: 560px; font-size: 1.1rem; line-height: 1.7; color: #475569; }
 .cr-sub a { color: #0066FF; font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; }
 .cr-section { padding: 100px 0; }
@@ -694,7 +831,7 @@ const css = `
 /* Buttons */
 .cr-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 15px 28px; border-radius: 8px;
+  padding: 15px 28px; border-radius: 10px;
   font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none;
   transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
@@ -704,19 +841,11 @@ const css = `
 .cr-btn-primary:hover { background: var(--green); border-color: var(--green); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(59,170,53,.3); }
 .cr-btn-outline { background: #fff; color: var(--navy); border: 1.5px solid var(--navy); }
 .cr-btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+.cr-btn-auto { margin: 0 auto; min-width: 180px; }
 
-/* ---------- Hero (white + animated logo-colour ribbons) ---------- */
-.cr-hero {
-  position: relative;
-  padding: 130px 0 100px;
-  color: var(--ink);
-  background: #fff;
-  isolation: isolate;
-}
-.cr-hero::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 3;
-  background: linear-gradient(90deg, #1A3A8F, #0B63CE 55%, #3BAA35);
-}
+/* ---------- Hero ---------- */
+.cr-hero { position: relative; padding: 130px 0 100px; color: var(--ink); background: #fff; isolation: isolate; }
+.cr-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 3; background: linear-gradient(90deg, #1A3A8F, #0B63CE 55%, #3BAA35); }
 .cr-hero-inner { position: relative; z-index: 2; }
 
 .cr-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
@@ -739,73 +868,43 @@ const css = `
 
 .cr-brand { display: inline-flex; align-items: center; gap: 16px; margin-bottom: 30px; }
 .cr-brand img { display: block; height: 42px; width: auto; }
-.cr-brand-tag {
-  padding: 5px 14px; border-radius: 999px;
-  font: 600 .95rem 'Barlow Condensed', sans-serif; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--navy); background: rgba(11,99,206,.1); border: 1px solid rgba(11,99,206,.25);
-}
+.cr-brand-tag { padding: 5px 14px; border-radius: 999px; font: 600 .95rem 'Barlow Condensed', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--navy); background: rgba(11,99,206,.1); border: 1px solid rgba(11,99,206,.25); }
 
 .cr-h1 { margin: 0 0 26px; font-size: clamp(2.6rem, 5.2vw, 4.7rem); font-weight: 800; line-height: 1.04; letter-spacing: -.03em; }
 .cr-h1-line { display: block; color: var(--ink); }
 .cr-rot { display: block; height: 1.14em; overflow: hidden; padding-bottom: .1em; }
-.cr-rot em {
-  display: block; font-style: normal; width: max-content; max-width: 100%;
-  background: linear-gradient(90deg, #0B63CE, #3BAA35);
-  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-  animation: crRise .7s cubic-bezier(.16,1,.3,1) both;
-}
+.cr-rot em { display: block; font-style: normal; width: max-content; max-width: 100%; background: linear-gradient(90deg, #0B63CE, #3BAA35); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: crRise .7s cubic-bezier(.16,1,.3,1) both; }
 
 .cr-lead { margin: 0 0 36px; max-width: 540px; padding-left: 20px; border-left: 3px solid var(--green); font-size: 1.14rem; line-height: 1.7; color: #475569; }
 .cr-btns { display: flex; flex-wrap: wrap; gap: 14px; }
 
 /* Hero panel */
-.cr-panel {
-  background: rgba(255,255,255,.92); backdrop-filter: blur(10px);
-  border: 1px solid #DCE6F5; border-radius: 16px; overflow: hidden;
-  box-shadow: 0 30px 60px rgba(20,48,127,.14);
-}
-.cr-panel-head {
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  padding: 22px 26px;
-  background: linear-gradient(135deg, #14307F, #0B63CE);
-  color: #fff;
-}
+.cr-panel { background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border: 1px solid #DCE6F5; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(20,48,127,.14); }
+.cr-panel-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 26px; background: linear-gradient(135deg, #14307F, #0B63CE); color: #fff; }
 .cr-panel-head small { display: block; margin-bottom: 2px; font-size: .85rem; font-weight: 500; color: rgba(255,255,255,.75); }
-.cr-panel-head h2 { margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: -.01em; }
-.cr-live {
-  flex: none; display: inline-flex; align-items: center; gap: 9px;
-  padding: 8px 16px; border-radius: 999px;
-  font-size: .95rem; font-weight: 700; color: #fff;
-  background: var(--green); box-shadow: 0 6px 16px rgba(59,170,53,.45);
-}
+.cr-panel-head h2 { margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: -.01em; color: #fff; }
+.cr-live { flex: none; display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px; border-radius: 999px; font-size: .95rem; font-weight: 700; color: #fff; background: var(--green); box-shadow: 0 6px 16px rgba(59,170,53,.45); }
 .cr-live i { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #fff; animation: crPing 1.8s ease-out infinite; }
 
-.cr-role {
-  position: relative; width: 100%;
-  display: flex; align-items: center; gap: 18px;
-  padding: 18px 26px; text-align: left; cursor: pointer;
-  background: transparent; border: 0; border-top: 1px solid #E6EDF7; color: var(--ink);
-  opacity: 0; animation: crSlide .8s cubic-bezier(.16,1,.3,1) forwards;
-  transition: background .3s ease;
-}
+.cr-role { position: relative; width: 100%; display: flex; align-items: center; gap: 16px; padding: 18px 26px; text-align: left; cursor: pointer; background: transparent; border: 0; border-top: 1px solid #E6EDF7; color: var(--ink); opacity: 0; animation: crSlide .8s cubic-bezier(.16,1,.3,1) forwards; transition: background .3s ease, padding-left .3s ease; }
 .cr-panel-head + .cr-role { border-top: 0; }
-.cr-role::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
-.cr-role:hover { background: color-mix(in srgb, var(--c) 7%, white); }
+.cr-role::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); transition: width .3s ease; }
+.cr-role:hover { background: color-mix(in srgb, var(--c) 7%, white); padding-left: 32px; }
+.cr-role:hover::before { width: 7px; }
 .cr-role-icon { flex: none; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: var(--c); transition: transform .35s ease; }
 .cr-role:hover .cr-role-icon { transform: rotate(-8deg) scale(1.08); }
 .cr-role-text { flex: 1; min-width: 0; }
 .cr-role h3 { margin: 0 0 3px; font-size: 1.15rem; font-weight: 700; color: var(--ink); }
 .cr-role p { margin: 0; font-size: .95rem; color: #64748B; }
+.cr-role-apply { flex: none; padding: 5px 14px; border-radius: 999px; font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--c); background: color-mix(in srgb, var(--c) 10%, white); opacity: 0; transform: translateX(10px); transition: opacity .3s ease, transform .3s ease; }
+.cr-role:hover .cr-role-apply { opacity: 1; transform: none; }
 .cr-role-go { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; color: var(--c); border: 1.5px solid var(--c); transition: background .3s, color .3s, transform .3s; }
 .cr-role:hover .cr-role-go { background: var(--c); color: #fff; transform: translate(3px, -3px); }
+.cr-panel-foot { padding: 13px 26px; text-align: center; font-size: .88rem; font-weight: 600; letter-spacing: .04em; color: var(--blue); background: #F4F8FF; border-top: 1px solid #E6EDF7; }
 
 /* ---------- Perks ---------- */
 .cr-perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.cr-perk {
-  position: relative; height: 100%; padding: 34px 28px 30px; overflow: hidden;
-  background: #fff; border: 1px solid #E2E8F0;
-  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-}
+.cr-perk { position: relative; height: 100%; padding: 34px 28px 30px; overflow: hidden; background: #fff; border: 1px solid #E2E8F0; border-radius: 16px; transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
 .cr-perk::before { content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.16,1,.3,1); }
 .cr-perk:hover { transform: translateY(-8px); box-shadow: 0 24px 44px rgba(15,23,42,.1); border-color: var(--c); }
 .cr-perk:hover::before { transform: scaleX(1); }
@@ -823,13 +922,7 @@ const css = `
 .cr-process.is-in .cr-process-line span { transform: scaleX(1); }
 .cr-step { position: relative; text-align: center; padding: 0 8px; opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; transition-delay: calc(var(--i) * .45s + .2s); }
 .cr-process.is-in .cr-step { opacity: 1; transform: none; }
-.cr-step-dot {
-  position: relative; z-index: 2; width: 68px; height: 68px; margin: 0 auto 22px;
-  display: grid; place-items: center; border-radius: 50%;
-  background: #fff; border: 2px solid #0066FF;
-  font: 700 1.3rem 'Barlow Condensed', sans-serif; letter-spacing: .05em; color: #0066FF;
-  transition: background .3s, color .3s, transform .3s, border-color .3s;
-}
+.cr-step-dot { position: relative; z-index: 2; width: 68px; height: 68px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 50%; background: #fff; border: 2px solid #0066FF; font: 700 1.3rem 'Barlow Condensed', sans-serif; letter-spacing: .05em; color: #0066FF; transition: background .3s, color .3s, transform .3s, border-color .3s; }
 .cr-step:hover .cr-step-dot { background: #10B981; border-color: #10B981; color: #fff; transform: scale(1.1); }
 .cr-step h3 { margin: 0 0 8px; font-size: 1.2rem; font-weight: 700; }
 .cr-step p { margin: 0 auto; max-width: 250px; font-size: .98rem; line-height: 1.6; color: #64748B; }
@@ -841,38 +934,17 @@ const css = `
 .cr-fo-2 { width: 460px; height: 460px; right: -140px; bottom: 4%; background: radial-gradient(circle, rgba(59,170,53,.2), transparent 70%); animation: crOrbB 18s ease-in-out infinite alternate; }
 .cr-faq-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .85fr 1.15fr; gap: 72px; align-items: start; }
 .cr-faq-intro { position: sticky; top: 110px; }
-
-.cr-faq-logo {
-  margin-top: 38px; padding: 3px; border-radius: 22px;
-  background: linear-gradient(120deg, #1A3A8F, #0B63CE, #3BAA35, #0B63CE, #1A3A8F); background-size: 300% 300%;
-  box-shadow: 0 24px 50px rgba(20,48,127,.18);
-  animation: crShift 6s ease infinite, crFloat 6s ease-in-out infinite;
-}
+.cr-faq-logo { margin-top: 38px; padding: 3px; border-radius: 22px; background: linear-gradient(120deg, #1A3A8F, #0B63CE, #3BAA35, #0B63CE, #1A3A8F); background-size: 300% 300%; box-shadow: 0 24px 50px rgba(20,48,127,.18); animation: crShift 6s ease infinite, crFloat 6s ease-in-out infinite; }
 .cr-faq-logo-in { display: grid; place-items: center; padding: 38px 30px; background: #fff; border-radius: 20px; }
 .cr-faq-logo img { display: block; width: 100%; max-width: 440px; height: auto; }
 
 .cr-faq { display: flex; flex-direction: column; gap: 16px; }
-.cr-faq-item {
-  --a: #0B63CE; --b: #14307F; --t: #EEF5FF;
-  overflow: hidden; background: #fff; border-radius: 16px;
-  border: 1.5px solid color-mix(in srgb, var(--a) 30%, white);
-  box-shadow: 0 8px 22px rgba(20,48,127,.07);
-  transition: transform .35s ease, box-shadow .35s ease;
-}
+.cr-faq-item { --a: #0B63CE; --b: #14307F; --t: #EEF5FF; overflow: hidden; background: #fff; border-radius: 16px; border: 1.5px solid color-mix(in srgb, var(--a) 30%, white); box-shadow: 0 8px 22px rgba(20,48,127,.07); transition: transform .35s ease, box-shadow .35s ease; }
 .cr-faq-item.is-even { --a: #3BAA35; --b: #1F7F45; --t: #EFF9EE; }
 .cr-faq-item:hover { transform: translateX(-6px); box-shadow: 0 16px 34px color-mix(in srgb, var(--a) 30%, transparent); }
 .cr-faq-item.is-open { box-shadow: 0 18px 38px color-mix(in srgb, var(--a) 32%, transparent); }
-.cr-faq-item button {
-  position: relative; overflow: hidden; width: 100%;
-  display: flex; align-items: center; gap: 16px; padding: 18px 20px;
-  background: linear-gradient(100deg, var(--b), var(--a)); color: #fff; border: 0; cursor: pointer; text-align: left;
-  font-size: 1.12rem; font-weight: 600;
-}
-.cr-faq-item button::after {
-  content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.3), transparent); transform: skewX(-20deg);
-  transition: left .8s ease;
-}
+.cr-faq-item button { position: relative; overflow: hidden; width: 100%; display: flex; align-items: center; gap: 16px; padding: 18px 20px; background: linear-gradient(100deg, var(--b), var(--a)); color: #fff; border: 0; cursor: pointer; text-align: left; font-size: 1.12rem; font-weight: 600; }
+.cr-faq-item button::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.3), transparent); transform: skewX(-20deg); transition: left .8s ease; }
 .cr-faq-item button:hover::after { left: 130%; }
 .cr-faq-q { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,.2); font: 700 1.05rem 'Barlow Condensed', sans-serif; letter-spacing: .04em; transition: transform .35s ease; }
 .cr-faq-item:hover .cr-faq-q { transform: rotate(-8deg) scale(1.08); }
@@ -884,277 +956,147 @@ const css = `
 .cr-faq-body > div { overflow: hidden; }
 .cr-faq-body p { margin: 0; padding: 20px 24px 22px 76px; font-size: 1.04rem; line-height: 1.7; color: #334155; }
 
-/* ---------- Contact / CV form ---------- */
-.cr-contact {
-  position: relative; isolation: isolate; overflow: hidden;
-  padding: 100px 0; color: #fff;
-  background: linear-gradient(135deg, #071638 0%, #0052CC 48%, #059669 100%); background-size: 200% 200%;
-  animation: crShift 16s ease infinite;
-}
-.cr-co { position: absolute; z-index: 0; border-radius: 50%; filter: blur(70px); pointer-events: none; }
-.cr-co-1 { width: 500px; height: 500px; left: -100px; top: -120px; background: radial-gradient(circle, rgba(0, 163, 255, 0.3), transparent 70%); animation: crOrbA 14s ease-in-out infinite alternate; }
-.cr-co-2 { width: 540px; height: 540px; right: -120px; bottom: -140px; background: radial-gradient(circle, rgba(52, 211, 153, 0.35), transparent 70%); animation: crOrbB 17s ease-in-out infinite alternate; }
+/* ---------- Contact + CV form (light, professional) ---------- */
+.cr-contact { position: relative; isolation: isolate; overflow: hidden; padding: 100px 0; background: linear-gradient(180deg, #FFFFFF 0%, #F1F7FF 55%, #EEF9F1 100%); }
+.cr-co { position: absolute; z-index: 0; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+.cr-co-1 { width: 520px; height: 520px; left: -140px; top: -100px; background: radial-gradient(circle, rgba(11,99,206,.2), transparent 70%); animation: crOrbA 14s ease-in-out infinite alternate; }
+.cr-co-2 { width: 560px; height: 560px; right: -140px; bottom: -140px; background: radial-gradient(circle, rgba(59,170,53,.22), transparent 70%); animation: crOrbB 17s ease-in-out infinite alternate; }
+.cr-co-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(11,99,206,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(11,99,206,.06) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%); animation: crGrid 10s linear infinite; }
 .cr-contact-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 
-/* Eyebrow Pill Badge */
-.cr-badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  font: 700 0.8rem 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #6EE7B7;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  margin-bottom: 18px;
-}
-.cr-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #34D399;
-  box-shadow: 0 0 10px #34D399;
-}
+.cr-badge-pill { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px; margin-bottom: 18px; border-radius: 999px; font: 700 .82rem 'Barlow Condensed', sans-serif; letter-spacing: .15em; text-transform: uppercase; color: var(--blue); background: rgba(11,99,206,.08); border: 1px solid rgba(11,99,206,.22); }
+.cr-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: crPulse 1.8s ease-out infinite; }
+.cr-contact-p { margin: 0 0 28px; max-width: 490px; font-size: 1.08rem; line-height: 1.7; color: #475569; }
 
-.cr-contact-p {
-  margin: 0 0 28px;
-  max-width: 490px;
-  font-size: 1.08rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.9);
-}
+.cr-touch-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.cr-touch { margin: 0; font-size: 1.45rem; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+.cr-touch-line { flex: 1; max-width: 140px; height: 3px; background: linear-gradient(90deg, var(--blue), var(--green), transparent); border-radius: 3px; }
 
-.cr-touch-wrap {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.cr-touch {
-  margin: 0;
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-.cr-touch-line {
-  flex: 1;
-  max-width: 140px;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(110, 231, 183, 0.8), transparent);
-  border-radius: 2px;
-}
-
-/* 4 Contact Rows / Cards */
-.cr-contact-row {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-bottom: 14px;
-  max-width: 520px;
-  padding: 16px 20px;
-  color: #0F172A;
-  background: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-.cr-contact-row::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 100%;
-  background: var(--card-accent, #0052CC);
-  border-radius: 4px 0 0 4px;
-}
-.cr-contact-row:hover {
-  transform: translateX(8px);
-  background: #FFFFFF;
-  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.18);
-}
-
-.cr-contact-icon {
-  flex: none;
-  width: 50px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
-}
-.cr-contact-row:hover .cr-contact-icon {
-  transform: scale(1.08) rotate(4deg);
-  box-shadow: 0 0 20px var(--icon-glow, rgba(0, 82, 204, 0.3));
-}
-
-.cr-contact-text {
-  flex: 1;
-  min-width: 0;
-}
-.cr-contact-row small {
-  display: block;
-  font: 700 0.74rem 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--card-accent, #0052CC);
-  margin-bottom: 3px;
-}
-.cr-contact-row b {
-  display: block;
-  font-size: 1.04rem;
-  font-weight: 700;
-  line-height: 1.45;
-  word-break: break-word;
-  color: #0F172A;
-}
-.cr-contact-row a {
-  color: #0F172A;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-.cr-contact-row a:hover {
-  color: #0052CC;
-  text-decoration: underline;
-}
-
-/* Card Themes (Logo Royal Blue #0052CC & Green #10B981) */
-.cr-contact-row-phone {
-  --card-accent: #0052CC;
-  --icon-glow: rgba(0, 82, 204, 0.3);
-}
-.cr-contact-row-phone .cr-contact-icon {
-  background: rgba(0, 82, 204, 0.08);
-  border: 1px solid rgba(0, 82, 204, 0.2);
-  color: #0052CC;
-}
-
-.cr-contact-row-mail {
-  --card-accent: #10B981;
-  --icon-glow: rgba(16, 185, 129, 0.3);
-}
-.cr-contact-row-mail .cr-contact-icon {
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.22);
-  color: #10B981;
-}
-
-.cr-contact-row-address {
-  --card-accent: #0052CC;
-  --icon-glow: rgba(0, 82, 204, 0.3);
-}
-.cr-contact-row-address .cr-contact-icon {
-  background: rgba(0, 82, 204, 0.08);
-  border: 1px solid rgba(0, 82, 204, 0.2);
-  color: #0052CC;
-}
-
-.cr-contact-row-hours {
-  --card-accent: #10B981;
-  --icon-glow: rgba(16, 185, 129, 0.3);
-}
-.cr-contact-row-hours .cr-contact-icon {
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.22);
-  color: #10B981;
-}
-
-.cr-phones {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-}
-.cr-phone-sep {
-  font-style: normal;
-  font-weight: 500;
-  color: #64748B;
-  margin: 0 4px;
-}
+.cr-contact-row { position: relative; overflow: hidden; display: flex; align-items: center; gap: 18px; margin-bottom: 14px; max-width: 520px; padding: 16px 20px; color: #0F172A; background: #fff; border: 1px solid #E3EBF7; border-radius: 16px; box-shadow: 0 10px 26px rgba(20,48,127,.07); transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease; }
+.cr-contact-row::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--card-accent, #0B63CE); }
+.cr-contact-row:hover { transform: translateX(8px); border-color: color-mix(in srgb, var(--card-accent) 40%, white); box-shadow: 0 18px 34px color-mix(in srgb, var(--card-accent) 22%, transparent); }
+.cr-contact-icon { flex: none; width: 50px; height: 50px; display: grid; place-items: center; border-radius: 14px; background: color-mix(in srgb, var(--card-accent) 10%, white); border: 1px solid color-mix(in srgb, var(--card-accent) 25%, white); color: var(--card-accent); transition: transform .35s cubic-bezier(.16,1,.3,1), background .3s, color .3s; }
+.cr-contact-row:hover .cr-contact-icon { transform: scale(1.08) rotate(5deg); background: var(--card-accent); color: #fff; }
+.cr-contact-text { flex: 1; min-width: 0; }
+.cr-contact-row small { display: block; margin-bottom: 3px; font: 700 .74rem 'Barlow Condensed', sans-serif; letter-spacing: .15em; text-transform: uppercase; color: var(--card-accent); }
+.cr-contact-row b { display: block; font-size: 1.04rem; font-weight: 700; line-height: 1.45; word-break: break-word; color: #0F172A; }
+.cr-contact-row a { color: #0F172A; text-decoration: none; transition: color .2s ease; }
+.cr-contact-row a:hover { color: var(--blue); text-decoration: underline; }
+.cr-contact-row-phone { --card-accent: #0B63CE; }
+.cr-contact-row-mail { --card-accent: #2E9E5B; }
+.cr-contact-row-address { --card-accent: #14307F; }
+.cr-contact-row-hours { --card-accent: #3BAA35; }
+.cr-phones { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cr-phone-sep { font-style: normal; font-weight: 500; color: #64748B; margin: 0 4px; }
 
 .cr-follow { display: flex; align-items: center; gap: 18px; margin-top: 26px; }
-.cr-follow > span { font: 600 .85rem 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #CFE0FF; }
+.cr-follow > span { font: 600 .85rem 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--navy); }
 .cr-socials { display: flex; gap: 10px; }
-.cr-socials a {
-  width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%;
-  color: #fff; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.28);
-  transition: background .25s ease, border-color .25s ease, transform .25s ease;
-}
-.cr-socials a:hover { background: var(--c); border-color: var(--c); transform: translateY(-4px); }
+.cr-socials a { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; color: var(--c); background: #fff; border: 1.5px solid color-mix(in srgb, var(--c) 35%, white); box-shadow: 0 6px 14px rgba(20,48,127,.08); transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.cr-socials a:hover { background: var(--c); color: #fff; transform: translateY(-5px); box-shadow: 0 12px 22px color-mix(in srgb, var(--c) 40%, transparent); }
 
-.cr-form-card { padding: 42px 40px; background: #fff; color: #0F172A; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,.35); border-top: 5px solid #0052CC; }
-.cr-form-card h3 { margin: 0 0 6px; font-size: 1.7rem; font-weight: 700; letter-spacing: -.01em; }
-.cr-form-card > p { margin: 0 0 26px; color: #64748B; font-size: 1rem; }
-.cr-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.cr-form-row-1 { grid-template-columns: 1fr; }
-.cr-field { display: block; min-width: 0; }
-.cr-field span, .cr-upload-label { display: block; margin-bottom: 7px; font: 600 .8rem 'Barlow Condensed', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #475569; }
-.cr-field input {
-  width: 100%; padding: 13px 15px; font-size: 1rem; color: #0F172A;
-  background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; outline: none;
-  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
-}
-.cr-field input::placeholder { color: #94A3B8; }
-.cr-field input:focus { background: #fff; border-color: #0066FF; box-shadow: 0 0 0 4px rgba(0,102,255,.14); }
+/* Form card with animated gradient border */
+.cr-fc { padding: 2.5px; border-radius: 26px; background: linear-gradient(120deg, #1A3A8F, #0B63CE, #3BAA35, #0B63CE, #1A3A8F); background-size: 300% 300%; box-shadow: 0 36px 70px rgba(20,48,127,.18); animation: crShift 7s ease infinite; }
+.cr-fc-in { padding: 38px 38px 32px; background: rgba(255,255,255,.96); backdrop-filter: blur(20px); border-radius: 24px; }
+.cr-fc-head { text-align: center; margin-bottom: 26px; }
+.cr-fc-logo { display: block; height: 40px; width: auto; max-width: 70%; margin: 0 auto 14px; object-fit: contain; }
+.cr-fc-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; margin-bottom: 10px; border-radius: 999px; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #1F7F45; background: #EAF8EC; border: 1px solid #BFE6C4; }
+.cr-fc-head h3 { margin: 0 0 6px; font-size: 1.75rem; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+.cr-fc-head p { margin: 0 auto; max-width: 380px; font-size: .98rem; line-height: 1.55; color: #64748B; }
+
+/* ---------- Shared application form ---------- */
+.cr-form { display: flex; flex-direction: column; gap: 16px; }
+.cr-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cr-f { display: block; min-width: 0; opacity: 0; animation: crUp .6s cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i, 0) * .07s + .05s); }
+.cr-f-label { display: block; margin-bottom: 7px; font: 700 .8rem 'Barlow Condensed', sans-serif; letter-spacing: .13em; text-transform: uppercase; color: var(--navy); }
+.cr-f-box { position: relative; display: flex; align-items: center; gap: 10px; padding: 0 14px; background: #F6F9FE; border: 1.5px solid #D5E0F0; border-radius: 12px; color: #7B8CAB; transition: border-color .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, transform .25s ease; }
+.cr-f-box:hover { border-color: #A9C0E6; }
+.cr-f-box:focus-within { background: #fff; border-color: var(--blue); color: var(--blue); box-shadow: 0 0 0 4px rgba(11,99,206,.13); transform: translateY(-1px); }
+.cr-f-box svg { flex: none; }
+.cr-f-box input, .cr-f-box select { flex: 1; min-width: 0; width: 100%; padding: 14px 0; font-size: 1rem; font-weight: 500; color: #0F172A; background: transparent; border: 0; outline: none; }
+.cr-f-box input::placeholder { color: #94A3B8; font-weight: 400; }
+.cr-f-box select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 26px; text-overflow: ellipsis; }
+.cr-f-box select:invalid { color: #94A3B8; font-weight: 400; }
+.cr-f-box select option { color: #0F172A; }
+.cr-f-chev { position: absolute; right: 14px; pointer-events: none; }
 
 /* Upload */
-.cr-upload-wrap { margin-bottom: 8px; }
-.cr-drop {
-  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-  padding: 26px 18px; text-align: center; cursor: pointer;
-  color: var(--blue); background: #F5F9FF; border: 2px dashed #9DBDF0; border-radius: 12px;
-  transition: background .25s ease, border-color .25s ease, transform .25s ease;
-}
+.cr-upload-wrap { margin-bottom: 2px; }
+.cr-drop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 24px 18px; text-align: center; cursor: pointer; background: linear-gradient(135deg, #F4F8FF, #F2FAF3); border: 2px dashed #9DBDF0; border-radius: 14px; transition: background .25s ease, border-color .25s ease, transform .25s ease; }
 .cr-drop input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.cr-drop-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--blue), var(--green)); box-shadow: 0 10px 22px rgba(11,99,206,.3); animation: crFloat 3.2s ease-in-out infinite; }
 .cr-drop b { font-size: 1rem; font-weight: 600; color: #0F172A; }
 .cr-drop small { font-size: .88rem; color: #64748B; }
 .cr-drop:hover, .cr-drop.is-over { background: #EAF2FF; border-color: var(--blue); }
-.cr-drop.is-over { transform: scale(1.01); }
-.cr-drop:focus-within { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(0,102,255,.14); }
+.cr-drop.is-over { transform: scale(1.015); }
+.cr-drop:focus-within { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(11,99,206,.13); }
 .cr-drop.has-error { border-color: #DC2626; background: #FEF2F2; }
-.cr-file { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #ECFDF5; border: 1.5px solid #10B981; border-radius: 12px; animation: crUp .4s ease both; }
+.cr-file { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #ECFDF5; border: 1.5px solid #10B981; border-radius: 14px; animation: crUp .4s ease both; }
 .cr-file-icon { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; background: #10B981; color: #fff; }
 .cr-file-meta { flex: 1; min-width: 0; }
 .cr-file-meta b { display: block; font-size: 1rem; font-weight: 600; color: #065F46; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cr-file-meta small { font-size: .85rem; color: #047857; }
-.cr-file-x { flex: none; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; background: #fff; border: 1px solid #A7F3D0; border-radius: 50%; color: #047857; transition: background .2s, color .2s; }
-.cr-file-x:hover { background: #DC2626; border-color: #DC2626; color: #fff; }
+.cr-file-x { flex: none; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; background: #fff; border: 1px solid #A7F3D0; border-radius: 50%; color: #047857; transition: background .2s, color .2s, transform .2s; }
+.cr-file-x:hover { background: #DC2626; border-color: #DC2626; color: #fff; transform: rotate(90deg); }
 .cr-file-error { margin: 8px 0 0; font-size: .92rem; font-weight: 500; color: #DC2626; }
 
-.cr-submit { width: 100%; margin-top: 16px; }
+/* Submit button with shimmer */
+.cr-submit { position: relative; overflow: hidden; width: 100%; margin-top: 4px; padding: 16px 24px; font-size: 1.02rem; font-weight: 700; letter-spacing: .02em; color: #fff; background: linear-gradient(90deg, var(--blue), var(--green)); border: 0; opacity: 0; animation: crUp .6s cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i, 0) * .07s + .05s); }
+.cr-submit::after { content: ''; position: absolute; top: 0; bottom: 0; left: -70%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent); transform: skewX(-20deg); animation: crShine 3.2s ease-in-out 1.2s infinite; }
+.cr-submit:hover { background: linear-gradient(90deg, var(--blue), var(--green)); filter: brightness(1.06); transform: translateY(-2px); box-shadow: 0 16px 34px rgba(20,48,127,.28); }
+.cr-secure { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 0; font-size: .86rem; color: #64748B; opacity: 0; animation: crUp .6s ease forwards; animation-delay: calc(var(--i, 0) * .07s + .05s); }
+.cr-secure svg { color: var(--green); }
 
-.cr-success { padding: 30px 20px; text-align: center; border: 1px solid #10B981; background: #ECFDF5; border-radius: 12px; color: #047857; animation: crUp .6s ease both; }
-.cr-success svg { color: #10B981; margin: 0 auto 8px; display: block; }
-.cr-success h4 { margin: 0; font-size: 1.3rem; font-weight: 700; }
-.cr-success p { margin: 8px 0 0; font-size: 1rem; }
+/* Success */
+.cr-success { padding: 34px 20px; text-align: center; background: linear-gradient(135deg, #F2FAF3, #F1F7FF); border: 1px solid #BFE6C4; border-radius: 16px; animation: crUp .6s ease both; }
+.cr-tick { display: block; width: 76px; height: 76px; margin: 0 auto 12px; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.cr-tick circle { stroke: #3BAA35; stroke-dasharray: 151; stroke-dashoffset: 151; animation: crDraw .7s ease forwards; }
+.cr-tick path { stroke: #0B63CE; stroke-dasharray: 40; stroke-dashoffset: 40; animation: crDraw .5s ease .6s forwards; }
+.cr-success h4 { margin: 0; font-size: 1.45rem; font-weight: 800; color: var(--ink); }
+.cr-success p { margin: 10px auto 18px; max-width: 380px; font-size: 1rem; line-height: 1.6; color: #475569; }
+.cr-success p b { color: var(--ink); }
+.cr-success .cr-btn { margin-top: 4px; }
+
+/* ---------- Apply modal (white glass, logo top-centre) ---------- */
+.cr-m-overlay { position: fixed; inset: 0; z-index: 9999; display: flex; padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: radial-gradient(circle at 12% 10%, rgba(11,99,206,.24), transparent 42%), radial-gradient(circle at 90% 90%, rgba(59,170,53,.24), transparent 42%), rgba(240,246,255,.6); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); animation: crFade .25s ease; }
+.cr-m-blob { position: fixed; border-radius: 50%; filter: blur(70px); pointer-events: none; opacity: .5; }
+.cr-m-blob-a { width: 320px; height: 320px; top: 8%; left: 10%; background: var(--blue); animation: crOrbA 10s ease-in-out infinite alternate; }
+.cr-m-blob-b { width: 300px; height: 300px; bottom: 6%; right: 10%; background: var(--green); animation: crOrbB 12s ease-in-out infinite alternate; }
+.cr-m-card { position: relative; width: 100%; max-width: 600px; margin: auto; overflow: hidden; border-radius: 26px; background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 30px 70px rgba(20,48,127,.22), inset 0 1px 0 #fff; backdrop-filter: blur(24px) saturate(150%); -webkit-backdrop-filter: blur(24px) saturate(150%); animation: crPop .35s cubic-bezier(.2,.9,.3,1.1); }
+.cr-m-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #14307F, #0B63CE, #3BAA35); background-size: 200% 100%; animation: crShift 5s ease infinite; }
+.cr-m-close { position: absolute; top: 16px; right: 16px; z-index: 5; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; color: #64748B; background: #fff; border: 1px solid #E2E8F0; border-radius: 50%; transition: all .25s ease; }
+.cr-m-close:hover { color: #fff; background: var(--blue); border-color: var(--blue); transform: rotate(90deg); }
+.cr-m-head { padding: 34px 30px 18px; text-align: center; border-bottom: 1px solid rgba(11,99,206,.1); }
+.cr-m-logo { display: block; height: 46px; max-width: 75%; margin: 0 auto 14px; object-fit: contain; }
+.cr-m-head h3 { margin: 0 0 6px; font-size: 1.8rem; font-weight: 800; letter-spacing: -.02em; color: var(--navy); }
+.cr-m-head p { margin: 0 auto 14px; max-width: 400px; font-size: .96rem; line-height: 1.55; color: #64748B; }
+.cr-m-chip { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; padding: 7px 16px; font-size: .92rem; font-weight: 700; color: #fff; background: linear-gradient(90deg, var(--blue), var(--green)); border-radius: 999px; box-shadow: 0 8px 18px rgba(11,99,206,.28); }
+.cr-m-body { padding: 24px 30px 30px; }
 
 /* ---------- Keyframes ---------- */
 @keyframes crUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 @keyframes crZoom { from { opacity: 0; transform: translateX(50px) scale(.96); } to { opacity: 1; transform: none; } }
 @keyframes crSlide { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
 @keyframes crRise { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes crGrid { to { background-position: 56px 56px, 56px 56px, 0 0; } }
+@keyframes crGrid { to { background-position: 56px 56px, 56px 56px; } }
 @keyframes crPing { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.8); } 100% { box-shadow: 0 0 0 10px rgba(255,255,255,0); } }
+@keyframes crPulse { 0% { box-shadow: 0 0 0 0 rgba(59,170,53,.55); } 100% { box-shadow: 0 0 0 10px rgba(59,170,53,0); } }
 @keyframes crRib1 { 0% { transform: translate(-40px, 20px) rotate(-2deg) scale(1); } 100% { transform: translate(50px, -30px) rotate(2deg) scale(1.06); } }
 @keyframes crRib2 { 0% { transform: translate(40px, -20px) rotate(2deg) scale(1.04); } 100% { transform: translate(-50px, 30px) rotate(-2deg) scale(1); } }
 @keyframes crShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes crFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes crFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes crDash { to { stroke-dashoffset: -520; } }
 @keyframes crOrbA { to { transform: translate(120px, 90px) scale(1.15); } }
 @keyframes crOrbB { to { transform: translate(-130px, -70px) scale(1.12); } }
+@keyframes crShine { 0% { left: -70%; } 55%, 100% { left: 140%; } }
+@keyframes crDraw { to { stroke-dashoffset: 0; } }
+@keyframes crFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes crPop { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   .cr *, .cr *::before, .cr *::after { animation: none !important; transition: none !important; }
-  .rv, .cr-up, .cr-zoom, .cr-role, .cr-step { opacity: 1 !important; transform: none !important; }
+  .rv, .cr-up, .cr-zoom, .cr-role, .cr-step, .cr-f, .cr-submit, .cr-secure { opacity: 1 !important; transform: none !important; }
+  .cr-tick circle, .cr-tick path { stroke-dashoffset: 0 !important; }
 }
 
 /* ---------- Responsive ---------- */
@@ -1169,6 +1111,7 @@ const css = `
   .cr-section, .cr-contact { padding: 72px 0; }
   .cr-faq-grid, .cr-contact-grid { grid-template-columns: 1fr; }
   .cr-faq-intro { position: static; }
+  .cr-contact-row { max-width: none; }
   .cr-process { grid-template-columns: repeat(2, 1fr); row-gap: 44px; }
   .cr-process-line { display: none; }
 }
@@ -1180,17 +1123,34 @@ const css = `
   .cr-brand img { height: 34px; }
   .cr-panel-head, .cr-role { padding-left: 18px; padding-right: 18px; }
   .cr-panel-head h2 { font-size: 1.2rem; }
-  .cr-role { gap: 14px; }
+  .cr-role { gap: 12px; }
+  .cr-role:hover { padding-left: 18px; }
   .cr-role-icon { width: 46px; height: 46px; }
-  .cr-form-card { padding: 28px 20px; }
-  .cr-form-row { grid-template-columns: 1fr; gap: 14px; }
+  .cr-role-apply { display: none; }
   .cr-section, .cr-contact { padding: 60px 0; }
-  .cr-faq-item button { font-size: 1rem; padding: 14px 14px; gap: 12px; }
+  .cr-faq-item button { font-size: 1rem; padding: 14px; gap: 12px; }
   .cr-faq-q { width: 34px; height: 34px; font-size: .95rem; }
   .cr-faq-body p { padding: 16px 18px 18px; }
   .cr-faq-logo-in { padding: 26px 20px; }
   .cr-faq-item:hover { transform: none; }
+  .cr-contact-row:hover { transform: none; }
   .cr-follow { flex-wrap: wrap; }
+  .cr-fc-in { padding: 26px 18px 22px; }
+  .cr-fc-head h3 { font-size: 1.45rem; }
+  .cr-form-row { grid-template-columns: 1fr; gap: 16px; }
+  /* 16px stops iOS Safari zooming into inputs */
+  .cr-f-box input, .cr-f-box select { font-size: 16px; }
+  .cr-m-overlay { padding: 10px; }
+  .cr-m-card { border-radius: 20px; }
+  .cr-m-head { padding: 30px 18px 14px; }
+  .cr-m-logo { height: 38px; }
+  .cr-m-head h3 { font-size: 1.5rem; }
+  .cr-m-body { padding: 18px 18px 22px; }
+  .cr-btn-auto { width: 100%; }
+}
+@media (max-width: 360px) {
+  .cr-m-logo { height: 32px; }
+  .cr-m-head h3 { font-size: 1.3rem; }
 }
 `;
 
