@@ -77,20 +77,21 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
       />
 
       {/* Main Container */}
-      <div className="container" style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 3 }}>
+      <div className="container cta-banner-container" style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 3 }}>
         
         {/* Top Brand Logo Banner (Direct Match to Mockup) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '22px' }}>
+        <div className="cta-banner-logo-wrap" style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '22px' }}>
           <img 
             src="/img/logos-transparent.png" 
             alt="SMARToi Logo" 
+            className="cta-banner-logo-img"
             style={{ 
               height: '68px', 
               width: 'auto', 
               objectFit: 'contain'
             }} 
           />
-                 </div>
+        </div>
 
         {/* 2-Column Grid Layout */}
         <div 
@@ -103,11 +104,12 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
           className="cta-banner-grid"
         >
           {/* Left Column: Pill, Headline, Description, Buttons, Highlights */}
-          <div>
+          <div className="cta-banner-left">
             
 
             {/* Main Heading (Direct Match to Mockup with Green Swoosh) */}
             <h2 
+              className="cta-banner-title"
               style={{ 
                 fontSize: 'clamp(2rem, 3.6vw, 3.1rem)', 
                 fontWeight: 900, 
@@ -117,7 +119,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
                 letterSpacing: '-0.5px'
               }}
             >
-              Transform Your Concept Into An<br />
+              Transform Your Concept Into An<br className="cta-banner-br" />
               <span style={{ color: '#0066FF' }}>Automated</span>{' '}
               <span style={{ color: '#10B981', position: 'relative', display: 'inline-block' }}>
                 Solution
@@ -146,6 +148,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
 
             {/* Description Subtitle */}
             <p 
+              className="cta-banner-desc"
               style={{ 
                 color: '#475569', 
                 fontSize: '1.04rem', 
@@ -158,7 +161,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
             </p>
 
             {/* CTA Buttons */}
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="cta-banner-actions" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
               <button 
                 onClick={openQuoteModal}
                 style={{ 
@@ -209,6 +212,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
 
             {/* 4 Bottom Highlight Features Strip (Direct Match to Mockup) */}
             <div 
+              className="cta-banner-highlights"
               style={{ 
                 display: 'flex', 
                 gap: '24px', 
@@ -240,7 +244,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
           </div>
 
           {/* Right Column: Modern Tech Curved Frame with Orbiting Rings (Direct Match to Mockup) */}
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '380px' }}>
+          <div className="cta-banner-right" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '380px' }}>
             
             {/* Orbiting Tech Rings */}
             <div 
@@ -340,7 +344,7 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
               }}
             >
               <img 
-                src="/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg" 
+                src="/img/b.png" 
                 alt="Automated Robotics Solution"
                 style={{
                   width: '100%',
@@ -361,9 +365,66 @@ export const CtaBannerSection: React.FC<CtaBannerSectionProps> = ({
         @media (max-width: 992px) {
           .cta-banner-grid {
             grid-template-columns: 1fr !important;
-            gap: 36px !important;
+            gap: 40px !important;
+          }
+          .cta-banner-left {
+            text-align: left;
+          }
+          .cta-banner-desc {
+            max-width: 100% !important;
+          }
+          .cta-banner-right {
+            min-height: 340px !important;
+            margin-top: 10px;
           }
         }
+
+        @media (max-width: 640px) {
+          .cta-banner-container {
+            padding: 0 16px !important;
+          }
+          .cta-banner-logo-img {
+            height: 48px !important;
+          }
+          .cta-banner-title {
+            font-size: 1.65rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 14px !important;
+          }
+          .cta-banner-br {
+            display: none !important;
+          }
+          .cta-banner-desc {
+            font-size: 0.88rem !important;
+            line-height: 1.55 !important;
+            margin-bottom: 22px !important;
+          }
+          .cta-banner-actions {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 12px !important;
+          }
+          .cta-banner-actions button {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 12px 18px !important;
+            font-size: 0.88rem !important;
+          }
+          .cta-banner-highlights {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px 12px !important;
+            margin-top: 26px !important;
+            padding-top: 18px !important;
+          }
+          .cta-banner-highlights span {
+            font-size: 0.8rem !important;
+          }
+          .cta-banner-right {
+            min-height: 290px !important;
+          }
+        }
+
         .btn-primary-gradient:hover {
           transform: translateY(-2px);
           box-shadow: 0 12px 28px rgba(0, 82, 204, 0.42) !important;

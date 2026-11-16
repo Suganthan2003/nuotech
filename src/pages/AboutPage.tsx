@@ -95,7 +95,7 @@ const personLeaders = [
   {
     name: 'Saravanan Kumar',
     role: 'Founder & Lead Automation Engineer',
-    image: '/img/person1_cutout.png',
+    image: '/img/o1.png',
     skills: [
       { label: 'Industrial Automation', icon: <Cpu size={18} />, color: '#0066FF', shift: -10 },
       { label: 'Solar Energy EPC', icon: <Sun size={18} />, color: '#10B981', shift: 26 },
@@ -105,7 +105,7 @@ const personLeaders = [
   {
     name: 'Kavitha Saravanan',
     role: 'Co-Founder & Chief Electronics Director',
-    image: '/img/person2_cutout.png',
+    image: '/img/o2.png',
     skills: [
       { label: 'IoT & Embedded Robotics', icon: <Zap size={18} />, color: '#0066FF', shift: -10 },
       { label: 'PCB Layout & Hardware', icon: <CircuitBoard size={18} />, color: '#8B5CF6', shift: 30 },
@@ -562,7 +562,7 @@ const css = `
   color: #0066FF;
 }
 .ab-eyebrow-line { width: 38px; height: 2px; background: currentColor; }
-.ab-eyebrow-dot { width: 9px; height: 9px; background: #10B981; border-radius: 50%; animation: abPing 2s ease-out infinite; }
+.ab-eyebrow-dot { width: 9px; height: 9px; background: #10B981; border-radius: 50%; }
 .ab-eyebrow-light { color: #34D399; }
 .ab-h2 {
   margin: 0 0 16px;
@@ -951,7 +951,6 @@ const css = `
 @keyframes abFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes abGrid { to { background-position: 56px 56px, 56px 56px, 0 0; } }
 @keyframes abStripes { to { background-position: 36px 0, 0 0; } }
-@keyframes abPing { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,.5); } 100% { box-shadow: 0 0 0 10px rgba(16,185,129,0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .ab *, .ab *::before, .ab *::after { animation: none !important; transition: none !important; }

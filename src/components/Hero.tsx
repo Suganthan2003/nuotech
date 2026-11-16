@@ -17,8 +17,8 @@ const slides = [
       'Transform your living and working spaces with intelligent home automation, touch switch controls, automated lighting, climate regulation and remote connectivity.',
     points: ['Home automation', 'Touch switches', 'Remote control'],
     accent: '#5BC0DE',
-    bgVideo: '/v/s1.mp4',
-    image: '/img/s1.jpg',
+    bgVideo: '/v/a.mp4',
+    image: '/img/p2.png',
   },
   {
     number: '02',
@@ -30,8 +30,8 @@ const slides = [
       'Empowering industries with customized electrical control panels, PLC and VFD motor integration, automated machine safety and precision manufacturing engineering.',
     points: ['PLC panels', 'Motor drives', 'Special purpose machines'],
     accent: '#6CCB8F',
-    bgVideo: '/v/s2.mp4',
-    image: '/img/s2.jpg',
+    bgVideo: '/v/b.mp4',
+    image: '/img/e5.png',
   },
   {
     number: '03',
@@ -43,12 +43,12 @@ const slides = [
       'High-efficiency solar water heating, turnkey rooftop solar installations, solar agricultural pumps and eco-friendly renewable energy systems.',
     points: ['Solar water heaters', 'Rooftop PV', 'Agriculture pumps'],
     accent: '#F2B94B',
-    bgVideo: '/v/s3.mp4',
-    image: '/img/s3.jpg',
+    bgVideo: '/v/c.mp4',
+    image: '/img/b3.png',
   },
 ];
 
-const SLIDE_MS = 7000;
+const SLIDE_MS = 9000;
 
 export const Hero: React.FC<HeroProps> = ({ openQuoteModal, scrollToSection }) => {
   const [current, setCurrent] = useState(0);
@@ -331,11 +331,29 @@ const css = `
 }
 
 @media (max-width: 960px) {
-  .hr { padding-top: 100px; }
-  .hr-container { padding: 0 22px; }
-  .hr-grid { grid-template-columns: 1fr; gap: 40px; }
-  .hr-overlay { background: rgba(11,18,32,.82); }
-  .hr-right { justify-self: start; max-width: 360px; }
-  .hr-card { height: 420px; }
+  .hr { padding: 90px 0 50px; min-height: auto; }
+  .hr-container { padding: 0 20px; }
+  .hr-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hr-overlay { background: rgba(11,18,32,.85); }
+  .hr-right { justify-self: center; max-width: 100%; width: 100%; }
+  .hr-card { height: 380px; max-width: 480px; margin: 0 auto; }
+}
+
+@media (max-width: 640px) {
+  .hr { padding: 80px 0 40px; }
+  .hr-container { padding: 0 16px; }
+  .hr-tagrow { gap: 10px; font-size: 0.85rem; margin-bottom: 16px; }
+  .hr-rule { width: 24px; }
+  .hr-title { font-size: clamp(2rem, 8.5vw, 2.7rem); line-height: 1.1; margin-bottom: 16px; }
+  .hr-desc { font-size: 0.98rem; line-height: 1.55; margin-bottom: 18px; }
+  .hr-points { gap: 8px; margin-bottom: 24px; }
+  .hr-points li { font-size: 0.8rem; padding: 5px 12px; }
+  .hr-actions { flex-direction: column; width: 100%; gap: 10px; }
+  .hr-btn { width: 100%; justify-content: center; padding: 13px 20px; font-size: 0.95rem; }
+  .hr-right { max-width: 100%; }
+  .hr-card { height: 320px; border-radius: 14px; }
+  .hr-card-label { font-size: 0.86rem; left: 14px; bottom: 16px; }
+  .hr-card-nav { right: 12px; bottom: 12px; }
+  .hr-card-nav button { width: 34px; height: 34px; }
 }
 `;

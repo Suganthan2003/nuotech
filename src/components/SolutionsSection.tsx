@@ -48,7 +48,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: 'Smart switches, touch lights, CCTV security & keyless door locks',
     description:
       'Transform your home and commercial spaces with integrated touch switches, app-controlled lighting, high-definition CCTV security cameras, and automated door locks.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg',
+    image: '/img/p1.png',
     accentColor: BRAND.blue,
     gradient: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.navy})`,
     features: [
@@ -65,7 +65,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: 'Gate automation, smart irrigation, custom products & industrial training',
     description:
       'Comprehensive industrial automation including heavy-duty motorized gate systems, automated agricultural irrigation, specialized custom electronics, and technical field training.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg',
+    image: '/img/a1.png',
     accentColor: BRAND.navy,
     gradient: `linear-gradient(135deg, ${BRAND.navy}, ${BRAND.ink})`,
     features: [
@@ -82,7 +82,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: 'Residential rooftop solar, BLDC pumps, outdoor lights & commercial solar',
     description:
       'Clean renewable power solutions ranging from 1-10kW residential rooftop solar PV to high-efficiency BLDC agricultural pump motors, solar outdoor illumination, and 10-100kW commercial solar plants.',
-    image: '/img/s1.jpg',
+    image: '/img/b1.png',
     accentColor: BRAND.greenDark,
     gradient: `linear-gradient(135deg, ${BRAND.green}, ${BRAND.greenDark})`,
     features: [
@@ -99,7 +99,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: 'Drone assembly, PCB design, CAD/CAM modeling & AI robotics training',
     description:
       'Hands-on engineering skill development programs covering agricultural drone manufacturing, multi-layer PCB design, 3D CAD/CAM mechanics, and advanced AI & robotics development.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM (1).jpeg',
+    image: '/img/c1.png',
     accentColor: BRAND.teal,
     gradient: `linear-gradient(135deg, ${BRAND.teal}, ${BRAND.blue})`,
     features: [
@@ -116,7 +116,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: 'Autonomous service robots & interactive greeting robots',
     description:
       'Innovative service robotics engineered for hospitality, commercial venues, customer reception, automated serving, and interactive public engagement.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg',
+    image: '/img/d1.png',
     accentColor: BRAND.sky,
     gradient: `linear-gradient(135deg, ${BRAND.sky}, ${BRAND.navy})`,
     features: [
@@ -131,7 +131,7 @@ export const SOLUTIONS_DATA: SectorItem[] = [
     tagline: '3D printing, laser cutting, CNC machining, bending & powder coating',
     description:
       'Precision metal and non-metal fabrication services including additive 3D printing, high-speed laser cutting, lathe & DRO machining, hydraulic bending, powder coating, and 3D parts finishing.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg',
+    image: '/img/e1.png',
     accentColor: BRAND.green,
     gradient: `linear-gradient(135deg, ${BRAND.green}, ${BRAND.teal})`,
     features: [
@@ -667,31 +667,53 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
           .sol__tiles { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 992px) {
-          .sol { padding-top: 70px; }
+          .sol { padding-top: 60px; }
           .sol__main { grid-template-columns: 1fr; gap: 28px; }
-          .sol__why { grid-template-columns: 1fr; }
+          .sol__why { grid-template-columns: 1fr; gap: 14px; }
+          .sol__panel { max-width: 680px; margin: 0 auto; width: 100%; }
         }
         @media (max-width: 768px) {
           .sol__stats { grid-template-columns: repeat(2, 1fr); }
           .sol__stats li:nth-child(2) { border-right: 0; }
           .sol__stats li:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+          .sol__tiles { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
-          .sol { padding-top: 56px; }
+          .sol { padding-top: 44px; }
           .sol__container { padding: 0 16px; }
-          .sol__tiles { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 26px; }
-          .sol__tile { min-height: 78px; padding: 12px 10px; }
-          .sol__tile-name { font-size: .82rem; }
-          .sol__panel { padding: 22px 18px; border-radius: 20px; }
-          .sol__arrow { width: 38px; height: 38px; }
-          .sol__badge { font-size: .72rem; letter-spacing: 1.4px; padding: 7px 14px; }
-          .sol__dots { margin: 26px 0 34px; }
-          .sol__marquee span { font-size: .82rem; padding: 0 16px; }
-          .sol__marquee span::after { margin-left: 32px; }
+          .sol__badge { font-size: 0.72rem; letter-spacing: 1.2px; padding: 6px 14px; }
+          .sol__title { font-size: 1.6rem; line-height: 1.25; }
+          .sol__lead { font-size: 0.88rem; line-height: 1.5; margin-bottom: 20px; }
+          .sol__stats { margin-bottom: 24px; }
+          .sol__stats li { padding: 10px 8px; }
+          .sol__stats strong { font-size: 1.35rem; }
+          .sol__stats span { font-size: 0.75rem; }
+          .sol__tiles { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
+          .sol__tile { min-height: 72px; padding: 10px 8px; border-radius: 10px; }
+          .sol__tile-name { font-size: 0.78rem; line-height: 1.2; }
+          .sol__panel { padding: 20px 16px; border-radius: 18px; }
+          .sol__panel h3 { font-size: 1.3rem; }
+          .sol__panel-tag { font-size: 0.84rem; margin-bottom: 10px; }
+          .sol__panel-desc { font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; }
+          .sol__feats { gap: 8px; margin-bottom: 18px; }
+          .sol__feats li { padding: 9px 12px; gap: 10px; }
+          .sol__feats span { font-size: 0.84rem; }
+          .sol__cta { padding: 12px 16px; font-size: 0.88rem; border-radius: 10px; }
+          .sol__arrow { width: 36px; height: 36px; }
+          .sol__dots { margin: 20px 0 28px; }
+          .sol__why { margin-bottom: 36px; }
+          .sol__why-item { padding: 14px; gap: 12px; border-radius: 14px; }
+          .sol__why-icon { width: 40px; height: 40px; border-radius: 10px; }
+          .sol__why-item h4 { font-size: 0.92rem; }
+          .sol__why-item p { font-size: 0.82rem; }
+          .sol__marquee span { font-size: .8rem; padding: 0 14px; }
+          .sol__marquee span::after { margin-left: 24px; }
         }
-        @media (max-width: 380px) {
-          .sol__tiles { grid-template-columns: 1fr 1fr; }
-          .sol__stats strong { font-size: 1.25rem; }
+        @media (max-width: 420px) {
+          .sol__tiles { grid-template-columns: 1fr 1fr; gap: 6px; }
+          .sol__tile { min-height: 68px; padding: 8px 6px; }
+          .sol__tile-no { font-size: 0.68rem; padding: 1px 5px; }
+          .sol__stats strong { font-size: 1.2rem; }
         }
         @media (prefers-reduced-motion: reduce) {
           .sol__card, .sol__tile, .sol__cta { transition: none; }

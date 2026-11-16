@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Zap, Bot, Sun, GraduationCap, Cpu, Layers,
-  ArrowRight, Sparkles,
+  ArrowRight,
   ChevronRight, ChevronLeft, Check, ArrowUpRight
 } from 'lucide-react';
 
@@ -25,6 +25,7 @@ interface SectorPageData {
   tagline: string;
   heroDescription: string;
   image: string;
+  heroVideo?: string;
   icon: any;
   overviewPoints: string[];
   subCategories: SubCategoryDetail[];
@@ -41,6 +42,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     tagline: 'Intelligent Touch, App & Voice Space Automation for Modern Living',
     heroDescription: 'Transform residential villas, luxury apartments, and corporate workspaces with our integrated IoT automation architecture. From feather-touch glass switches to automated curtains, energy telemetry, and biometric security, experience seamless intelligence.',
     image: '/img/p1.png',
+    heroVideo: '/v/a.mp4',
     overviewPoints: [
       'Retrofittable into existing standard modular wall switch back-boxes',
       'Unified smartphone mobile application (iOS & Android) with local offline Wi-Fi control',
@@ -136,7 +138,8 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Bot,
     tagline: 'Heavy-Duty Control Panels, Motor Drives & Automated Field Machines',
     heroDescription: 'End-to-end industrial automation for textile mills, manufacturing plants, agricultural pump grids, and commercial entrances across Tamil Nadu. We engineer robust PLC/SCADA panels, heavy-duty gate actuators, and smart irrigation controllers.',
-    image: '/img/p4.png',
+    image: '/img/a.png',
+    heroVideo: '/v/b.mp4',
     overviewPoints: [
       'Tailor-made industrial IP65 powder-coated control panels with Siemens & Schneider switchgear',
       'Automated heavy-duty sliding & swing gate motors supporting loads up to 3500kg',
@@ -149,7 +152,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Gate Automation & Barrier Actuators',
         tagline: 'Motorized sliding, swing, and telescopic gate drives for factories & estates',
         description: 'Industrial-grade electromechanical and hydraulic gate drives built for continuous duty cycles. Equipped with safety optical photocells, soft start-stop deceleration, remote key fobs, and mobile GSM intercom triggers.',
-        image: '/img/p4.png',
+        image: '/img/a1.png',
         features: [
           'High-torque oil-bath gear motor with hardened steel drive rack',
           'Infrared safety photo-beams preventing closure on vehicles or pedestrians',
@@ -168,7 +171,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Smart Agricultural Irrigation Systems',
         tagline: 'Telemetry-driven multi-zone solenoid valve & pump automation',
         description: 'Autonomous crop irrigation controllers synchronizing submersible pumps with capacitive soil moisture sensors, overhead tank levels, and weather data. Eliminates crop under-watering and reduces farm labor dependencies by 70%.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.02.58 PM (1).jpeg',
+        image: '/img/a2.png',
         features: [
           'Multi-zone valve sequencing with programmable flow volume timers',
           'Solar DC pump and 3-phase grid pump synchronization with phase fault cutoff',
@@ -187,7 +190,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Custom Electrical Control Panels & VFDs',
         tagline: 'IP65 industrial motor control centers, PLC racks & soft starters',
         description: 'Custom engineered electrical control panels designed to client mechanical layouts. Assembled with branded contactors, miniature circuit breakers, variable frequency drives (VFDs), and programmable logic controllers.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg',
+        image: '/img/a3.png',
         features: [
           'Overload, phase failure, short-circuit, and voltage surge protection',
           'VFD speed modulation optimizing motor electrical draw by up to 30%',
@@ -206,7 +209,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Industrial Automation Training & Lab',
         tagline: 'Practical field automation, SCADA, PLC programming & sensor calibration',
         description: 'Hands-on training curriculum for engineering students, factory technicians, and maintenance managers. Learn industrial wiring, PLC ladder logic, Modbus telemetry, and live troubleshooting on actual hardware testbeds.',
-        image: '/img/s2.jpg',
+        image: '/img/a4.png',
         features: [
           'Direct practice on Siemens, Delta, and Schneider PLC test benches',
           'SCADA HMI graphical screen development and Modbus sensor integration',
@@ -232,7 +235,8 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Sun,
     tagline: 'Turnkey Solar Power Plants, High-Efficiency BLDC Pumps & Clean Energy',
     heroDescription: 'Reliable photovoltaic solar installations engineered for residences, commercial spinning mills, educational institutions, and agricultural farmlands across South India. Achieve zero electricity bills and complete power independence.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg',
+    image: '/img/b1.png',
+    heroVideo: '/v/c.mp4',
     overviewPoints: [
       'Tier-1 Monocrystalline PERC solar panels with 25-year linear power warranty',
       'Direct DC solar BLDC agricultural pump sets eliminating grid tariff costs',
@@ -245,7 +249,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: '1 - 10kW Residential Rooftop Solar',
         tagline: 'Grid-tied, off-grid and hybrid rooftop solar power for independent homes',
         description: 'Turnkey residential rooftop solar systems designed to meet daily household consumption. Generate clean power, export excess units to the TNEB grid via bidirectional net-metering, and enjoy lifetime utility savings.',
-        image: '/img/p2.png',
+        image: '/img/b1.png',
         features: [
           'High-efficiency bifacial / PERC solar panels with >21.5% cell efficiency',
           'Smart transformerless solar string inverter with Wi-Fi power telemetry',
@@ -264,7 +268,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'BLDC Solar Agricultural Pump Motors',
         tagline: 'High-torque brushless DC submersible and surface pumps for farmland',
         description: 'Heavy-duty solar pumping systems engineered to operate directly from solar arrays from dawn to dusk without batteries or grid power. Powered by internal MPPT controllers maximizing water output during low sunlight.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg',
+        image: '/img/b2.png',
         features: [
           'High-efficiency permanent magnet brushless DC (BLDC) motor design',
           'Corrosion-resistant stainless steel (SS304/SS316) pump body & impeller',
@@ -283,7 +287,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Solar Outdoor & Street Lighting',
         tagline: 'All-in-one integrated LED street lights for streets, factories & farms',
         description: 'Self-contained outdoor lighting fixtures combining solar panels, bright Philips/Osram LED chips, smart MPPT charge controllers, and LiFePO4 batteries into a single sleek corrosion-resistant housing.',
-        image: '/img/s3.jpg',
+        image: '/img/b3.png',
         features: [
           'Autonomous dusk-to-dawn automatic illumination with zero wiring needed',
           'Intelligent microwave radar motion sensor dimming (100% active / 30% standby)',
@@ -302,7 +306,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: '10 - 100kW Commercial & Industrial Solar',
         tagline: 'Industrial rooftop power plants for spinning mills, factories & schools',
         description: 'Large-scale commercial solar photovoltaic EPC installations engineered to offset peak daytime industrial electricity tariffs. Features detailed energy audits, structural load calculations, and remote cloud SCADA monitoring.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.02.58 PM.jpeg',
+        image: '/img/b4.png',
         features: [
           'Dual MPPT multi-string inverters ensuring maximum yield from split roofs',
           'Significant commercial tax benefits through accelerated depreciation',
@@ -328,7 +332,8 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: GraduationCap,
     tagline: 'Hands-On Certified Engineering Academy & Practical Tech Labs',
     heroDescription: 'Bridging the critical gap between academic theory and real-world industrial engineering. We provide practical hands-on training programs in drone assembly & piloting, multi-layer PCB design, 3D CAD/CAM mechanics, and advanced robotics.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM (1).jpeg',
+    image: '/img/c1.png',
+    heroVideo: '/v/d.mp4',
     overviewPoints: [
       'Certified drone pilot training with certified instructors and open flight grounds',
       'Industrial multi-layer PCB layout design, schematic capture & hands-on SMD soldering',
@@ -341,7 +346,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'DRONE Pilot & Assembly Training',
         tagline: 'Certified drone pilot curriculum, flight simulation & agricultural operations',
         description: 'Comprehensive drone piloting and assembly masterclass. Students learn aerodynamics, quadcopter/hexacopter frame assembly, flight controllers (Pixhawk/ArduPilot), DGCA flight safety regulations, and field agricultural spraying protocols.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM (1).jpeg',
+        image: '/img/c1.png',
         features: [
           'Simulator training sessions followed by live open-ground flight maneuvers',
           'Autonomous waypoint mission planning for aerial land mapping',
@@ -360,7 +365,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'PCB Design & Hardware Fabrication',
         tagline: 'Schematic capture, multi-layer PCB layout, Gerber generation & soldering',
         description: 'Industry-standard printed circuit board design using KiCad and Altium Designer. Master component footprint creation, high-speed trace routing, electromagnetic interference (EMI) reduction, and hands-on SMD soldering in our hardware lab.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg',
+        image: '/img/c2.png',
         features: [
           'Schematic design of microcontrollers (ESP32, ARM Cortex, STM32)',
           'Power plane routing, ground decoupling, and thermal relief copper pours',
@@ -379,7 +384,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'CAD/CAM & 3D Mechanical Modeling',
         tagline: 'Parametric 3D solid modeling, assemblies, CNC toolpaths & prototyping',
         description: 'Professional mechanical design training utilizing SolidWorks and Autodesk Fusion 360. Transform conceptual ideas into manufacture-ready 3D solid models, sheet metal flat patterns, and G-code toolpaths for CNC cutting and 3D printing.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM (1).jpeg',
+        image: '/img/c3.png',
         features: [
           'Parametric sketch modeling, extrusion, sweeps, and complex lofts',
           'Assembly constraints, interference checking, and exploded view documentation',
@@ -398,7 +403,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'AI & Industrial Robotics Training',
         tagline: 'Autonomous mobile robot algorithms, computer vision & embedded firmware',
         description: 'Explore the future of autonomous systems. Learn Robot Operating System (ROS), computer vision using Python & OpenCV, ultrasonic/LiDAR obstacle avoidance routines, motor kinematics, and edge AI deployment.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg',
+        image: '/img/c4.png',
         features: [
           'Differential drive kinematics and motor encoder PID tuning',
           'Computer vision for real-time object tracking and QR code navigation',
@@ -424,7 +429,8 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Cpu,
     tagline: 'Autonomous Service, Delivery & Interactive AI Greeting Robots',
     heroDescription: 'Transform customer experiences with cutting-edge autonomous mobile service robots. Engineered for corporate headquarters, convention centers, restaurants, hospitals, and educational showcases with LiDAR obstacle avoidance.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg',
+    image: '/img/d1.png',
+    heroVideo: '/v/e.mp4',
     overviewPoints: [
       'Multi-tier autonomous serve robots with precision obstacle navigation',
       'Interactive greeting robots with touchscreen check-in and voice AI interaction',
@@ -437,7 +443,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Autonomous SERVE ROBOT',
         tagline: 'Multi-tray autonomous delivery robot for restaurants, hospitals & events',
         description: 'High-payload autonomous indoor delivery robot designed to navigate crowded dining rooms, hotel corridors, and office spaces. Multi-sensor LiDAR and depth cameras ensure smooth transit without bumping into guests or obstacles.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg',
+        image: '/img/d1.png',
         features: [
           'Multi-tier food-grade stainless steel trays supporting up to 40kg total payload',
           'Centimeter-accurate LiDAR SLAM navigation with dynamic path replanning',
@@ -456,7 +462,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Interactive GREETING ROBOT',
         tagline: 'AI receptionist robot for corporate lobbies, showrooms & hospitality',
         description: 'Engaging humanoid service robot equipped with a high-definition touchscreen chest display, AI facial recognition, and conversational speech dialogue. Welcomes VIP guests, prints visitor badges, and guides visitors to meeting rooms.',
-        image: '/img/contact_hero_robots.jpg',
+        image: '/img/d2.png',
         features: [
           'Facial recognition welcoming recognized executives and frequent clients by name',
           'Full-HD 1080p touch display displaying corporate presentations and interactive menus',
@@ -475,7 +481,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Autonomous Navigation & Fleet Sync',
         tagline: 'LiDAR SLAM mapping, obstacle avoidance & cloud management platform',
         description: 'Our proprietary robot fleet management software. Map complex multi-room facilities effortlessly, establish virtual keep-out zones, monitor battery levels remotely, and dispatch robots across departments.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg',
+        image: '/img/d3.png',
         features: [
           'Rapid facility mapping within 30 minutes using hand-held tablet controller',
           'Virtual walls and forbidden zone markers set directly on floorplan maps',
@@ -494,7 +500,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Custom Voice & Brand AI Personalization',
         tagline: 'Tailored conversational dialogue, corporate skins & marketing displays',
         description: 'Customize the robot to embody your exact brand identity. We customize corporate vinyl skin wraps, program company-specific Q&A knowledge bases, and integrate product catalog databases into the interactive touchscreen.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.03.43 PM.jpeg',
+        image: '/img/d4.png',
         features: [
           'Custom brand vinyl livery wrapped to client corporate color schemes',
           'Tailored dialogue training with company product FAQs and pricing matrices',
@@ -520,7 +526,8 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
     icon: Layers,
     tagline: '3D Printing, Fiber Laser Cutting, CNC Machining & Powder Coating',
     heroDescription: 'State-of-the-art precision job-work and prototype manufacturing under one roof in Karur. From high-accuracy laser cutting and CNC turning to rapid 3D printing and electrostatic powder coating, we fabricate metal and polymer assemblies to exact tolerances.',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg',
+    image: '/img/e1.png',
+    heroVideo: '/v/f.mp4',
     overviewPoints: [
       'Industrial FDM & SLA 3D printing for functional prototypes and custom IoT enclosures',
       'High-power fiber laser cutting for mild steel, stainless steel, aluminum & acrylics',
@@ -533,7 +540,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Industrial 3D Printing & Rapid Prototyping',
         tagline: 'Fused Deposition Modeling (FDM) & Stereolithography (SLA) resin printing',
         description: 'Rapid additive manufacturing for mechanical prototypes, custom electronic enclosures, drone chassis components, and functional tooling. Fast turnaround times turning your 3D CAD files into physical parts in 24 hours.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg',
+        image: '/img/e1.png',
         features: [
           'High precision FDM printing with engineering polymers (PLA, ABS, PETG, Carbon Fiber)',
           'SLA optical resin printing for ultra-smooth surface finishes and miniature gears',
@@ -552,7 +559,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Metal & Non-Metal Laser Cutting',
         tagline: 'High-power fiber and CO2 CNC laser cutting with burr-free edge quality',
         description: 'Computer-controlled precision laser profiling for sheet metals and non-metal substrates. Delivers clean, burr-free cuts with exceptional repeatability for industrial machinery panels, decorative screens, and chassis plates.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM (1).jpeg',
+        image: '/img/e3.png',
         features: [
           'Fiber laser cutting for mild steel, stainless steel (SS304/SS316), aluminum & brass',
           'CO2 laser cutting and engraving for acrylic, MDF wood, leather, and industrial gaskets',
@@ -571,7 +578,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'DRO Lathe & CNC Machining',
         tagline: 'Precision turning, milling, drilling & shaft manufacturing',
         description: 'Heavy-duty machine shop equipped with Digital Readout (DRO) precision lathes, vertical milling machines, and drilling stations. We machine custom shafts, bearing housings, rollers, and flanges to tight engineering tolerances.',
-        image: '/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg',
+        image: '/img/e5.png',
         features: [
           'Precision turning, facing, boring, knurling, and internal/external thread cutting',
           'Keyway slotting, PCD hole circle drilling, and surface face milling',
@@ -590,7 +597,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'CNC Hydraulic Sheet Bending',
         tagline: 'Multi-axis press brake sheet metal bending with precision angle control',
         description: 'Hydraulic press brake bending for control panel boxes, electrical enclosures, brackets, and structural machine guards. Programmed with multi-bend sequences guaranteeing consistent angle profiles across production batches.',
-        image: '/img/p4.png',
+        image: '/img/e7.png',
         features: [
           'CNC multi-axis backgauge positioning for rapid repetitive bending cycles',
           'Sectional hardened punches and V-dies accommodating various sheet thicknesses',
@@ -609,7 +616,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: 'Electrostatic Powder Coating',
         tagline: '7-tank chemical pre-treatment and cured thermoset powder finish',
         description: 'Heavy-duty surface protection preventing rust, chemical corrosion, and UV discoloration. Parts undergo rigorous 7-tank de-greasing, rust removal, and zinc phosphating prior to electrostatic powder spray and 200°C oven curing.',
-        image: '/img/s2.jpg',
+        image: '/img/e9.png',
         features: [
           'Uniform 60-80 micron coating thickness with exceptional impact resistance',
           'Vibrant RAL color shades available in glossy, matte, satin, and textured finishes',
@@ -628,7 +635,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
         title: '3D Parts Painting & Surface Finishing',
         tagline: 'Automotive polyurethane (PU) spray painting & custom enclosures',
         description: 'High-end cosmetic surface finishing for 3D printed components, metal enclosures, and display prototypes. Multi-stage primer application, fine wet sanding, polyurethane color coat, and scratch-resistant protective clear lacquer.',
-        image: '/img/p1.png',
+        image: '/img/e12.png',
         features: [
           'Fills layer lines on 3D prints to achieve injection-molded smooth aesthetics',
           'Multi-coat polyurethane (PU) automotive paint with high gloss or matte sheen',
@@ -646,7 +653,7 @@ const SECTORS_DATA: Record<string, SectorPageData> = {
   }
 };
 
-const BG_VIDEOS = ['/v/s1.mp4', '/v/s2.mp4', '/v/s3.mp4'];
+const BG_VIDEOS = ['/v/a.mp4', '/v/b.mp4', '/v/c.mp4', '/v/d.mp4', '/v/e.mp4', '/v/f.mp4'];
 
 /* ============================================================
    Scroll-reveal wrapper (IntersectionObserver, runs once)
@@ -724,38 +731,50 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
   }, []);
 
   // ==========================================================
-  // HERO CITIES SLIDER STATE
+  // HERO DYNAMIC SUB-CATEGORY TEXT SWITCHER
   // ==========================================================
   const [heroSlideIdx, setHeroSlideIdx] = useState<number>(0);
-  const [prevHeroSlideIdx, setPrevHeroSlideIdx] = useState<number>(-1);
   const [isHeroPaused, setIsHeroPaused] = useState<boolean>(false);
 
   const changeHeroSlide = (direction: 1 | -1) => {
-    setPrevHeroSlideIdx(heroSlideIdx);
     setHeroSlideIdx(prev => (prev + direction + totalSubs) % totalSubs);
   };
 
-  // Hero Slider Auto-Play every 6 seconds
+  // Hero Text Switcher Auto-Play every 5.5 seconds
   useEffect(() => {
     if (isHeroPaused) return;
     const heroTimer = setInterval(() => {
-      setPrevHeroSlideIdx(heroSlideIdx);
       setHeroSlideIdx(prev => (prev + 1) % totalSubs);
-    }, 6000);
+    }, 5500);
     return () => clearInterval(heroTimer);
-  }, [isHeroPaused, totalSubs, heroSlideIdx]);
+  }, [isHeroPaused, totalSubs]);
 
   // Reset indices when sector changes
   useEffect(() => {
     setHeroSlideIdx(0);
-    setPrevHeroSlideIdx(-1);
+    setShowIdx(0);
   }, [sector.id]);
+
+  // ==========================================================
+  // MODULE SHOWCASE (single card: 70% image slider / 30% text)
+  // ==========================================================
+  const [showIdx, setShowIdx] = useState<number>(0);
+  const [showPaused, setShowPaused] = useState<boolean>(false);
+
+  const goShow = (i: number) => setShowIdx((i + totalSubs) % totalSubs);
+
+  // Auto-play every 7 seconds (pauses on hover)
+  useEffect(() => {
+    if (showPaused || totalSubs < 2) return;
+    const t = setInterval(() => setShowIdx(p => (p + 1) % totalSubs), 7000);
+    return () => clearInterval(t);
+  }, [showPaused, totalSubs, showIdx]);
+
+  const activeSub = sector.subCategories[showIdx] || sector.subCategories[0];
 
   const scrollToModules = () => {
     document.getElementById('slider-showcase')?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const modulesCols = totalSubs % 3 === 0 ? 'sd-cols-3' : 'sd-cols-2';
 
   return (
     <div className="sd-root" style={{ position: 'relative', minHeight: '100vh', background: '#050911', color: '#FFFFFF', paddingTop: '100px', overflowX: 'hidden' }}>
@@ -836,7 +855,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         </div>
 
         {/* ========================================================
-            2. HERO SECTION - UNCHANGED
+            2. HERO SECTION - SINGLE VIDEO WITH DYNAMIC SUB-CATEGORY TEXT SWITCHING
             ======================================================== */}
         <section
           style={{
@@ -853,185 +872,191 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
             style={{
               position: 'relative',
               width: '100%',
-              height: 'clamp(620px, 86vh, 850px)',
-              minHeight: '600px',
+              height: 'clamp(720px, 94vh, 960px)',
+              minHeight: '700px',
               overflow: 'hidden',
               background: '#000000',
               userSelect: 'none'
             }}
           >
-            {/* Slides */}
-            {sector.subCategories.map((sub, sIdx) => {
-              const isActive = sIdx === heroSlideIdx;
-              const isPrev = sIdx === prevHeroSlideIdx;
+            {/* Single continuous video background for this sector */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                overflow: 'hidden',
+                zIndex: 1
+              }}
+            >
+              <video
+                key={sector.heroVideo || BG_VIDEOS[0]}
+                src={sector.heroVideo || BG_VIDEOS[0]}
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  filter: 'brightness(0.82) contrast(1.08)'
+                }}
+              />
+            </div>
 
-              if (!isActive && !isPrev) {
-                return null;
-              }
-
-              return (
+            {/* Vertical glass grid split overlay */}
+            <div
+              className="suez-slide-parts"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                width: '100%',
+                height: '100%',
+                zIndex: 2,
+                pointerEvents: 'none'
+              }}
+            >
+              {[0, 1, 2, 3].map((partIdx) => (
                 <div
-                  key={sub.id}
-                  className={`suez-slide ${isActive ? 's--active' : ''} ${isPrev ? 's--prev' : ''}`}
+                  key={partIdx}
+                  className="suez-slide-part"
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
+                    position: 'relative',
+                    width: '25%',
                     height: '100%',
-                    zIndex: isActive ? 10 : 5,
-                    opacity: isActive ? 1 : 0,
-                    transition: 'opacity 0.85s cubic-bezier(0.77, 0, 0.175, 1)'
+                    overflow: 'hidden',
+                    borderRight: partIdx < 3 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+                    background: 'rgba(0, 0, 0, 0.15)'
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Cinematic dark radial shade */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'radial-gradient(circle at 50% 50%, rgba(5, 9, 17, 0.28) 0%, rgba(5, 9, 17, 0.75) 100%)',
+                zIndex: 3,
+                pointerEvents: 'none'
+              }}
+            />
+
+            {/* Top Category Badge */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '36px',
+                left: 0,
+                width: '100%',
+                textAlign: 'center',
+                zIndex: 12,
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '3px',
+                textTransform: 'uppercase',
+                color: 'rgba(255, 255, 255, 0.9)',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.7)',
+                userSelect: 'none'
+              }}
+            >
+              {sector.category}
+            </div>
+
+            {/* Sub-Category Content switching dynamically in center */}
+            <div
+              key={sector.subCategories[heroSlideIdx]?.id || heroSlideIdx}
+              className="suez-slide-content"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '100%',
+                maxWidth: '1050px',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                zIndex: 12,
+                padding: '0 80px',
+                boxSizing: 'border-box'
+              }}
+            >
+              <div style={{ animation: 'suez-fade-in 0.65s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    fontSize: '0.78rem',
+                    fontWeight: 800,
+                    letterSpacing: '2.5px',
+                    textTransform: 'uppercase',
+                    color: '#fff',
+                    background: 'rgba(255, 255, 255, 0.16)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '6px 16px',
+                    borderRadius: '999px',
+                    marginBottom: '16px',
+                    border: '1px solid rgba(255, 255, 255, 0.25)'
                   }}
                 >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      overflow: 'hidden',
-                      zIndex: 1
-                    }}
-                  >
-                    <video
-                      src={BG_VIDEOS[sIdx % BG_VIDEOS.length]}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
+                  Module 0{heroSlideIdx + 1} / 0{totalSubs}
+                </span>
+
+                <h3
+                  style={{
+                    fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)',
+                    fontWeight: 700,
+                    letterSpacing: '3.5px',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255, 255, 255, 0.95)',
+                    marginBottom: '14px',
+                    textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)'
+                  }}
+                >
+                  {sector.title}
+                </h3>
+
+                <h2
+                  style={{
+                    fontSize: 'clamp(1.5rem, 3.2vw, 2.6rem)',
+                    fontWeight: 800,
+                    lineHeight: 1.2,
+                    textTransform: 'uppercase',
+                    letterSpacing: '3px',
+                    color: '#FFFFFF',
+                    marginBottom: '18px',
+                    textShadow: '0 4px 20px rgba(0, 0, 0, 0.9)'
+                  }}
+                >
+                  {(sector.subCategories[heroSlideIdx]?.title || '').split('').map((char, charIdx) => (
+                    <span
+                      key={charIdx}
+                      className="suez-letter"
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transform: isActive ? 'scale(1.0)' : 'scale(1.12)',
-                        transition: 'transform 1.2s cubic-bezier(0.19, 1, 0.22, 1)',
-                        filter: 'brightness(0.85) contrast(1.05)'
-                      }}
-                    />
-                  </div>
-
-                  <div
-                    className="suez-slide-parts"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      width: '100%',
-                      height: '100%',
-                      zIndex: 2,
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    {[0, 1, 2, 3].map((partIdx) => (
-                      <div
-                        key={partIdx}
-                        className="suez-slide-part"
-                        style={{
-                          position: 'relative',
-                          width: '25%',
-                          height: '100%',
-                          overflow: 'hidden',
-                          borderRight: partIdx < 3 ? '1px solid rgba(255, 255, 255, 0.12)' : 'none',
-                          background: 'rgba(0, 0, 0, 0.15)',
-                          transform: isActive ? 'translateY(0)' : 'translateY(-100%)',
-                          transition: `transform 0.85s cubic-bezier(0.77, 0, 0.175, 1) ${partIdx * 0.08}s`
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.55) 100%)',
-                      zIndex: 3
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '36px',
-                      left: 0,
-                      width: '100%',
-                      textAlign: 'center',
-                      zIndex: 12,
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      letterSpacing: '3px',
-                      textTransform: 'uppercase',
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      textShadow: '0 2px 10px rgba(0, 0, 0, 0.7)',
-                      userSelect: 'none'
-                    }}
-                  >
-                    {sector.category}
-                  </div>
-
-                  <div
-                    className="suez-slide-content"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      width: '100%',
-                      maxWidth: '1050px',
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center',
-                      zIndex: 12,
-                      padding: '0 80px',
-                      boxSizing: 'border-box'
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)',
-                        fontWeight: 700,
-                        letterSpacing: '3.5px',
-                        textTransform: 'uppercase',
-                        color: 'rgba(255, 255, 255, 0.95)',
-                        marginBottom: '14px',
-                        textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)',
-                        transform: isActive ? 'translateY(0)' : 'translateY(20px)',
-                        opacity: isActive ? 1 : 0,
-                        transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s'
+                        display: 'inline-block',
+                        letterSpacing: '3px',
+                        animation: `suez-letter-up 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.1 + charIdx * 0.02}s both`
                       }}
                     >
-                      {sector.title}
-                    </h3>
+                      {char === ' ' ? '\u00A0' : char}
+                    </span>
+                  ))}
+                </h2>
 
-                    <h2
-                      style={{
-                        fontSize: 'clamp(1.5rem, 3.2vw, 2.5rem)',
-                        fontWeight: 800,
-                        lineHeight: 1.2,
-                        textTransform: 'uppercase',
-                        letterSpacing: '4px',
-                        color: '#FFFFFF',
-                        marginBottom: '18px',
-                        textShadow: '0 4px 20px rgba(0, 0, 0, 0.9)',
-                        overflow: 'hidden'
-                      }}
-                    >
-                      {sub.title.split('').map((char, charIdx) => (
-                        <span
-                          key={charIdx}
-                          className="suez-letter"
-                          style={{
-                            display: 'inline-block',
-                            letterSpacing: '4px',
-                            transform: isActive ? 'translateY(0)' : 'translateY(110%)',
-                            opacity: isActive ? 1 : 0,
-                            transition: `transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.2 + charIdx * 0.02}s, opacity 0.45s ease ${0.2 + charIdx * 0.02}s`
-                          }}
-                        >
-                          {char === ' ' ? '\u00A0' : char}
-                        </span>
-                      ))}
-                    </h2>
-                  </div>
-                </div>
-              );
-            })}
+                <p
+                  style={{
+                    fontSize: 'clamp(0.92rem, 1.3vw, 1.08rem)',
+                    color: 'rgba(255, 255, 255, 0.88)',
+                    maxWidth: '680px',
+                    margin: '0 auto',
+                    lineHeight: 1.6,
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.85)'
+                  }}
+                >
+                  {sector.subCategories[heroSlideIdx]?.tagline}
+                </p>
+              </div>
+            </div>
 
             <button
               onClick={(e) => {
@@ -1131,7 +1156,6 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                   >
                     <span className="sd-pill-num">0{sIdx + 1}</span>
                     <span className="sd-pill-title">{sub.title}</span>
-                    <Sparkles size={13} />
                   </button>
                 ))}
               </React.Fragment>
@@ -1253,7 +1277,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
               ======================================================== */}
           <section id="slider-showcase" className="sd-section">
             <div className="sd-blob sd-blob-c" />
-            <div className="sd-container">
+            <div className="sd-container sd-container-wide">
               <Reveal>
                 <div className="sd-head">
                   <span className="sd-eyebrow"><i /> {totalSubs} Modules</span>
@@ -1261,68 +1285,117 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
                     Explore <span className="sd-grad">{sector.title}</span> modules
                   </h2>
                   <p className="sd-sub">
-                    Choose a module to see what it does, the key specifications, and request a quote.
+                    Slide through each module to see what it does, key specifications, and request a quote.
                   </p>
                   <div className="sd-underline" />
                 </div>
               </Reveal>
 
-              <div className={`sd-modules ${modulesCols}`}>
-                {sector.subCategories.map((sub, idx) => (
-                  <Reveal key={sub.id} delay={(idx % 3) * 110}>
-                    <article
-                      className="sd-card"
-                      onClick={() => openQuoteModalWithSolution(`${sector.title} — ${sub.title}`)}
+              <Reveal>
+                <div
+                  className="sd-show"
+                  onMouseEnter={() => setShowPaused(true)}
+                  onMouseLeave={() => setShowPaused(false)}
+                >
+                  {/* ---------- LEFT: 70% IMAGE SLIDER ---------- */}
+                  <div className="sd-show-media">
+                    {sector.subCategories.map((sub, i) => (
+                      <img
+                        key={sub.id}
+                        src={sub.image}
+                        alt={sub.title}
+                        className={`sd-show-img ${i === showIdx ? 'is-active' : ''}`}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }}
+                      />
+                    ))}
+                    <div className="sd-show-shade" />
+
+                    <span className="sd-show-count">
+                      {String(showIdx + 1).padStart(2, '0')}
+                      <em> / {String(totalSubs).padStart(2, '0')}</em>
+                    </span>
+
+                    <button
+                      type="button"
+                      className="sd-show-arrow sd-show-prev"
+                      aria-label="Previous module"
+                      onClick={() => goShow(showIdx - 1)}
                     >
-                      <div className="sd-card-media">
-                        <img
-                          src={sub.image}
-                          alt={sub.title}
-                          loading="lazy"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }}
+                      <ChevronLeft size={26} />
+                    </button>
+                    <button
+                      type="button"
+                      className="sd-show-arrow sd-show-next"
+                      aria-label="Next module"
+                      onClick={() => goShow(showIdx + 1)}
+                    >
+                      <ChevronRight size={26} />
+                    </button>
+
+                    {/* thumbnails + progress */}
+                    <div className="sd-show-bottom">
+                      <div className="sd-show-thumbs">
+                        {sector.subCategories.map((sub, i) => (
+                          <button
+                            type="button"
+                            key={sub.id}
+                            className={`sd-thumb ${i === showIdx ? 'is-active' : ''}`}
+                            onClick={() => goShow(i)}
+                            aria-label={`Go to ${sub.title}`}
+                          >
+                            <img src={sub.image} alt="" loading="lazy" />
+                            <span>{String(i + 1).padStart(2, '0')}</span>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="sd-show-bar">
+                        <div
+                          key={`${showIdx}-${showPaused}`}
+                          className={`sd-show-bar-fill ${showPaused ? 'is-paused' : ''}`}
                         />
-                        <div className="sd-card-shade" />
-                        <span className="sd-card-badge">{String(idx + 1).padStart(2, '0')}</span>
-                        <span className="sd-card-arrow"><ArrowUpRight size={18} /></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ---------- RIGHT: 30% TEXT (changes with slide) ---------- */}
+                  <div className="sd-show-info">
+                    <div key={activeSub.id} className="sd-show-info-in">
+                      <span className="sd-show-badge">
+                        Module {String(showIdx + 1).padStart(2, '0')}
+                      </span>
+                      <h3>{activeSub.title}</h3>
+                      <p className="sd-show-tag">{activeSub.tagline}</p>
+                      <p className="sd-show-desc">{activeSub.description}</p>
+
+                      <ul className="sd-card-list">
+                        {activeSub.features.slice(0, 3).map((f, fi) => (
+                          <li key={fi}>
+                            <span className="sd-tick"><Check size={12} strokeWidth={3.2} /></span>
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="sd-show-specs">
+                        {activeSub.specs.slice(0, 2).map((s) => (
+                          <div key={s.label} className="sd-spec">
+                            <span>{s.label}</span>
+                            <strong>{s.value}</strong>
+                          </div>
+                        ))}
                       </div>
 
-                      <div className="sd-card-body">
-                        <h3>{sub.title}</h3>
-                        <p className="sd-card-tag">{sub.tagline}</p>
-
-                        <ul className="sd-card-list">
-                          {sub.features.slice(0, 3).map((f, fi) => (
-                            <li key={fi}>
-                              <span className="sd-tick"><Check size={12} strokeWidth={3.2} /></span>
-                              <span>{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <div className="sd-specs">
-                          {sub.specs.slice(0, 2).map((s) => (
-                            <div key={s.label} className="sd-spec">
-                              <span>{s.label}</span>
-                              <strong>{s.value}</strong>
-                            </div>
-                          ))}
-                        </div>
-
-                        <button
-                          type="button"
-                          className="sd-btn sd-btn-card"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openQuoteModalWithSolution(`${sector.title} — ${sub.title}`);
-                          }}
-                        >
-                          Get Quote <ArrowRight size={16} />
-                        </button>
-                      </div>
-                    </article>
-                  </Reveal>
-                ))}
-              </div>
+                      <button
+                        type="button"
+                        className="sd-btn sd-btn-card"
+                        onClick={() => openQuoteModalWithSolution(`${sector.title} — ${activeSub.title}`)}
+                      >
+                        Get Quote <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
             </div>
           </section>
 
@@ -1391,6 +1464,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         }
 
         .sd-container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); position: relative; z-index: 2; }
+        .sd-container-wide { max-width: 1440px; width: 100%; }
 
         /* ---------- Reveal animation ---------- */
         .sd-rv { opacity: 0; transform: translateY(30px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; height: 100%; }
@@ -1432,8 +1506,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         @keyframes sd-float { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(24px,-26px) scale(1.08); } }
 
         .sd-eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: 800; letter-spacing: .14em; color: var(--blue); background: #fff; border: 1px solid var(--line); padding: 7px 16px; border-radius: 999px; box-shadow: 0 4px 14px rgba(18,48,126,.07); }
-        .sd-eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(61,168,69,.6); animation: sd-ping 2s ease-out infinite; }
-        @keyframes sd-ping { 70% { box-shadow: 0 0 0 9px rgba(61,168,69,0); } 100% { box-shadow: 0 0 0 0 rgba(61,168,69,0); } }
+        .sd-eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 
         .sd-head { text-align: center; max-width: 780px; margin: 0 auto clamp(32px, 5vw, 56px); }
         .sd-h2 { font-size: clamp(1.7rem, 3.6vw, 2.7rem); font-weight: 900; line-height: 1.18; letter-spacing: -.02em; color: var(--navy); margin: 18px 0 0; }
@@ -1479,7 +1552,7 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         .sd-sector-foot { font-size: .8rem; font-weight: 700; }
         .sd-go { display: inline-flex; align-items: center; gap: 4px; color: var(--blue); }
         .sd-here { display: inline-flex; align-items: center; gap: 7px; color: #fff; }
-        .sd-here i { width: 8px; height: 8px; border-radius: 50%; background: #7CE085; animation: sd-ping 2s ease-out infinite; }
+        .sd-here i { width: 8px; height: 8px; border-radius: 50%; background: #7CE085; }
         .sd-sector.is-current { background: var(--grad); border-color: transparent; transform: translateY(-6px); box-shadow: 0 22px 40px -14px rgba(18,48,126,.6); }
         .sd-sector.is-current .sd-sector-title, .sd-sector.is-current .sd-sector-num { color: #fff; }
         .sd-sector.is-current .sd-sector-icon { background: rgba(255,255,255,.2); color: #fff; }
@@ -1509,6 +1582,72 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         .sd-spec strong { display: block; font-size: .8rem; color: var(--navy); font-weight: 700; margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; }
         .sd-btn-card { margin-top: auto; width: 100%; padding: 13px 18px; font-size: .92rem; color: #fff; background: var(--grad); border-radius: 14px; }
         .sd-btn-card:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -10px rgba(31,91,196,.65); }
+
+        /* ---------- Module showcase (70 / 30) ---------- */
+        .sd-show { display: grid; grid-template-columns: 7fr 3fr; min-height: 620px; width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 30px 70px -28px rgba(18,48,126,.45); }
+
+        .sd-show-media { position: relative; overflow: hidden; background: #000; min-height: 380px; width: 100%; height: 100%; }
+        .sd-show-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; transform: scale(1.04); transition: opacity .7s ease, transform 6s ease-out; }
+        .sd-show-img.is-active { opacity: 1; transform: scale(1); }
+        .sd-show-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,31,92,.18) 0%, transparent 40%, rgba(10,31,92,.85) 100%); pointer-events: none; }
+
+        .sd-show-count { position: absolute; top: 20px; left: 22px; z-index: 4; font-family: ui-monospace, monospace; font-weight: 800; font-size: 1.3rem; color: #fff; background: rgba(10,31,92,.55); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); }
+        .sd-show-count em { font-style: normal; opacity: .6; font-size: .9rem; }
+
+        .sd-show-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: #fff; background: rgba(255,255,255,.22); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.3); transition: background .25s, transform .25s; }
+        .sd-show-arrow:hover { background: var(--green); transform: translateY(-50%) scale(1.1); }
+        .sd-show-prev { left: 18px; }
+        .sd-show-next { right: 18px; }
+
+        .sd-show-bottom { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 0 22px 20px; }
+        .sd-show-thumbs { display: flex; gap: 10px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+        .sd-show-thumbs::-webkit-scrollbar { display: none; }
+        .sd-thumb { position: relative; flex: 0 0 auto; width: 86px; height: 56px; padding: 0; border-radius: 12px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,255,255,.35); opacity: .7; background: var(--navy); transition: all .3s ease; }
+        .sd-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .sd-thumb span { position: absolute; left: 5px; bottom: 3px; font-size: .66rem; font-weight: 800; color: #fff; font-family: ui-monospace, monospace; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
+        .sd-thumb:hover { opacity: 1; transform: translateY(-3px); }
+        .sd-thumb.is-active { opacity: 1; border-color: var(--green); box-shadow: 0 0 0 3px rgba(61,168,69,.35); }
+
+        .sd-show-bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.25); overflow: hidden; }
+        .sd-show-bar-fill { height: 100%; width: 100%; transform-origin: left; background: linear-gradient(90deg, var(--blue), var(--green)); animation: sd-progress 7s linear forwards; }
+        .sd-show-bar-fill.is-paused { animation-play-state: paused; }
+        @keyframes sd-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+        .sd-show-info { padding: clamp(22px, 2.4vw, 32px); display: flex; flex-direction: column; overflow-y: visible; max-height: none; background: linear-gradient(180deg, #fff 0%, var(--bg) 100%); }
+        .sd-show-info-in { display: flex; flex-direction: column; flex: 1; animation: sd-textin .6s cubic-bezier(.16,1,.3,1); }
+        @keyframes sd-textin { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+        .sd-show-badge { align-self: flex-start; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #fff; background: var(--grad); padding: 6px 14px; border-radius: 999px; }
+        .sd-show-info h3 { margin: 14px 0 0; font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 900; line-height: 1.25; color: var(--navy); }
+        .sd-show-tag { margin: 8px 0 0; font-size: .88rem; font-weight: 600; line-height: 1.5; color: var(--blue); }
+        .sd-show-desc { margin: 12px 0 0; font-size: .88rem; line-height: 1.65; color: #34456B; }
+        .sd-show-info .sd-card-list { margin-top: 16px; }
+        .sd-show-specs { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 18px 0 20px; padding-top: 16px; border-top: 1px dashed var(--line); }
+
+        @media (max-width: 1100px) {
+          .sd-show { grid-template-columns: 6fr 4fr; }
+        }
+        @media (max-width: 1024px) {
+          .sd-show-arrow { display: none !important; }
+        }
+        @media (max-width: 860px) {
+          .sd-show { grid-template-columns: 1fr; border-radius: 20px; }
+          .sd-show-media { height: clamp(280px, 58vw, 400px); min-height: 0; }
+          .sd-show-info { max-height: none; overflow: visible; padding: 20px 18px; }
+          .sd-show-specs { grid-template-columns: 1fr 1fr; }
+          .sd-show-count { top: 14px; left: 14px; font-size: 1rem; padding: 6px 12px; }
+          .sd-show-bottom { padding: 0 14px 14px; }
+          .sd-thumb { width: 72px; height: 48px; border-radius: 10px; }
+        }
+        @media (max-width: 540px) {
+          .sd-show { border-radius: 18px; }
+          .sd-show-arrow { display: none !important; }
+          .sd-thumb { width: 62px; height: 42px; border-radius: 8px; }
+          .sd-show-specs { grid-template-columns: 1fr; }
+          .sd-show-info { padding: 18px 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sd-show-img, .sd-show-info-in, .sd-show-bar-fill { animation: none !important; transition: none !important; }
+        }
 
         /* ---------- CTA ---------- */
         .sd-cta-section { padding-bottom: clamp(60px, 9vw, 120px); }
@@ -1571,14 +1710,28 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
         }
 
         /* Hero responsive rules */
+        @keyframes suez-fade-in {
+          from { opacity: 0; transform: translateY(18px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes suez-letter-up {
+          from { opacity: 0; transform: translateY(110%); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 1024px) {
           .sd-hero-arrow {
             display: none !important;
           }
+          .suez-hero-slider {
+            height: clamp(680px, 88vh, 800px) !important;
+            min-height: 640px !important;
+          }
         }
         @media (max-width: 768px) {
           .suez-hero-slider {
-            height: 660px !important;
+            height: clamp(620px, 85vh, 740px) !important;
+            min-height: 580px !important;
           }
           .suez-slide-content {
             padding: 24px 20px !important;

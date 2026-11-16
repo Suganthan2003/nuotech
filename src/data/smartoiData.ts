@@ -82,7 +82,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Sensor integration & safety interlocks",
       "Industrial electrical troubleshooting"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "custom-machinery",
@@ -98,7 +98,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Custom metal fabrication & enclosures",
       "Precision speed & torque regulation"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "solar-energy",
@@ -114,7 +114,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Energy monitoring & storage",
       "Future 1 MW renewable project planning"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "smart-agriculture",
@@ -130,7 +130,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Tank water level automation & alert",
       "Solar-powered IoT farm monitoring"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.02.58 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "iot-solutions",
@@ -146,7 +146,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Remote equipment control & alerts",
       "Smart home, office & factory IoT"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "pcb-electronics",
@@ -162,7 +162,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Embedded microcontrollers (ARM/ESP)",
       "Testing & productization"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "smart-home",
@@ -178,7 +178,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Voice assistant integration",
       "Remote smartphone security & access"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "cctv-security",
@@ -194,7 +194,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Maintenance & camera upgrades",
       "Integrated perimeter alarm systems"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.29.34 PM (1).jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "gate-automation",
@@ -210,7 +210,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "RFID & Smartphone access control",
       "Integration with CCTV security"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.03.43 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "drone-services",
@@ -226,7 +226,7 @@ export const SOLUTIONS: SolutionItem[] = [
       "Locations: Karur, Namakkal, Udumalaipettai, Coimbatore",
       "Drone assembly & maintenance guidance"
     ],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.19.32 PM (1).jpeg"
+    image: "/img/p1.png"
   }
 ];
 
@@ -238,7 +238,7 @@ export const PRODUCTS: ProductItem[] = [
     badge: "Best Seller",
     description: "Automated pump & valve controller with soil moisture inputs, solar power compatibility, and GSM/Wi-Fi remote monitoring.",
     specs: ["Single/3-Phase Pump Control", "Soil Moisture & Water Level", "Solar DC Input (12-24V)", "Mobile App & SMS Alerts"],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.02.58 PM (1).jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "smartoi-iot-gateway",
@@ -247,7 +247,7 @@ export const PRODUCTS: ProductItem[] = [
     badge: "New Release",
     description: "Rugged DIN-rail industrial ESP32/ARM gateway with RS485 Modbus, Wi-Fi, Ethernet, and cloud MQTT broker integration.",
     specs: ["Dual Core 240MHz", "RS485 / Modbus RTU", "Din-Rail Industrial Enclosure", "Web GUI Dashboard"],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.04.46 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "smartoi-solar-pump",
@@ -256,7 +256,7 @@ export const PRODUCTS: ProductItem[] = [
     badge: "Eco Hero",
     description: "Direct DC solar pump drive with built-in MPPT technology and dry-run safety auto-shutoff.",
     specs: ["MPPT High Efficiency Controller", "DC Submersible / Surface Pump", "Zero Grid Electricity Needed", "Overload & Surge Protection"],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "smartoi-custom-pcb",
@@ -265,7 +265,7 @@ export const PRODUCTS: ProductItem[] = [
     badge: "Custom Build",
     description: "Tailor-made industrial control PCB board with relay outputs, optocoupled inputs, and noise-isolated power supply.",
     specs: ["FR4 2-Layer / 4-Layer PCB", "Opto-isolated Digital I/O", "10A Heavy Duty Relays", "Custom Firmware Pre-loaded"],
-    image: "/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg"
+    image: "/img/p1.png"
   }
 ];
 
@@ -277,7 +277,7 @@ export const PROJECTS: ProjectItem[] = [
     location: "Udumalaipettai, TN",
     description: "Automated 8 multi-zone valves and 3 solar-powered pumps synchronized with soil moisture telemetries.",
     impact: "Saved 45% water usage & reduced manual labor costs by 70%.",
-    image: "/img/WhatsApp Image 2026-09-19 at 1.02.58 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "proj-2",
@@ -286,7 +286,7 @@ export const PROJECTS: ProjectItem[] = [
     location: "Karur, TN",
     description: "Retrofitted legacy textile machinery with automated PLC touchscreen control & motor drive protection.",
     impact: "Boosted production throughput by 35% with zero safety downtime.",
-    image: "/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "proj-3",
@@ -295,7 +295,7 @@ export const PROJECTS: ProjectItem[] = [
     location: "Coimbatore, TN",
     description: "Designed & installed 50 kW Grid-tied solar system with real-time remote cloud energy analytics.",
     impact: "Reduced monthly electricity expenses by over ₹65,000.",
-    image: "/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg"
+    image: "/img/p1.png"
   },
   {
     id: "proj-4",
@@ -304,7 +304,7 @@ export const PROJECTS: ProjectItem[] = [
     location: "Namakkal, TN",
     description: "Automatic motorized sliding gate with integrated HD CCTV camera, RFID entry, and safety sensors.",
     impact: "Enhanced site security & hands-free vehicle entry automation.",
-    image: "/img/WhatsApp Image 2026-09-19 at 1.03.43 PM.jpeg"
+    image: "/img/p1.png"
   }
 ];
 

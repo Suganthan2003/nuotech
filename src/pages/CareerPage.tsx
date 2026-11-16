@@ -884,7 +884,7 @@ const css = `
 .cr-panel-head small { display: block; margin-bottom: 2px; font-size: .85rem; font-weight: 500; color: rgba(255,255,255,.75); }
 .cr-panel-head h2 { margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: -.01em; color: #fff; }
 .cr-live { flex: none; display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px; border-radius: 999px; font-size: .95rem; font-weight: 700; color: #fff; background: var(--green); box-shadow: 0 6px 16px rgba(59,170,53,.45); }
-.cr-live i { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #fff; animation: crPing 1.8s ease-out infinite; }
+.cr-live i { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #fff; }
 
 .cr-role { position: relative; width: 100%; display: flex; align-items: center; gap: 16px; padding: 18px 26px; text-align: left; cursor: pointer; background: transparent; border: 0; border-top: 1px solid #E6EDF7; color: var(--ink); opacity: 0; animation: crSlide .8s cubic-bezier(.16,1,.3,1) forwards; transition: background .3s ease, padding-left .3s ease; }
 .cr-panel-head + .cr-role { border-top: 0; }
@@ -965,7 +965,7 @@ const css = `
 .cr-contact-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 
 .cr-badge-pill { display: inline-flex; align-items: center; gap: 9px; padding: 7px 16px; margin-bottom: 18px; border-radius: 999px; font: 700 .82rem 'Barlow Condensed', sans-serif; letter-spacing: .15em; text-transform: uppercase; color: var(--blue); background: rgba(11,99,206,.08); border: 1px solid rgba(11,99,206,.22); }
-.cr-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: crPulse 1.8s ease-out infinite; }
+.cr-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 .cr-contact-p { margin: 0 0 28px; max-width: 490px; font-size: 1.08rem; line-height: 1.7; color: #475569; }
 
 .cr-touch-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
@@ -1079,8 +1079,6 @@ const css = `
 @keyframes crSlide { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
 @keyframes crRise { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes crGrid { to { background-position: 56px 56px, 56px 56px; } }
-@keyframes crPing { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.8); } 100% { box-shadow: 0 0 0 10px rgba(255,255,255,0); } }
-@keyframes crPulse { 0% { box-shadow: 0 0 0 0 rgba(59,170,53,.55); } 100% { box-shadow: 0 0 0 10px rgba(59,170,53,0); } }
 @keyframes crRib1 { 0% { transform: translate(-40px, 20px) rotate(-2deg) scale(1); } 100% { transform: translate(50px, -30px) rotate(2deg) scale(1.06); } }
 @keyframes crRib2 { 0% { transform: translate(40px, -20px) rotate(2deg) scale(1.04); } 100% { transform: translate(-50px, 30px) rotate(-2deg) scale(1); } }
 @keyframes crShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }

@@ -188,13 +188,26 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="ct-hero-right ct-zoom" style={{ animationDelay: '0.3s' }}>
-              <div className="ct-art">
+              <div className="ct-art ct-video-art">
                 <span className="ct-art-ring ct-art-ring-1" />
                 <span className="ct-art-ring ct-art-ring-2" />
-                <img src="/img/contact_hero_robots.jpg" alt="SMARToi Automation and Solar Solutions" />
+                
+                {/* Looping clean video container without burned-in text */}
+                <div className="ct-video-frame">
+                  <video
+                    src="/v/them.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="ct-hero-video"
+                  />
+                  <div className="ct-video-overlay" />
+                </div>
+
                 <div className="ct-chip ct-chip-1"><Clock size={16} /> Reply in 24 hrs</div>
                 <div className="ct-chip ct-chip-2"><MapPin size={16} /> Karur, Tamil Nadu</div>
-                <div className="ct-chip ct-chip-3"><Sun size={16} /> Solar and automation</div>
+                <div className="ct-chip ct-chip-3"><Sun size={16} /> Solar &amp; automation</div>
               </div>
             </div>
           </div>
@@ -492,7 +505,7 @@ const css = `
   width:100%; overflow-x:hidden; overflow-x:clip; -webkit-text-size-adjust:100%; }
 .ct *, .ct *::before, .ct *::after { box-sizing:border-box; }
 .ct img { max-width:100%; }
-.ct-container { width:100%; max-width:1240px; margin:0 auto; padding:0 24px; }
+.ct-container { width:100%; max-width:1400px; margin:0 auto; padding:0 32px; }
 .ct button, .ct input, .ct select, .ct textarea { font-family:inherit; }
 .ct :focus-visible { outline:3px solid rgba(11,99,206,.45); outline-offset:2px; }
 
@@ -570,7 +583,31 @@ const css = `
 .ct-trust span { display:inline-flex; align-items:center; gap:8px; }
 .ct-trust i { width:9px; height:9px; border-radius:50%; background:var(--green); flex:none; }
 
-.ct-art { position:relative; display:grid; place-items:center; padding:30px; }
+.ct-art { position:relative; display:grid; place-items:center; padding:30px; width:100%; max-width:620px; margin:0 auto; }
+.ct-video-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(11, 99, 206, 0.22), 0 10px 24px rgba(0, 0, 0, 0.12);
+  border: 4px solid #FFFFFF;
+  background: #000;
+  animation: ctFloat 6s ease-in-out infinite;
+}
+.ct-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ct-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 42, 110, 0.08) 0%, rgba(14, 42, 110, 0.32) 100%);
+  pointer-events: none;
+}
 .ct-art img { position:relative; z-index:2; width:100%; height:auto; max-height:440px; object-fit:contain; filter:drop-shadow(0 18px 34px rgba(20,48,127,.18)); animation:ctFloat 6s ease-in-out infinite; }
 .ct-art-ring { position:absolute; border-radius:50%; border:2px dashed; }
 .ct-art-ring-1 { width:86%; aspect-ratio:1; border-color:rgba(11,99,206,.28); animation:ctPulse 5s ease-in-out infinite; }

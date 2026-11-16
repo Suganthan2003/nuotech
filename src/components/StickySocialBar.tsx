@@ -8,6 +8,9 @@ export const StickySocialBar: React.FC = () => {
   const instagramHref = COMPANY_INFO.socials.instagram && COMPANY_INFO.socials.instagram !== '#'
     ? COMPANY_INFO.socials.instagram
     : 'https://www.instagram.com';
+  const linkedinHref = COMPANY_INFO.socials.linkedin && COMPANY_INFO.socials.linkedin !== '#'
+    ? COMPANY_INFO.socials.linkedin
+    : 'https://www.linkedin.com';
 
   return (
     <>
@@ -15,20 +18,33 @@ export const StickySocialBar: React.FC = () => {
         className="sticky-social-bar"
         aria-label="Quick contact channels"
       >
-        {/* WhatsApp Icon */}
+        {/* 1st: LinkedIn Icon */}
         <a
-          href={whatsappUrl}
+          href={linkedinHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="sticky-social-link whatsapp"
-          title="Chat on WhatsApp"
-          aria-label="WhatsApp"
+          className="sticky-social-link linkedin"
+          title="Connect on LinkedIn"
+          aria-label="LinkedIn"
         >
-          <MessageCircle size={22} />
-          <span className="sticky-tooltip">WhatsApp</span>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+            <rect x="2" y="9" width="4" height="12" />
+            <circle cx="4" cy="4" r="2" />
+          </svg>
+          <span className="sticky-tooltip">LinkedIn</span>
         </a>
 
-        {/* Instagram Icon (Inline SVG for pixel-perfect brand rendering) */}
+        {/* 2nd: Instagram Icon (Inline SVG for pixel-perfect brand rendering) */}
         <a
           href={instagramHref}
           target="_blank"
@@ -54,6 +70,19 @@ export const StickySocialBar: React.FC = () => {
           <span className="sticky-tooltip">Instagram</span>
         </a>
 
+        {/* 3rd: WhatsApp Icon */}
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sticky-social-link whatsapp"
+          title="Chat on WhatsApp"
+          aria-label="WhatsApp"
+        >
+          <MessageCircle size={22} />
+          <span className="sticky-tooltip">WhatsApp</span>
+        </a>
+
         {/* Call Icon */}
         <a
           href={phoneHref}
@@ -75,14 +104,14 @@ export const StickySocialBar: React.FC = () => {
           z-index: 998;
           display: flex;
           flex-direction: column;
-          background: rgba(10, 18, 38, 0.92);
+          background: rgba(10, 18, 38, 0.94);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
           border: 1px solid rgba(0, 102, 255, 0.35);
           border-right: none;
-          border-radius: 14px 0 0 14px;
-          padding: 8px 6px;
-          gap: 8px;
+          border-radius: 16px 0 0 16px;
+          padding: 10px 7px;
+          gap: 12px;
           box-shadow: -4px 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 82, 204, 0.25);
           transition: transform 0.3s ease;
         }
@@ -91,7 +120,7 @@ export const StickySocialBar: React.FC = () => {
           position: relative;
           width: 44px;
           height: 44px;
-          border-radius: 10px;
+          border-radius: 12px;
           display: grid;
           place-items: center;
           color: #FFFFFF;
@@ -107,6 +136,10 @@ export const StickySocialBar: React.FC = () => {
         .sticky-social-link.instagram {
           background: linear-gradient(45deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
           box-shadow: 0 4px 12px rgba(221, 42, 123, 0.35);
+        }
+        .sticky-social-link.linkedin {
+          background: #0A66C2;
+          box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
         }
         .sticky-social-link.phone {
           background: linear-gradient(135deg, #0052CC 0%, #0066FF 100%);
@@ -162,14 +195,14 @@ export const StickySocialBar: React.FC = () => {
         /* Phone & Tablet Adjustment */
         @media (max-width: 640px) {
           .sticky-social-bar {
-            padding: 6px 4px;
-            gap: 6px;
-            border-radius: 12px 0 0 12px;
+            padding: 8px 4px;
+            gap: 10px;
+            border-radius: 14px 0 0 14px;
           }
           .sticky-social-link {
             width: 38px;
             height: 38px;
-            border-radius: 8px;
+            border-radius: 10px;
           }
           .sticky-social-link svg {
             width: 18px;

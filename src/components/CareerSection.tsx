@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { COMPANY_INFO } from '../data/nuoData';
 import {
   Send, Cpu, Sun, Radio, Settings, Code,
-  MapPin, Clock, Award, ShieldCheck, X, Sparkles,
+  MapPin, Clock, Award, ShieldCheck, X,
   User, Phone, Mail, UploadCloud, FileText, ArrowRight, Wrench
 } from 'lucide-react';
 
@@ -58,7 +58,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur, Tamil Nadu',
       icon: <Settings size={28} />,
       accentColor: '#0B63CE',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/1.png',
       skills: ['SolidWorks', 'Fusion 360', 'AutoCAD', 'CAM Toolpathing', 'CNC Machining'],
       summary: 'CAD/CAM design combines Computer-Aided Design (CAD) and Computer-Aided Manufacturing (CAM) to turn digital ideas into physical products for automated machinery.',
       responsibilities: [
@@ -79,7 +79,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur, Tamil Nadu',
       icon: <Sun size={28} />,
       accentColor: '#E2A21F',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/2.png',
       skills: ['AutoCAD Solar', 'PVsyst / Helioscope', 'Solar Water Heating', 'Electrical SLD'],
       summary: 'Design turnkey solar PV array layouts, solar water heating grids, and single-line electrical diagrams for residential, commercial, and industrial projects.',
       responsibilities: [
@@ -100,7 +100,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur / Commercial Site Commissioning',
       icon: <ShieldCheck size={28} />,
       accentColor: '#14307F',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/3.png',
       skills: ['BACnet / Modbus', 'HVAC Automation', 'BMS Controller Firmware', 'SCADA / HMI', 'Smart Sensors'],
       summary: 'Design, program, and integrate Building Management Systems (BMS) for HVAC control, energy metering, smart lighting, and commercial facility telemetry.',
       responsibilities: [
@@ -119,9 +119,9 @@ export const CareerSection: React.FC = () => {
       type: 'Internship / Entry Level',
       experience: '0 - 1 Year (Fresher / Intern)',
       location: 'Karur, Tamil Nadu',
-      icon: <Sparkles size={28} />,
+      icon: <Award size={28} />,
       accentColor: '#F28C0F',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/4.png',
       skills: ['AutoCAD', 'SolidWorks Basics', 'Mechanical Drafting', '3D Printing', 'Prototyping'],
       summary: 'Hands-on internship for entry-level mechanical engineering graduates to master CAD modeling, CAM CNC toolpaths, 3D printing, and machine assembly.',
       responsibilities: [
@@ -142,7 +142,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur, Tamil Nadu',
       icon: <Cpu size={28} />,
       accentColor: '#0B63CE',
-      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/5.png',
       skills: ['ESP32 / STM32', 'C / C++', 'FreeRTOS', 'MQTT / RS485', 'Circuit Design'],
       summary: 'Develop custom microcontroller firmware, industrial sensor interfaces, and IoT telemetry systems.',
       responsibilities: [
@@ -163,7 +163,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur / Site Commissioning',
       icon: <Settings size={28} />,
       accentColor: '#F28C0F',
-      avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/6.png',
       skills: ['Siemens / Delta PLC', 'VFD Drives', 'HMI Programming', 'Control Panel Wiring'],
       summary: 'Design, program, and commission custom machine automation panels and industrial control systems.',
       responsibilities: [
@@ -184,7 +184,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur / Tamil Nadu Field Sites',
       icon: <Sun size={28} />,
       accentColor: '#E2A21F',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/7.png',
       skills: ['Solar PV & Thermal', 'Inverter Sizing', 'Site Audit', 'Grid Commissioning'],
       summary: 'Lead turnkey solar water heater installations, commercial PV grid designs, and site energy audits.',
       responsibilities: [
@@ -205,7 +205,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur, Tamil Nadu',
       icon: <Cpu size={28} />,
       accentColor: '#0284C7',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/8.png',
       skills: ['EasyEDA / Altium', 'Multi-Layer PCB', 'SMD Soldering', 'EMI/EMC Testing'],
       summary: 'Design multi-layer PCB schematics, board layouts, and oversee rapid prototyping assembly.',
       responsibilities: [
@@ -226,7 +226,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur / Namakkal / Udumalaipettai',
       icon: <Radio size={28} />,
       accentColor: '#3BAA35',
-      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/9.png',
       skills: ['DGCA License', 'Spraying Drones', 'GPS Flight Planning', 'Telemetry'],
       summary: 'Conduct agricultural drone mapping, crop spraying operations, and train certified pilot trainees.',
       responsibilities: [
@@ -247,7 +247,7 @@ export const CareerSection: React.FC = () => {
       location: 'Karur / Hybrid Remote',
       icon: <Code size={28} />,
       accentColor: '#7C5CE0',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+      avatar: '/img/10.png',
       skills: ['React / TypeScript', 'Node.js / Python', 'TimescaleDB / MQTT', 'REST APIs'],
       summary: 'Build real-time web telemetry dashboards, IoT device management platforms, and cloud APIs.',
       responsibilities: [
@@ -359,7 +359,6 @@ export const CareerSection: React.FC = () => {
         {/* ============ Header ============ */}
         <div className="cs-head">
           <div className="cs-badge">
-            <Sparkles size={15} />
             <span>Join SMARToi Career Club</span>
           </div>
 

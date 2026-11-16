@@ -41,7 +41,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'Touch, voice and app control for every room',
     description: 'Custom smart switches, motorized curtain controllers, energy metering, CCTV security and smartphone triggers, installed neatly and tuned to the way you live and work.',
     audience: 'Homes, apartments, offices and showrooms',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.33.07 PM.jpeg', accent: BLUE_LIGHT,
+    image: '/img/p1.png', accent: BLUE_LIGHT,
     subItems: ['Smart Switches', 'Smart Lights', 'CCTV', 'Smart Door Locks']
   },
   {
@@ -49,7 +49,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'Control panels built for 24/7 reliability',
     description: 'Custom electrical control panels, PLC automation, VFD motor controllers, automated gate systems and sensor telemetry, engineered for continuous operation.',
     audience: 'Factories, workshops, farms and gated premises',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.09 PM.jpeg', accent: GREEN_LIGHT,
+    image: '/img/a3.png', accent: GREEN_LIGHT,
     subItems: ['Gate Automation', 'Smart Irrigation', 'Custom Products', 'Industrial Training']
   },
   {
@@ -57,7 +57,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'Clean power for homes, farms and factories',
     description: 'Turnkey rooftop solar PV, high-efficiency BLDC solar pump controllers, outdoor solar lighting and commercial grid-tied installations, from survey to commissioning.',
     audience: 'Homeowners, farmers and commercial buildings',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM.jpeg', accent: GREEN_LIGHT,
+    image: '/img/b1.png', accent: GREEN_LIGHT,
     subItems: ['1-10kW Residential', 'BLDC Pump Motors', 'Outdoor Solar', '10-100kW Commercial']
   },
   {
@@ -65,7 +65,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'Hands-on technology training for future engineers',
     description: 'Certified practical programs in drone piloting, multi-layer PCB design, CAD/CAM modeling and AI robotics, taught in labs across Tamil Nadu.',
     audience: 'Students, graduates and working technicians',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.19.32 PM (1).jpeg', accent: BLUE_LIGHT,
+    image: '/img/c1.png', accent: BLUE_LIGHT,
     subItems: ['Drone Pilot Training', 'PCB Layout & Fab', 'CAD/CAM Modeling', 'AI & Robotics']
   },
   {
@@ -73,7 +73,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'Greeting and serving robots that draw a crowd',
     description: 'Autonomous serve robots and interactive greeting robots for showrooms, restaurants, hospitals and events, with custom navigation and voice interaction.',
     audience: 'Hotels, restaurants, hospitals and corporate events',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.05.14 PM.jpeg', accent: GREEN_LIGHT,
+    image: '/img/d2.png', accent: GREEN_LIGHT,
     subItems: ['Serve Robot', 'Greeting Robot', 'Custom Navigation', 'Voice AI Interaction']
   },
   {
@@ -81,7 +81,7 @@ const SOLUTIONS: Solution[] = [
     tagline: 'From prototype to finished metalwork',
     description: 'Industrial 3D printing, metal and non-metal laser cutting, DRO lathe machining, sheet bending, powder coating and custom enclosure painting under one roof.',
     audience: 'Product makers, startups and machine builders',
-    image: '/img/WhatsApp Image 2026-09-19 at 1.29.34 PM.jpeg', accent: BLUE_LIGHT,
+    image: '/img/e6.png', accent: BLUE_LIGHT,
     subItems: ['3D Printing', 'Laser Cutting', 'DRO Lathe Machining', 'Powder Coating']
   }
 ];
@@ -556,7 +556,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ openQuoteModalWithSo
 export default ProductsPage;
 
 /* ---------------------------------------------------------------------
-   CSS_EXTRA  (define this after the existing `const CSS`)
+   CSS_EXTRA
    --------------------------------------------------------------------- */
 const CSS_EXTRA = `
 .sx-sectors,.sx-why,.sx-process,.sx-faq,.sx-stats,.sx-cta { position:relative; }
@@ -986,8 +986,14 @@ const CSS = `
   box-sizing: border-box;
 }
 .sp-hero-bg { position:absolute; inset:0; z-index:0; background-size:cover; background-position:center; animation:spBg .8s ease both; }
-.sp-hero-shade { position:absolute; inset:0; z-index:1;
-  background:linear-gradient(90deg,rgba(7,21,51,.97) 0%,rgba(10,28,70,.9) 38%,rgba(11,40,100,.5) 72%,rgba(11,60,90,.3) 100%),linear-gradient(180deg,rgba(7,21,51,.45) 0%,transparent 35%,rgba(7,21,51,.8) 100%); }
+
+/* Dark shade ONLY on the top-left / text side. The rest of the image stays clear. */
+.sp-hero-shade {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(7,21,51,.92) 0%, rgba(8,24,62,.78) 26%, rgba(8,24,62,.36) 46%, rgba(8,24,62,0) 64%),
+    linear-gradient(180deg, rgba(7,21,51,.5) 0%, rgba(7,21,51,0) 22%, rgba(7,21,51,0) 72%, rgba(7,21,51,.55) 100%);
+}
 .sp-topline { position:absolute; top:0; left:0; right:0; height:4px; z-index:3; background:linear-gradient(90deg,${NAVY},${BLUE} 55%,${GREEN}); }
 .sp-hero-inner {
   display: flex;
@@ -1079,8 +1085,21 @@ const CSS = `
 
 /* ============ RESPONSIVE ============ */
 @media (max-width:1100px) {
+  /* Stacked layout: the image stays clear, only the text div gets its own dark panel */
+  .sp-hero-shade {
+    background: linear-gradient(180deg, rgba(7,21,51,.45) 0%, rgba(7,21,51,.05) 40%, rgba(7,21,51,.05) 70%, rgba(7,21,51,.55) 100%);
+  }
   .sp-hero-grid { grid-template-columns:minmax(0,1fr); gap:28px; align-content:center; }
-  .sp-hero-content { max-width:680px; }
+  .sp-hero-content {
+    max-width: 680px;
+    padding: clamp(20px, 3vw, 30px);
+    border-radius: 22px;
+    background: rgba(7,21,51,.8);
+    border: 1px solid rgba(255,255,255,.14);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 44px rgba(0,0,0,.35);
+  }
   .sp-hero-cards { gap:12px; overflow-x:auto; padding:4px 2px 10px; scrollbar-width:none; }
   .sp-hero-cards::-webkit-scrollbar { display:none; }
   .sp-hcard, .sp-hcard-next { width:170px; height:220px; border-radius:18px; }
@@ -1097,7 +1116,7 @@ const CSS = `
     gap: 22px;
     min-height: 0;
   }
-  .sp-hero-shade { background:linear-gradient(180deg,rgba(7,21,51,.9) 0%,rgba(10,28,70,.93) 55%,rgba(7,21,51,.97) 100%); }
+  .sp-hero-content { padding: 20px 18px; border-radius: 20px; }
   .sp-hero-desc { font-size:1rem; }
   .sp-btn { flex:1 1 100%; padding:14px 20px; }
   .sp-hcard, .sp-hcard-next { width:148px; height:192px; border-radius:16px; }
