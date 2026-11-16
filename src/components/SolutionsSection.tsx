@@ -9,7 +9,7 @@ import {
 /*  SMARTOI BRAND PALETTE (taken from the logo)                        */
 /*  navy  = SMART letters, blue = "T" + dot, green = triangle + power  */
 /* ------------------------------------------------------------------ */
-export const BRAND = {
+const BRAND = {
   navy: '#14398F',
   blue: '#0B5BD3',
   sky: '#2F80ED',
@@ -28,7 +28,7 @@ interface SolutionsSectionProps {
 
 type IconType = React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
 
-export interface SectorItem {
+interface SectorItem {
   id: string;
   title: string;
   category: string;
@@ -40,7 +40,7 @@ export interface SectorItem {
   features: { icon: IconType; label: string }[];
 }
 
-export const SOLUTIONS_DATA: SectorItem[] = [
+const SOLUTIONS_DATA: SectorItem[] = [
   {
     id: 'smart-living-solutions',
     title: 'Smart Living Solutions',

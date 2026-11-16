@@ -38,7 +38,8 @@ export const Navbar: React.FC<NavbarProps> = ({ openQuoteModal }) => {
 
   // Close drawer on route navigation
   useEffect(() => {
-    setMobileMenuOpen(false);
+    const timer = setTimeout(() => setMobileMenuOpen(false), 0);
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   return (

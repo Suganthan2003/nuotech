@@ -211,7 +211,8 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    setRole(initialRole);
+    const timer = setTimeout(() => setRole(initialRole), 0);
+    return () => clearTimeout(timer);
   }, [initialRole]);
 
   const pickFile = (file: File | null | undefined) => {

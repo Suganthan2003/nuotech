@@ -23,7 +23,8 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
 
   // Sync state whenever modal opens or preSelectedSolution changes
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    const timer = setTimeout(() => {
       setIsSubmitted(false);
       if (preSelectedSolution) {
         const sectorMatch = SOLUTION_SECTORS.find(
@@ -50,7 +51,8 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
           }
         }
       }
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [isOpen, preSelectedSolution]);
 
   // Close on Escape + lock background scroll while open

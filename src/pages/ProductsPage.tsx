@@ -145,7 +145,13 @@ const CountUp: React.FC<{ to: number; decimals?: number; suffix?: string }> = ({
   const [ref, seen] = useInView<HTMLSpanElement>();
   const [val, setVal] = useState(noMotion() ? to : 0);
   useEffect(() => {
-    if (!seen || noMotion()) { if (seen) setVal(to); return; }
+    if (!seen || noMotion()) {
+      if (seen) {
+        const timer = setTimeout(() => setVal(to), 0);
+        return () => clearTimeout(timer);
+      }
+      return;
+    }
     let raf = 0; const t0 = performance.now(); const dur = 1400;
     const tick = (t: number) => {
       const p = Math.min((t - t0) / dur, 1);

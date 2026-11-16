@@ -671,8 +671,8 @@ const Reveal: React.FC<{
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === 'undefined') {
-      setShown(true);
-      return;
+      const timer = setTimeout(() => setShown(true), 0);
+      return () => clearTimeout(timer);
     }
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -749,17 +749,20 @@ export const SectorDetailPage: React.FC<SectorDetailPageProps> = ({ openQuoteMod
     return () => clearInterval(heroTimer);
   }, [isHeroPaused, totalSubs]);
 
-  // Reset indices when sector changes
-  useEffect(() => {
-    setHeroSlideIdx(0);
-    setShowIdx(0);
-  }, [sector.id]);
-
   // ==========================================================
   // MODULE SHOWCASE (single card: 70% image slider / 30% text)
   // ==========================================================
   const [showIdx, setShowIdx] = useState<number>(0);
   const [showPaused, setShowPaused] = useState<boolean>(false);
+
+  // Reset indices when sector changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHeroSlideIdx(0);
+      setShowIdx(0);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [sector.id]);
 
   const goShow = (i: number) => setShowIdx((i + totalSubs) % totalSubs);
 

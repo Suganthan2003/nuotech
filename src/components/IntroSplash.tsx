@@ -7,21 +7,21 @@ interface IntroSplashProps {
 export const IntroSplash: React.FC<IntroSplashProps> = ({ onComplete }) => {
   const [fadingOut, setFadingOut] = useState(false);
 
+  const triggerComplete = React.useCallback(() => {
+    setFadingOut(true);
+    setTimeout(() => {
+      onComplete();
+    }, 800);
+  }, [onComplete]);
+
   useEffect(() => {
-    // Automatic 10 seconds timeout
+    // Automatic timeout
     const timer = setTimeout(() => {
       triggerComplete();
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
-
-  const triggerComplete = () => {
-    setFadingOut(true);
-    setTimeout(() => {
-      onComplete();
-    }, 800);
-  };
+  }, [triggerComplete]);
 
   const brandLetters = [
     { char: 'S', animClass: 'bounce-from-top-left', delay: '0.1s', isSuffix: false },

@@ -1,0 +1,39 @@
+:root {
+  /* Brand Primary Colors */
+  --color-navy: #14307F;
+  --color-navy-deep: #0D2054;
+  --color-navy-rgb: 20, 48, 127;
+
+  --color-blue: #0B63CE;
+  --color-blue-rgb: 11, 99, 206;
+  --color-blue-light: #3B82F6;
+  --color-blue-soft: #F0F6FE;
+
+  /* Accent Green Colors */
+  --color-green: #3BAA35;
+  --color-green-rgb: 59, 170, 53;
+  --color-green-light: #10B981;
+  --color-green-soft: #EEF9F1;
+
+  /* Neutrals & Text */
+  --color-bg-soft: #F6F9FD;
+  --color-line: #E2E8F0;
+  --color-ink: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #E2E8F0;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-navy) 0%, var(--color-blue) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-blue) 0%, var(--color-green) 100%);
+  --gradient-soft: linear-gradient(180deg, #FFFFFF 0%, #F6F9FD 100%);
+
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+
+  /* Container Max Widths */
+  --container-max-width: 1400px;
+  --container-narrow-width: 1140px;
+  --container-padding: clamp(16px, 4vw, 32px);
+}

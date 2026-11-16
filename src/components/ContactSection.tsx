@@ -17,8 +17,8 @@ const useInView = <T extends HTMLElement>(threshold = 0.15) => {
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === 'undefined') {
-      setInView(true);
-      return;
+      const timer = setTimeout(() => setInView(true), 0);
+      return () => clearTimeout(timer);
     }
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -59,7 +59,16 @@ const Reveal: React.FC<{
 // Content
 // ----------------------------------------------------
 const HOURS = 'Mon – Sat: 9:00 AM – 7:00 PM';
-const sectorIcons = [<Cpu size={24} />, <Sun size={24} />, <Plane size={24} />, <CircuitBoard size={24} />, <Zap size={24} />, <Layers size={24} />, <Compass size={24} />, <Wrench size={24} />];
+const sectorIcons = [
+  <Cpu key="cpu" size={24} />,
+  <Sun key="sun" size={24} />,
+  <Plane key="plane" size={24} />,
+  <CircuitBoard key="cb" size={24} />,
+  <Zap key="zap" size={24} />,
+  <Layers key="layers" size={24} />,
+  <Compass key="comp" size={24} />,
+  <Wrench key="wrench" size={24} />
+];
 const sectorColors = ['#0B63CE', '#3BAA35', '#14307F', '#2E9E5B'];
 
 const steps = [
