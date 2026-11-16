@@ -1,6 +1,6 @@
 import React from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
-import { COMPANY_INFO } from '../data/nuoData';
+import { COMPANY_INFO } from '@/data/nuoData';
 
 export const StickySocialBar: React.FC = () => {
   const whatsappUrl = COMPANY_INFO.whatsappUrl || 'https://wa.me/919965608260';

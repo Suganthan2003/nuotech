@@ -1,9 +1,5 @@
 import React from 'react';
-import { Hero } from '../components/Hero';
-import { AboutUsSection } from '../components/AboutUsSection';
-import { ProcessSection } from '../components/ProcessSection';
-import { SolutionsSection } from '../components/SolutionsSection';
-import { CtaBannerSection } from '../components/CtaBannerSection';
+import { Hero, AboutUsSection, ProcessSection, SolutionsSection, CtaBannerSection } from '@/components/sections';
 import { useNavigate } from 'react-router-dom';
 
 interface HomePageProps {
@@ -41,3 +37,4 @@ export const HomePage: React.FC<HomePageProps> = ({ openQuoteModalWithSolution }
   );
 };
 
+export default HomePage;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { COMPANY_INFO, SOLUTION_SECTORS } from '../data/nuoData';
+import { COMPANY_INFO, SOLUTION_SECTORS } from '@/data/nuoData';
 import {
   Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, ArrowRight, ArrowUpRight,
   Navigation, Clock, Bot, ClipboardList, Users, Wrench, Rocket, Cpu, Sun, Plane,

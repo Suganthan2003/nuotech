@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { COMPANY_INFO } from '../data/nuoData';
+import { COMPANY_INFO } from '@/data/nuoData';
 import { 
   Phone, Mail, MapPin, LayoutGrid, Settings, Headphones, Clock,
   Bot, Tractor, GraduationCap, Factory, ShieldCheck, Cloud

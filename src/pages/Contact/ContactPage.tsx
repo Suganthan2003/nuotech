@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ContactSection } from '../components/ContactSection';
+import { ContactSection } from '@/components/sections';
 
 export const ContactPage: React.FC = () => {
   useEffect(() => {
@@ -12,3 +12,5 @@ export const ContactPage: React.FC = () => {
     </div>
   );
 };
+
+export default ContactPage;

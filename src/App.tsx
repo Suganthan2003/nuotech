@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
-import { CalculatorModal } from './components/CalculatorModal';
-import { ScrollToTop } from './components/ScrollToTop';
-import { BackToTopButton } from './components/BackToTopButton';
-import { StickySocialBar } from './components/StickySocialBar';
-import { IntroSplash } from './components/IntroSplash';
+import { Navbar, Footer, StickySocialBar, BackToTopButton, ScrollToTop } from '@/components/common';
+import { CalculatorModal } from '@/components/modals';
+import { IntroSplash } from '@/components/sections';
 
-import { HomePage } from './pages/HomePage';
-import { AboutPage } from './pages/AboutPage';
-import { ProductsPage } from './pages/ProductsPage';
-import { CareerPage } from './pages/CareerPage';
-import { ContactPage } from './pages/ContactPage';
-import { SectorDetailPage } from './pages/SectorDetailPage';
+// Lazy-loaded pages for optimized Level 5 code splitting
+const HomePage = lazy(() => import('@/pages/Home'));
+const AboutPage = lazy(() => import('@/pages/About'));
+const ProductsPage = lazy(() => import('@/pages/Products'));
+const CareerPage = lazy(() => import('@/pages/Career'));
+const ContactPage = lazy(() => import('@/pages/Contact'));
+const SectorDetailPage = lazy(() => import('@/pages/SectorDetail'));
 
 export const App: React.FC = () => {
   const [showIntro, setShowIntro] = useState<boolean>(true);
@@ -44,23 +41,25 @@ export const App: React.FC = () => {
         )}
 
         <main style={{ flex: 1 }}>
-          <Routes>
-            <Route path="/" element={<HomePage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/product" element={<ProductsPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
-            <Route path="/career" element={<CareerPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/solution/:sectorId" element={<SectorDetailPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
-            <Route path="/solutions/:sectorId" element={<SectorDetailPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
-            {/* Fallback route */}
-            <Route path="*" element={<HomePage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
-          </Routes>
+          <Suspense fallback={<div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#0B63CE' }}>Loading SMARToi...</div>}>
+            <Routes>
+              <Route path="/" element={<HomePage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/product" element={<ProductsPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              <Route path="/products" element={<ProductsPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              <Route path="/career" element={<CareerPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/solution/:sectorId" element={<SectorDetailPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              <Route path="/solutions/:sectorId" element={<SectorDetailPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              <Route path="/sectors/:sectorId" element={<SectorDetailPage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+              {/* Fallback route */}
+              <Route path="*" element={<HomePage openQuoteModalWithSolution={openQuoteModalWithSolution} />} />
+            </Routes>
+          </Suspense>
         </main>
 
         <Footer />
-
         <BackToTopButton />
-
         <StickySocialBar />
 
         <CalculatorModal 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { COMPANY_INFO } from '../data/nuoData';
+import { COMPANY_INFO } from '@/data/nuoData';
 import {
   Send, Cpu, Sun, Radio, Settings, Code,
   MapPin, Clock, Award, ShieldCheck, X,

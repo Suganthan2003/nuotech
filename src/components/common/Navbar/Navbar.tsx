@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Zap, Home, Info, Cpu, Briefcase, Mail, ChevronRight, Phone } from 'lucide-react';
-import { COMPANY_INFO } from '../data/nuoData';
+import { COMPANY_INFO } from '@/data/nuoData';
 
 interface NavbarProps {
   openQuoteModal: () => void;

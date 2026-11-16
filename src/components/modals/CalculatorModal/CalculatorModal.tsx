@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SOLUTION_SECTORS } from '../data/nuoData';
+import { SOLUTION_SECTORS } from '@/data/nuoData';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 
 interface CalculatorModalProps {

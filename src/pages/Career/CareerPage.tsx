@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CareerSection } from '../components/CareerSection';
-import { COMPANY_INFO } from '../data/nuoData';
+import { CareerSection } from '@/components/sections';
+import { COMPANY_INFO } from '@/data/nuoData';
 import {
   Mail, Send, ArrowRight, ArrowUpRight, Cpu, PenTool, Plane, CircuitBoard,
   Wrench, Layers, Users, TrendingUp, Compass, Sun, ChevronDown, MapPin, Phone, Clock,

@@ -4,7 +4,7 @@ import {
   CircuitBoard, ChevronRight, Leaf, ShieldCheck, Wrench, Handshake, Clock
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { COMPANY_INFO } from '../data/nuoData';
+import { COMPANY_INFO } from '@/data/nuoData';
 
 // ----------------------------------------------------
 // Helpers: in-view detection, scroll reveal, count-up
