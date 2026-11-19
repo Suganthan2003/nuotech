@@ -80,10 +80,11 @@ export const AboutUsSection: React.FC = () => {
         {/* Header */}
         <header className="aus-header">
           <div className="aus-brand">
-            <div className="aus-brand-name">
-              <span style={{ color: '#0052CC' }}>SMART</span>
-              <span style={{ color: '#10B981' }}>oi</span>
-            </div>
+            <img
+              src="/img/logos-transparent.png"
+              alt="SMARToi Logo"
+              className="aus-brand-logo"
+            />
             <span className="aus-brand-tag">Intelligent Automation</span>
           </div>
 
@@ -198,7 +199,7 @@ export const AboutUsSection: React.FC = () => {
         /* Header */
         .aus-header { text-align: center; max-width: 820px; margin: 0 auto clamp(18px, 3.5vh, 36px); }
         .aus-brand { display: inline-flex; flex-direction: column; align-items: center; margin-bottom: clamp(8px, 1.6vh, 16px); }
-        .aus-brand-name { display: flex; font-size: clamp(2rem, 5vh, 3.2rem); font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+        .aus-brand-logo { height: clamp(48px, 6vh, 72px); width: auto; object-fit: contain; display: block; }
         .aus-brand-tag { margin-top: 6px; font-size: clamp(.65rem, 1.4vw, .85rem); font-weight: 800; color: #0052CC; letter-spacing: .28em; text-transform: uppercase; }
         .aus-title { font-size: clamp(1.45rem, 3.4vw, 2.5rem); font-weight: 800; line-height: 1.18; letter-spacing: -.5px; margin: 0 0 clamp(8px, 1.4vh, 14px); }
         .aus-lead { font-size: clamp(.9rem, 1.4vw, 1.02rem); color: #475569; line-height: 1.6; margin: 0 auto; max-width: 720px; }
