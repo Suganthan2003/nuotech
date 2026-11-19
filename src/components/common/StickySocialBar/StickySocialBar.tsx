@@ -1,16 +1,21 @@
-import React from 'react';
-import { Phone, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Phone, MessageCircle, X } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/nuoData';
 
 export const StickySocialBar: React.FC = () => {
-  const whatsappUrl = COMPANY_INFO.whatsappUrl || 'https://wa.me/919965608260';
-  const phoneHref = `tel:${COMPANY_INFO.phone.split(' ')[0] || '9585076764'}`;
+  const [modalType, setModalType] = useState<'whatsapp' | 'call' | null>(null);
+
   const instagramHref = COMPANY_INFO.socials.instagram && COMPANY_INFO.socials.instagram !== '#'
     ? COMPANY_INFO.socials.instagram
     : 'https://www.instagram.com';
   const linkedinHref = COMPANY_INFO.socials.linkedin && COMPANY_INFO.socials.linkedin !== '#'
     ? COMPANY_INFO.socials.linkedin
     : 'https://www.linkedin.com';
+
+  const numbers = [
+    { label: '+91 95850 76764', raw: '9585076764', tel: 'tel:+919585076764', wa: 'https://wa.me/919585076764?text=Hello%20SMARToi%2C%20I%20am%20interested%20in%20your%20services' },
+    { label: '+91 95850 76765', raw: '9585076765', tel: 'tel:+919585076765', wa: 'https://wa.me/919585076765?text=Hello%20SMARToi%2C%20I%20am%20interested%20in%20your%20services' }
+  ];
 
   return (
     <>
@@ -44,7 +49,7 @@ export const StickySocialBar: React.FC = () => {
           <span className="sticky-tooltip">LinkedIn</span>
         </a>
 
-        {/* 2nd: Instagram Icon (Inline SVG for pixel-perfect brand rendering) */}
+        {/* 2nd: Instagram Icon */}
         <a
           href={instagramHref}
           target="_blank"
@@ -70,30 +75,79 @@ export const StickySocialBar: React.FC = () => {
           <span className="sticky-tooltip">Instagram</span>
         </a>
 
-        {/* 3rd: WhatsApp Icon */}
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* 3rd: WhatsApp Icon (Triggers Popup to select number) */}
+        <button
+          type="button"
+          onClick={() => setModalType('whatsapp')}
           className="sticky-social-link whatsapp"
           title="Chat on WhatsApp"
           aria-label="WhatsApp"
         >
           <MessageCircle size={22} />
           <span className="sticky-tooltip">WhatsApp</span>
-        </a>
+        </button>
 
-        {/* Call Icon */}
-        <a
-          href={phoneHref}
+        {/* 4th: Call Icon (Triggers Popup to select number) */}
+        <button
+          type="button"
+          onClick={() => setModalType('call')}
           className="sticky-social-link phone"
           title="Call Us Now"
           aria-label="Call Us"
         >
           <Phone size={20} />
           <span className="sticky-tooltip">Call Us</span>
-        </a>
+        </button>
       </aside>
+
+      {/* Choice Modal for WhatsApp / Call */}
+      {modalType && (
+        <div className="contact-picker-overlay" onClick={() => setModalType(null)}>
+          <div className="contact-picker-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="contact-picker-close"
+              onClick={() => setModalType(null)}
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+
+            <div className={`contact-picker-header ${modalType}`}>
+              <div className="contact-picker-icon">
+                {modalType === 'whatsapp' ? <MessageCircle size={26} /> : <Phone size={26} />}
+              </div>
+              <h3 className="contact-picker-title">
+                {modalType === 'whatsapp' ? 'Chat on WhatsApp' : 'Call SMARToi Support'}
+              </h3>
+              <p className="contact-picker-sub">
+                Select a direct number to {modalType === 'whatsapp' ? 'start chat' : 'call now'}:
+              </p>
+            </div>
+
+            <div className="contact-picker-options">
+              {numbers.map((num, idx) => (
+                <a
+                  key={num.raw}
+                  href={modalType === 'whatsapp' ? num.wa : num.tel}
+                  target={modalType === 'whatsapp' ? '_blank' : undefined}
+                  rel={modalType === 'whatsapp' ? 'noopener noreferrer' : undefined}
+                  className={`contact-picker-btn ${modalType}`}
+                  onClick={() => setModalType(null)}
+                >
+                  <div className="contact-picker-btn-icon">
+                    {modalType === 'whatsapp' ? <MessageCircle size={18} /> : <Phone size={18} />}
+                  </div>
+                  <div className="contact-picker-btn-text">
+                    <span className="contact-picker-btn-label">Line 0{idx + 1}</span>
+                    <strong className="contact-picker-btn-num">{num.label}</strong>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .sticky-social-bar {
@@ -125,6 +179,9 @@ export const StickySocialBar: React.FC = () => {
           place-items: center;
           color: #FFFFFF;
           text-decoration: none;
+          border: none;
+          cursor: pointer;
+          font-family: inherit;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -190,6 +247,158 @@ export const StickySocialBar: React.FC = () => {
             opacity: 1;
             transform: translateY(-50%) translateX(0);
           }
+        }
+
+        /* Choice Popup Modal */
+        .contact-picker-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          display: grid;
+          place-items: center;
+          padding: 20px;
+          animation: cpFade 0.25s ease-out;
+        }
+
+        .contact-picker-card {
+          position: relative;
+          width: 100%;
+          max-width: 400px;
+          background: #FFFFFF;
+          border-radius: 24px;
+          padding: 30px 24px 24px;
+          box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.05);
+          text-align: center;
+          animation: cpScale 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .contact-picker-close {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          border: none;
+          background: #F1F5F9;
+          color: #64748B;
+          display: grid;
+          place-items: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .contact-picker-close:hover {
+          background: #E2E8F0;
+          color: #0F172A;
+          transform: scale(1.08);
+        }
+
+        .contact-picker-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 18px;
+          margin: 0 auto 14px;
+          display: grid;
+          place-items: center;
+          color: #FFFFFF;
+        }
+        .contact-picker-header.whatsapp .contact-picker-icon {
+          background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+          box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+        }
+        .contact-picker-header.call .contact-picker-icon {
+          background: linear-gradient(135deg, #0052CC 0%, #0066FF 100%);
+          box-shadow: 0 8px 20px rgba(0, 82, 204, 0.35);
+        }
+
+        .contact-picker-title {
+          font-size: 1.35rem;
+          font-weight: 800;
+          color: #0F172A;
+          margin: 0 0 6px;
+        }
+        .contact-picker-sub {
+          font-size: 0.92rem;
+          color: #64748B;
+          margin: 0 0 20px;
+        }
+
+        .contact-picker-options {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .contact-picker-btn {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 18px;
+          border-radius: 16px;
+          text-decoration: none;
+          border: 1.5px solid #E2E8F0;
+          background: #F8FAFC;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .contact-picker-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+        }
+        .contact-picker-btn.whatsapp:hover {
+          border-color: #25D366;
+          background: #F0FDF4;
+        }
+        .contact-picker-btn.call:hover {
+          border-color: #0052CC;
+          background: #EFF6FF;
+        }
+
+        .contact-picker-btn-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          display: grid;
+          place-items: center;
+          color: #FFFFFF;
+          flex-shrink: 0;
+        }
+        .contact-picker-btn.whatsapp .contact-picker-btn-icon {
+          background: #25D366;
+        }
+        .contact-picker-btn.call .contact-picker-btn-icon {
+          background: #0052CC;
+        }
+
+        .contact-picker-btn-text {
+          text-align: left;
+          flex: 1;
+        }
+        .contact-picker-btn-label {
+          display: block;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #64748B;
+        }
+        .contact-picker-btn-num {
+          display: block;
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #0F172A;
+          letter-spacing: 0.02em;
+        }
+
+        @keyframes cpFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes cpScale {
+          from { opacity: 0; transform: scale(0.92) translateY(12px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* Phone & Tablet Adjustment */

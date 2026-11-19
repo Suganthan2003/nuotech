@@ -220,7 +220,7 @@ export const Footer: React.FC = () => {
               {[
                 { label: 'Home', path: '/' },
                 { label: 'About Us', path: '/about' },
-                { label: 'Products', path: '/product' },
+                { label: 'Solutions', path: '/product' },
                 { label: 'Rentals', path: '/product' },
                 { label: 'Education', path: '/solution/skill-development' },
                 { label: 'Career', path: '/career' },
@@ -299,11 +299,16 @@ export const Footer: React.FC = () => {
             {/* Contact details with perfect vertical alignment & balanced height */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {/* Phone */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Phone size={16} style={{ color: '#00D2FF', flexShrink: 0 }} />
-                <a href={`tel:${COMPANY_INFO.phone}`} style={{ color: '#E2E8F0', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
-                  +91 {COMPANY_INFO.phone}
-                </a>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                <Phone size={16} style={{ color: '#00D2FF', flexShrink: 0, marginTop: '3px' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <a href={`tel:${COMPANY_INFO.phone}`} style={{ color: '#E2E8F0', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
+                    +91 {COMPANY_INFO.phone}
+                  </a>
+                  <a href={`tel:${COMPANY_INFO.phone2}`} style={{ color: '#E2E8F0', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>
+                    +91 {COMPANY_INFO.phone2}
+                  </a>
+                </div>
               </div>
 
               {/* Email */}

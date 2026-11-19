@@ -3,7 +3,7 @@ import { COMPANY_INFO, SOLUTION_SECTORS } from '@/data/nuoData';
 import {
   Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, ArrowRight, ArrowUpRight,
   Navigation, Clock, Bot, ClipboardList, Users, Wrench, Rocket, Cpu, Sun, Plane,
-  CircuitBoard, Zap, Layers, Compass
+  CircuitBoard, Zap, Layers, Compass, X
 } from 'lucide-react';
 
 // ----------------------------------------------------
@@ -103,6 +103,7 @@ const Socials: React.FC = () => {
 // Page
 // ----------------------------------------------------
 export const ContactSection: React.FC = () => {
+  const [modalType, setModalType] = useState<'whatsapp' | 'call' | null>(null);
   const [selectedSector, setSelectedSector] = useState<string>(SOLUTION_SECTORS[0].title);
   const [selectedSubItem, setSelectedSubItem] = useState<string>(SOLUTION_SECTORS[0].subItems[0]);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -113,6 +114,11 @@ export const ContactSection: React.FC = () => {
   useEffect(() => () => { if (resetTimer.current) clearTimeout(resetTimer.current); }, []);
 
   const currentSectorObj = SOLUTION_SECTORS.find((s) => s.title === selectedSector) || SOLUTION_SECTORS[0];
+
+  const contactNumbers = [
+    { label: '+91 95850 76764', raw: '9585076764', tel: 'tel:+919585076764', wa: 'https://wa.me/919585076764?text=Hello%20SMARToi%2C%20I%20am%20interested%20in%20an%20engineering%20solution' },
+    { label: '+91 95850 76765', raw: '9585076765', tel: 'tel:+919585076765', wa: 'https://wa.me/919585076765?text=Hello%20SMARToi%2C%20I%20am%20interested%20in%20an%20engineering%20solution' }
+  ];
 
   const handleSectorChange = (title: string) => {
     setSelectedSector(title);
@@ -146,8 +152,8 @@ export const ContactSection: React.FC = () => {
   const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY_INFO.fullAddress)}`;
 
   const quick = [
-    { c: '#0B63CE', icon: <Phone size={24} />, label: 'Call us', value: `+91 ${COMPANY_INFO.phone}`, href: `tel:${COMPANY_INFO.phone}` },
-    { c: '#25D366', icon: <MessageSquare size={24} />, label: 'WhatsApp', value: `+91 ${COMPANY_INFO.whatsapp}`, href: COMPANY_INFO.whatsappUrl, ext: true },
+    { c: '#0B63CE', icon: <Phone size={24} />, label: 'Call us', value: `+91 ${COMPANY_INFO.phone} / +91 ${COMPANY_INFO.phone2}`, href: '#', isAction: 'call' as const },
+    { c: '#25D366', icon: <MessageSquare size={24} />, label: 'WhatsApp', value: `+91 ${COMPANY_INFO.phone} / +91 ${COMPANY_INFO.phone2}`, href: '#', isAction: 'whatsapp' as const },
     { c: '#14307F', icon: <Mail size={24} />, label: 'Email', value: COMPANY_INFO.email, href: `mailto:${COMPANY_INFO.email}` },
     { c: '#3BAA35', icon: <Clock size={24} />, label: 'Working hours', value: HOURS }
   ];
@@ -177,16 +183,24 @@ export const ContactSection: React.FC = () => {
               </p>
 
               <div className="ct-btns ct-up" style={{ animationDelay: '0.5s' }}>
-                <a href={`tel:${COMPANY_INFO.phone}`} className="ct-btn ct-btn-blue">
+                <button
+                  type="button"
+                  onClick={() => setModalType('call')}
+                  className="ct-btn ct-btn-blue"
+                >
                   <Phone size={18} />
-                  <span>{COMPANY_INFO.phone}</span>
+                  <span>Call {COMPANY_INFO.phone}</span>
                   <ArrowRight size={18} />
-                </a>
-                <a href={COMPANY_INFO.whatsappUrl} target="_blank" rel="noopener noreferrer" className="ct-btn ct-btn-wa">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalType('whatsapp')}
+                  className="ct-btn ct-btn-wa"
+                >
                   <MessageSquare size={18} />
                   <span>WhatsApp inquiry</span>
                   <ArrowRight size={18} />
-                </a>
+                </button>
               </div>
 
               <div className="ct-trust ct-up" style={{ animationDelay: '0.65s' }}>
@@ -236,12 +250,21 @@ export const ContactSection: React.FC = () => {
               );
               return (
                 <Reveal key={q.label} delay={i * 90} style={{ height: '100%' }}>
-                  {q.href ? (
+                  {'isAction' in q && q.isAction ? (
+                    <button
+                      type="button"
+                      onClick={() => setModalType(q.isAction)}
+                      className="ct-qcard"
+                      style={{ ['--c' as string]: q.c, cursor: 'pointer', textAlign: 'left', font: 'inherit', width: '100%', border: 'none', background: '#fff' }}
+                    >
+                      {inner}
+                    </button>
+                  ) : q.href ? (
                     <a
                       className="ct-qcard"
                       href={q.href}
                       style={{ ['--c' as string]: q.c }}
-                      {...(q.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      {...('ext' in q && q.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     >
                       {inner}
                     </a>
@@ -468,7 +491,7 @@ export const ContactSection: React.FC = () => {
                         <b>
                           <a href={`tel:${COMPANY_INFO.phone}`}>+91 {COMPANY_INFO.phone}</a>
                           <br />
-                          <a href={`tel:${COMPANY_INFO.whatsapp}`}>+91 {COMPANY_INFO.whatsapp}</a>
+                          <a href={`tel:${COMPANY_INFO.phone2}`}>+91 {COMPANY_INFO.phone2}</a>
                         </b>
                       </span>
                     </div>
@@ -476,7 +499,11 @@ export const ContactSection: React.FC = () => {
                       <span className="ct-info-icon"><MessageSquare size={20} /></span>
                       <span>
                         <small>WhatsApp</small>
-                        <b><a href={COMPANY_INFO.whatsappUrl} target="_blank" rel="noopener noreferrer">Chat with us</a></b>
+                        <b>
+                          <a href={contactNumbers[0].wa} target="_blank" rel="noopener noreferrer">+91 {COMPANY_INFO.phone}</a>
+                          <br />
+                          <a href={contactNumbers[1].wa} target="_blank" rel="noopener noreferrer">+91 {COMPANY_INFO.phone2}</a>
+                        </b>
                       </span>
                     </div>
                     <div className="ct-info-row ct-info-row-blue">
@@ -495,6 +522,55 @@ export const ContactSection: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Choice Modal for WhatsApp / Call */}
+      {modalType && (
+        <div className="ct-picker-overlay" onClick={() => setModalType(null)}>
+          <div className="ct-picker-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="ct-picker-close"
+              onClick={() => setModalType(null)}
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+
+            <div className={`ct-picker-header ${modalType}`}>
+              <div className="ct-picker-icon">
+                {modalType === 'whatsapp' ? <MessageSquare size={26} /> : <Phone size={26} />}
+              </div>
+              <h3 className="ct-picker-title">
+                {modalType === 'whatsapp' ? 'Chat on WhatsApp' : 'Call SMARToi Support'}
+              </h3>
+              <p className="ct-picker-sub">
+                Select a direct number to {modalType === 'whatsapp' ? 'start chat' : 'call now'}:
+              </p>
+            </div>
+
+            <div className="ct-picker-options">
+              {contactNumbers.map((num, idx) => (
+                <a
+                  key={num.raw}
+                  href={modalType === 'whatsapp' ? num.wa : num.tel}
+                  target={modalType === 'whatsapp' ? '_blank' : undefined}
+                  rel={modalType === 'whatsapp' ? 'noopener noreferrer' : undefined}
+                  className={`ct-picker-btn ${modalType}`}
+                  onClick={() => setModalType(null)}
+                >
+                  <div className="ct-picker-btn-icon">
+                    {modalType === 'whatsapp' ? <MessageSquare size={18} /> : <Phone size={18} />}
+                  </div>
+                  <div className="ct-picker-btn-text">
+                    <span className="ct-picker-btn-label">Line 0{idx + 1}</span>
+                    <strong className="ct-picker-btn-num">{num.label}</strong>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -869,6 +945,149 @@ a.ct-qcard:hover .ct-qarrow { transform:translate(4px,-4px); }
   .ct-eyebrow { letter-spacing:.12em; }
   .ct-qcard { padding:18px 14px; }
   .ct-qicon { width:46px; height:46px; }
+}
+
+/* Choice Popup Modal */
+.ct-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: ctFade 0.25s ease-out;
+}
+.ct-picker-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 30px 24px 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  animation: ctScale 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ct-picker-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #F1F5F9;
+  color: #64748B;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ct-picker-close:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+  transform: scale(1.08);
+}
+.ct-picker-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+}
+.ct-picker-header.whatsapp .ct-picker-icon {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+}
+.ct-picker-header.call .ct-picker-icon {
+  background: linear-gradient(135deg, #0052CC 0%, #0066FF 100%);
+  box-shadow: 0 8px 20px rgba(0, 82, 204, 0.35);
+}
+.ct-picker-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 6px;
+}
+.ct-picker-sub {
+  font-size: 0.92rem;
+  color: #64748B;
+  margin: 0 0 20px;
+}
+.ct-picker-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ct-picker-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  text-decoration: none;
+  border: 1.5px solid #E2E8F0;
+  background: #F8FAFC;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ct-picker-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+.ct-picker-btn.whatsapp:hover {
+  border-color: #25D366;
+  background: #F0FDF4;
+}
+.ct-picker-btn.call:hover {
+  border-color: #0052CC;
+  background: #EFF6FF;
+}
+.ct-picker-btn-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+.ct-picker-btn.whatsapp .ct-picker-btn-icon {
+  background: #25D366;
+}
+.ct-picker-btn.call .ct-picker-btn-icon {
+  background: #0052CC;
+}
+.ct-picker-btn-text {
+  text-align: left;
+  flex: 1;
+}
+.ct-picker-btn-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+.ct-picker-btn-num {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: 0.02em;
+}
+@keyframes ctFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ctScale {
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 `;
 

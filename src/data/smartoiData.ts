@@ -43,8 +43,18 @@ export const COMPANY_INFO = {
   fullAddress: "SMARToi Technologies, South 6, Seerangai Thottam, Puliyur, Karur, Tamil Nadu, 639114",
   email: "info@smartoi.in",
   phone: "9585076764",
-  whatsapp: "99656 08260",
-  whatsappUrl: "https://wa.me/919965608260",
+  phone2: "9585076765",
+  phones: [
+    { label: "+91 95850 76764", raw: "9585076764", tel: "+919585076764" },
+    { label: "+91 95850 76765", raw: "9585076765", tel: "+919585076765" }
+  ],
+  whatsapp: "95850 76764",
+  whatsapp2: "95850 76765",
+  whatsappNumbers: [
+    { label: "+91 95850 76764", raw: "9585076764", url: "https://wa.me/919585076764" },
+    { label: "+91 95850 76765", raw: "9585076765", url: "https://wa.me/919585076765" }
+  ],
+  whatsappUrl: "https://wa.me/919585076764",
   vision: "To build a smarter and more sustainable future by making advanced technology, automation and renewable energy practical and accessible to everyone.",
   mission: "To design and deliver innovative, reliable and affordable technology solutions that solve real-world problems, improve efficiency and promote sustainable development.",
   objective: "To transform ideas and real-world challenges into innovative automated products and sustainable technology solutions.",

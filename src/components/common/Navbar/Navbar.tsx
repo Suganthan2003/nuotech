@@ -190,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = ({ openQuoteModal }) => {
             className="smartoi-drawer-call-btn"
           >
             <Phone size={16} />
-            <span>Call: {COMPANY_INFO.phone}</span>
+            <span>Call: {COMPANY_INFO.phone} / {COMPANY_INFO.phone2}</span>
           </a>
         </div>
       </aside>
