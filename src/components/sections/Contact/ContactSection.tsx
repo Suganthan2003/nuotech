@@ -212,11 +212,7 @@ export const ContactSection: React.FC = () => {
                     className="ct-hero-video"
                   />
                   <div className="ct-video-overlay" />
-                </div>
-
-                <div className="ct-chip ct-chip-1"><Clock size={16} /> Reply in 24 hrs</div>
-                <div className="ct-chip ct-chip-2"><MapPin size={16} /> Karur, Tamil Nadu</div>
-                <div className="ct-chip ct-chip-3"><Sun size={16} /> Solar &amp; automation</div>
+                </div>              
               </div>
             </div>
           </div>
