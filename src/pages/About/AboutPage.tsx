@@ -95,22 +95,12 @@ const personLeaders = [
   {
     name: 'Saravanan Kumar',
     role: 'Founder & Lead Automation Engineer',
-    image: '/img/o1.png',
-    skills: [
-      { label: 'Industrial Automation', icon: <Cpu size={18} />, color: '#0066FF', shift: -10 },
-      { label: 'Solar Energy EPC', icon: <Sun size={18} />, color: '#10B981', shift: 26 },
-      { label: 'Custom Machine Building', icon: <Settings size={18} />, color: '#F59E0B', shift: 4 }
-    ]
+    image: '/img/o1.png'
   },
   {
     name: 'Kavitha Saravanan',
     role: 'Co-Founder & Chief Electronics Director',
-    image: '/img/o2.png',
-    skills: [
-      { label: 'IoT & Embedded Robotics', icon: <Zap size={18} />, color: '#0066FF', shift: -10 },
-      { label: 'PCB Layout & Hardware', icon: <CircuitBoard size={18} />, color: '#8B5CF6', shift: 30 },
-      { label: 'Smart AgTech Systems', icon: <Leaf size={18} />, color: '#10B981', shift: 4 }
-    ]
+    image: '/img/o2.png'
   }
 ];
 
@@ -271,24 +261,6 @@ export const AboutPage: React.FC = () => {
                   <small>{person.role}</small>
                   <strong>{person.name}</strong>
                 </div>
-              </div>
-
-              <div className={`ab-chips ${fading ? 'is-fading' : ''}`}>
-                {person.skills.map((s, i) => (
-                  <div
-                    key={`${active}-${i}`}
-                    className="ab-chip-wrap"
-                    style={{ animationDelay: `${0.3 + i * 0.15}s`, marginLeft: s.shift }}
-                  >
-                    <div
-                      className="ab-chip"
-                      style={{ ['--c' as string]: s.color, animationDuration: `${3.2 + i * 0.7}s` }}
-                    >
-                      <span className="ab-chip-icon">{s.icon}</span>
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
               </div>
 
               <div className="ab-switch">
