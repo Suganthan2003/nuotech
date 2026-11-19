@@ -94,13 +94,13 @@ const headlineWords = [
 const personLeaders = [
   {
     name: 'Saravanan Kumar',
-    role: 'Founder & Lead Automation Engineer',
-    image: '/img/o1.png'
+    role: 'Founder ',
+    image: '/img/01.png'
   },
   {
-    name: 'Kavitha Saravanan',
-    role: 'Co-Founder & Chief Electronics Director',
-    image: '/img/o2.png'
+    name: 'Sasi Kumar',
+    role: 'Founder',
+    image: '/img/02.png'
   }
 ];
 
@@ -254,7 +254,7 @@ export const AboutPage: React.FC = () => {
                 <img
                   src={person.image}
                   alt={person.name}
-                  className={fading ? 'is-fading' : ''}
+                  className={`${fading ? 'is-fading' : ''} ${active === 1 || person.image.includes('02') ? 'ab-person-img-larger' : ''}`}
                 />
 
                 <div className={`ab-name ${fading ? 'is-fading' : ''}`}>
@@ -762,6 +762,15 @@ const css = `
   transition: opacity .55s ease, transform .55s ease;
 }
 .ab-person img.is-fading { opacity: 0; transform: scale(.96) translateY(12px); }
+.ab-person img.ab-person-img-larger {
+  max-height: 600px;
+  transform: scale(1.18);
+  transform-origin: bottom center;
+}
+.ab-person img.ab-person-img-larger.is-fading {
+  opacity: 0;
+  transform: scale(1.12) translateY(12px);
+}
 
 .ab-name {
   position: absolute; left: 50%; bottom: -22px; transform: translateX(-50%);
