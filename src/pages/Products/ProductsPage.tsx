@@ -362,7 +362,7 @@ const SectorPanels: React.FC = () => {
     <section className="sx-sectors" id="sectors">
       <div className="sp-wrap">
         <header className="sx-head">
-          <h2 className="sx-h2">Six sectors, one engineering team</h2>
+          <h2 className="sx-h2">Six sectors, one solution</h2>
           <p className="sx-lead">
             From a single smart switch to a factory control panel, every solution is designed,
             built and supported by SMARToi. Select a sector to see what is included.
