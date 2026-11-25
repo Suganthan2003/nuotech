@@ -349,8 +349,8 @@ export const ContactSection: React.FC = () => {
                 <p>Talk to an engineer today. We will help you plan, build and commission it.</p>
               </div>
               <div className="ct-cta-btns">
-                <a href={`tel:${COMPANY_INFO.phone}`} className="ct-btn ct-btn-white"><Phone size={18} /> Call now</a>
-                <a href={COMPANY_INFO.whatsappUrl} target="_blank" rel="noopener noreferrer" className="ct-btn ct-btn-wa-solid"><MessageSquare size={18} /> WhatsApp</a>
+                <button type="button" onClick={() => setModalType('call')} className="ct-btn ct-btn-white"><Phone size={18} /> Call now</button>
+                <button type="button" onClick={() => setModalType('whatsapp')} className="ct-btn ct-btn-wa-solid"><MessageSquare size={18} /> WhatsApp</button>
               </div>
             </div>
           </Reveal>

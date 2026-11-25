@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { COMPANY_INFO } from '@/data/nuoData';
 import { 
-  Phone, Mail, MapPin, LayoutGrid, Settings, Headphones, Clock,
-  Bot, Tractor, GraduationCap, Factory, ShieldCheck, Cloud
+  Phone, Mail, MapPin, LayoutGrid, Settings, Clock,
+  Home, Factory, Sun, GraduationCap, Bot, Wrench
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -221,9 +221,7 @@ export const Footer: React.FC = () => {
                 { label: 'Home', path: '/' },
                 { label: 'About Us', path: '/about' },
                 { label: 'Solutions', path: '/product' },
-                { label: 'Rentals', path: '/product' },
-                { label: 'Education', path: '/solution/skill-development' },
-                { label: 'Career', path: '/career' },
+                { label: 'Careers', path: '/career' },
                 { label: 'Contact Us', path: '/contact' }
               ].map((linkItem, i) => (
                 <Link 
@@ -257,13 +255,12 @@ export const Footer: React.FC = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {[
-                { title: 'Smart Robots', path: '/solution/robot-services', icon: <Bot size={16} /> },
-                { title: 'Agri Robotics', path: '/solution/industrial-automation', icon: <Tractor size={16} /> },
-                { title: 'Education', path: '/solution/skill-development', icon: <GraduationCap size={16} /> },
-                { title: 'Industrial', path: '/solution/industrial-automation', icon: <Factory size={16} /> },
-                { title: 'Surveillance', path: '/solution/smart-living', icon: <ShieldCheck size={16} /> },
-                { title: 'Cloud Robotics', path: '/solution/robot-services', icon: <Cloud size={16} /> },
-                { title: 'Support', path: '/contact', icon: <Headphones size={16} /> }
+                { title: 'Smart Living Solutions', path: '/sectors/smart-living', icon: <Home size={16} /> },
+                { title: 'Industrial Automation', path: '/sectors/industrial-automation', icon: <Factory size={16} /> },
+                { title: 'Solar Energy Solutions', path: '/sectors/solar-solution', icon: <Sun size={16} /> },
+                { title: 'Skill Development', path: '/sectors/skill-development', icon: <GraduationCap size={16} /> },
+                { title: 'Robot Services', path: '/sectors/robot-services', icon: <Bot size={16} /> },
+                { title: 'Precision Fabrication', path: '/sectors/fabrication', icon: <Wrench size={16} /> }
               ].map((item, idx) => (
                 <Link
                   key={idx}
