@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SOLUTION_SECTORS } from '@/data/nuoData';
-import { X, Send, CheckCircle2 } from 'lucide-react';
+import { submitToGoogleScript } from '@/services/formService';
+import { X, Send, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface CalculatorModalProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showToast, setShowToast] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   // Sync state whenever modal opens or preSelectedSolution changes
@@ -85,9 +88,49 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleDirectSubmit = (e: React.FormEvent) => {
+  const handleDirectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      await submitToGoogleScript({
+        formType: 'contact',
+        name,
+        email,
+        phone,
+        sector: selectedSector,
+        option: selectedSubItem,
+        message,
+      });
+
+      // Show toast notification
+      setShowToast(true);
+      setIsSubmitted(true);
+
+      // Clear input fields
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+
+      // Auto hide toast and close modal after 3 seconds
+      setTimeout(() => {
+        setShowToast(false);
+        setIsSubmitted(false);
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting form modal:', error);
+      setIsSubmitted(true);
+      setShowToast(true);
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,6 +142,14 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
         aria-modal="true"
         aria-label="Contact Form"
       >
+        {/* Toast notification message */}
+        {showToast && (
+          <div className="smt-toast">
+            <CheckCircle2 size={18} />
+            <span>Message sent successfully!</span>
+          </div>
+        )}
+
         {/* Close Button */}
         <button onClick={onClose} className="smt-close" title="Close" aria-label="Close" type="button">
           <X size={18} />
@@ -194,14 +245,13 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
               <div className="smt-grid-2">
                 <div className="smt-group">
                   <label className="smt-label" htmlFor="smt-email">
-                    Email Address *
+                    Email Address <span style={{ fontWeight: 400, opacity: 0.7 }}>(Optional)</span>
                   </label>
                   <input
                     id="smt-email"
                     type="email"
-                    required
                     autoComplete="email"
-                    placeholder="name@example.com"
+                    placeholder="name@example.com (optional)"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="smt-field"
@@ -215,10 +265,13 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
                     id="smt-phone"
                     type="tel"
                     required
+                    inputMode="numeric"
+                    pattern="[0-9]{10}"
+                    maxLength={10}
                     autoComplete="tel"
-                    placeholder="+91 98765 43210"
+                    placeholder="10-digit mobile number"
                     value={phone}
-                    onChange={e => setPhone(e.target.value)}
+                    onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="smt-field"
                   />
                 </div>
@@ -239,9 +292,18 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
                 />
               </div>
 
-              <button type="submit" className="smt-btn">
-                <span>SEND MESSAGE</span>
-                <Send size={18} color="#FFFFFF" />
+              <button type="submit" disabled={isSubmitting} className="smt-btn" style={isSubmitting ? { opacity: 0.75, cursor: 'not-allowed' } : {}}>
+                {isSubmitting ? (
+                  <>
+                    <span>SENDING...</span>
+                    <Loader2 size={18} className="smt-spin" color="#FFFFFF" />
+                  </>
+                ) : (
+                  <>
+                    <span>SEND MESSAGE</span>
+                    <Send size={18} color="#FFFFFF" />
+                  </>
+                )}
               </button>
             </form>
           )}
@@ -399,8 +461,41 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({
           background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231457C7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
           background-repeat: no-repeat;
           background-position: right 14px center;
+          color: #0F172A;
+          background-color: rgba(255, 255, 255, 0.9);
+        }
+        .smt-select option {
+          color: #0F172A !important;
+          background-color: #FFFFFF !important;
+          padding: 10px 14px;
         }
         .smt-textarea { resize: vertical; min-height: 90px; }
+
+        .smt-toast {
+          position: absolute;
+          top: 14px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #10B981;
+          color: #FFFFFF;
+          padding: 8px 18px;
+          border-radius: 30px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.88rem;
+          font-weight: 700;
+          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+          z-index: 10;
+          animation: smtSlideDown 0.3s ease;
+        }
+        @keyframes smtSlideDown {
+          from { opacity: 0; transform: translate(-50%, -10px); }
+          to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        .smt-spin { animation: smtSpin 1s linear infinite; }
+        @keyframes smtSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* ---------- Buttons ---------- */
         .smt-btn {

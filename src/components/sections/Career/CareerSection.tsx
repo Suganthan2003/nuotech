@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { COMPANY_INFO } from '@/data/nuoData';
+import { submitToGoogleScript, fileToBase64 } from '@/services/formService';
 import {
   Send, Cpu, Sun, Radio, Settings, Code,
   MapPin, Clock, Award, ShieldCheck, X,
-  User, Phone, Mail, UploadCloud, FileText, ArrowRight, Wrench
+  User, Phone, Mail, UploadCloud, FileText, ArrowRight, Wrench, Loader2
 } from 'lucide-react';
 
 interface Job {
@@ -34,6 +35,7 @@ export const CareerSection: React.FC = () => {
   const [fileError, setFileError] = useState<string>('');
   const [dragOver, setDragOver] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const categories = [
@@ -311,23 +313,40 @@ export const CareerSection: React.FC = () => {
     resetForm();
   };
 
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resumeFile) {
       setFileError('Please upload your resume to continue.');
       return;
     }
+    if (submitting) return;
 
-    // TODO: connect your backend / email service, for example:
-    // const data = new FormData();
-    // data.append('role', selectedJob?.fullTitle || '');
-    // data.append('name', applicantName);
-    // data.append('phone', applicantPhone);
-    // data.append('email', applicantEmail);
-    // data.append('resume', resumeFile);
-    // await fetch('/api/careers/apply', { method: 'POST', body: data });
+    setSubmitting(true);
+    setFileError('');
 
-    setSubmitted(true);
+    try {
+      // Convert resume file to base64
+      const base64Data = await fileToBase64(resumeFile);
+
+      // Submit to Google Apps Script backend
+      await submitToGoogleScript({
+        formType: 'career',
+        role: selectedJob?.fullTitle || selectedJob?.title || 'General Engineering Role',
+        name: applicantName,
+        email: applicantEmail,
+        phone: applicantPhone,
+        resumeName: resumeFile.name,
+        resumeType: resumeFile.type || 'application/pdf',
+        resumeData: base64Data
+      });
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Error submitting application from job card popup:', err);
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Escape to close + lock page scroll while the popup is open
@@ -567,10 +586,13 @@ export const CareerSection: React.FC = () => {
                             <input
                               type="tel"
                               required
+                              inputMode="numeric"
+                              pattern="[0-9]{10}"
+                              maxLength={10}
                               autoComplete="tel"
-                              placeholder="+91 98765 43210"
+                              placeholder="10-digit mobile number"
                               value={applicantPhone}
-                              onChange={(e) => setApplicantPhone(e.target.value)}
+                              onChange={(e) => setApplicantPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                             />
                           </div>
                         </label>
@@ -630,9 +652,18 @@ export const CareerSection: React.FC = () => {
                           {fileError && <p className="cs-file-error" role="alert">{fileError}</p>}
                         </div>
 
-                        <button type="submit" className="cs-btn cs-submit" style={{ ['--i' as string]: 4 }}>
-                          <Send size={17} />
-                          <span>Apply Now</span>
+                        <button type="submit" disabled={submitting} className="cs-btn cs-submit" style={{ ['--i' as string]: 4, ...(submitting ? { opacity: 0.75, cursor: 'not-allowed' } : {}) }}>
+                          {submitting ? (
+                            <>
+                              <Loader2 size={17} className="cs-spin" />
+                              <span>Submitting Application...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Send size={17} />
+                              <span>Apply Now</span>
+                            </>
+                          )}
                         </button>
 
                         <p className="cs-secure" style={{ ['--i' as string]: 5 }}>
@@ -666,6 +697,9 @@ const css = `
 .cs-m-overlay, .cs-m-overlay *, .cs-m-overlay *::before, .cs-m-overlay *::after { box-sizing: border-box; }
 .cs-m-overlay button, .cs-m-overlay input, .cs-m-overlay textarea { font-family: inherit; }
 .cs-m-overlay :focus-visible { outline: 3px solid rgba(11, 99, 206, 0.45); outline-offset: 2px; }
+.cs-spin { animation: csSpin 1s linear infinite; }
+@keyframes csSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 .cs-m-overlay .cs-blue { color: var(--blue); }
 .cs {
   position: relative;

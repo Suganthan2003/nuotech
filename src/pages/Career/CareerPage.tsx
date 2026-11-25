@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CareerSection } from '@/components/sections';
 import { COMPANY_INFO } from '@/data/nuoData';
+import { submitToGoogleScript, fileToBase64 } from '@/services/formService';
 import {
   Mail, Send, ArrowRight, ArrowUpRight, Cpu, PenTool, Plane, CircuitBoard,
   Wrench, Layers, Users, TrendingUp, Compass, Sun, ChevronDown, MapPin, Phone, Clock,
-  UploadCloud, FileText, X, User, Briefcase, ShieldCheck, Zap
+  UploadCloud, FileText, X, User, Briefcase, ShieldCheck, Zap, Loader2
 } from 'lucide-react';
 
 // ----------------------------------------------------
@@ -207,6 +208,7 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState('');
   const [dragOver, setDragOver] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -239,33 +241,49 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page
   const formatSize = (b: number) =>
     b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resumeFile) {
       setFileError('Please upload your resume to continue.');
       return;
     }
+    if (submitting) return;
 
-    // TODO: send to your backend / email service, for example:
-    // const data = new FormData();
-    // data.append('role', role);
-    // data.append('name', name);
-    // data.append('email', email);
-    // data.append('phone', phone);
-    // data.append('resume', resumeFile);
-    // await fetch('/api/careers/apply', { method: 'POST', body: data });
+    setSubmitting(true);
+    setFileError('');
 
-    setSubmitted(true);
+    try {
+      // Convert resume to base64 for Google Apps Script Google Drive upload
+      const base64Data = await fileToBase64(resumeFile);
 
-    if (variant === 'page') {
-      setTimeout(() => {
-        setSubmitted(false);
-        setName('');
-        setEmail('');
-        setPhone('');
-        setRole(initialRole);
-        clearFile();
-      }, 5000);
+      await submitToGoogleScript({
+        formType: 'career',
+        role,
+        name,
+        email,
+        phone,
+        resumeName: resumeFile.name,
+        resumeType: resumeFile.type || 'application/pdf',
+        resumeData: base64Data
+      });
+
+      setSubmitted(true);
+
+      if (variant === 'page') {
+        setTimeout(() => {
+          setSubmitted(false);
+          setName('');
+          setEmail('');
+          setPhone('');
+          setRole(initialRole);
+          clearFile();
+        }, 6000);
+      }
+    } catch (err) {
+      console.error('Error submitting application:', err);
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -331,10 +349,13 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page
             <input
               type="tel"
               required
+              inputMode="numeric"
+              pattern="[0-9]{10}"
+              maxLength={10}
               autoComplete="tel"
-              placeholder="+91 00000 00000"
+              placeholder="10-digit mobile number"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
             />
           </div>
         </label>
@@ -395,8 +416,16 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ initialRole = '', variant = 'page
         {fileError && <p className="cr-file-error" role="alert">{fileError}</p>}
       </div>
 
-      <button type="submit" className="cr-btn cr-btn-primary cr-submit" style={{ ['--i' as string]: 5 }}>
-        <Send size={17} /> Submit application
+      <button type="submit" disabled={submitting} className="cr-btn cr-btn-primary cr-submit" style={{ ['--i' as string]: 5, ...(submitting ? { opacity: 0.7, cursor: 'not-allowed' } : {}) }}>
+        {submitting ? (
+          <>
+            <Loader2 size={17} className="cr-spin" /> Submitting application...
+          </>
+        ) : (
+          <>
+            <Send size={17} /> Submit application
+          </>
+        )}
       </button>
 
       <p className="cr-secure" style={{ ['--i' as string]: 6 }}>
@@ -789,6 +818,9 @@ export const CareerPage: React.FC = () => {
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap');
 
+.cr-spin { animation: crSpin 1s linear infinite; }
+@keyframes crSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 .cr {
   --navy: #14307F;
   --blue: #0B63CE;
@@ -1016,9 +1048,9 @@ const css = `
 .cr-f-box svg { flex: none; }
 .cr-f-box input, .cr-f-box select { flex: 1; min-width: 0; width: 100%; padding: 14px 0; font-size: 1rem; font-weight: 500; color: #0F172A; background: transparent; border: 0; outline: none; }
 .cr-f-box input::placeholder { color: #94A3B8; font-weight: 400; }
-.cr-f-box select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 26px; text-overflow: ellipsis; }
+.cr-f-box select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 26px; text-overflow: ellipsis; color: #0F172A; background-color: transparent; }
 .cr-f-box select:invalid { color: #94A3B8; font-weight: 400; }
-.cr-f-box select option { color: #0F172A; }
+.cr-f-box select option { color: #0F172A !important; background-color: #FFFFFF !important; padding: 10px 14px; font-weight: 500; }
 .cr-f-chev { position: absolute; right: 14px; pointer-events: none; }
 
 /* Upload */

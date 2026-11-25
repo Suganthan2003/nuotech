@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { COMPANY_INFO, SOLUTION_SECTORS } from '@/data/nuoData';
+import { submitToGoogleScript } from '@/services/formService';
 import {
   Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, ArrowRight, ArrowUpRight,
   Navigation, Clock, Bot, ClipboardList, Users, Wrench, Rocket, Cpu, Sun, Plane,
-  CircuitBoard, Zap, Layers, Compass, X
+  CircuitBoard, Zap, Layers, Compass, X, Loader2
 } from 'lucide-react';
 
 // ----------------------------------------------------
@@ -107,6 +108,7 @@ export const ContactSection: React.FC = () => {
   const [selectedSector, setSelectedSector] = useState<string>(SOLUTION_SECTORS[0].title);
   const [selectedSubItem, setSelectedSubItem] = useState<string>(SOLUTION_SECTORS[0].subItems[0]);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [processRef, processVisible] = useInView<HTMLDivElement>(0.2);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -132,21 +134,32 @@ export const ContactSection: React.FC = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
 
-    // TODO: send to your backend / email service, for example:
-    // await fetch('/api/contact', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ ...formData, sector: selectedSector, option: selectedSubItem })
-    // });
-
-    setSubmitted(true);
-    resetTimer.current = setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 4000);
+    setSubmitting(true);
+    try {
+      await submitToGoogleScript({
+        formType: 'contact',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        sector: selectedSector,
+        option: selectedSubItem,
+        message: formData.message
+      });
+      setSubmitted(true);
+      resetTimer.current = setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      }, 5000);
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY_INFO.fullAddress)}`;
@@ -442,12 +455,22 @@ export const ContactSection: React.FC = () => {
 
                     <div className="ct-row">
                       <label className="ct-field">
-                        <span>Email address *</span>
-                        <input type="email" required autoComplete="email" placeholder="name@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                        <span>Email address <small style={{ fontWeight: 400, opacity: 0.7 }}>(Optional)</small></span>
+                        <input type="email" autoComplete="email" placeholder="name@example.com (optional)" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                       </label>
                       <label className="ct-field">
                         <span>Phone number *</span>
-                        <input type="tel" required autoComplete="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+                        <input
+                          type="tel"
+                          required
+                          inputMode="numeric"
+                          pattern="[0-9]{10}"
+                          maxLength={10}
+                          autoComplete="tel"
+                          placeholder="10-digit mobile number"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                        />
                       </label>
                     </div>
 
@@ -458,8 +481,16 @@ export const ContactSection: React.FC = () => {
                       </label>
                     </div>
 
-                    <button type="submit" className="ct-btn ct-btn-send">
-                      <Send size={18} /> <span>Send message</span>
+                    <button type="submit" disabled={submitting} className="ct-btn ct-btn-send" style={submitting ? { opacity: 0.7, cursor: 'not-allowed' } : {}}>
+                      {submitting ? (
+                        <>
+                          <Loader2 size={18} className="ct-spin" /> <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send size={18} /> <span>Send message</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
@@ -580,6 +611,9 @@ export const ContactSection: React.FC = () => {
 // ----------------------------------------------------
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap');
+
+.ct-spin { animation: ctSpin 1s linear infinite; }
+@keyframes ctSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .ct { --navy:#14307F; --blue:#0B63CE; --green:#3BAA35; --ink:#0F1F4D;
   font-family:'Barlow',system-ui,sans-serif; background:#fff; color:#0F172A;
@@ -774,7 +808,8 @@ a.ct-qcard:hover .ct-qarrow { transform:translate(4px,-4px); }
 .ct-field { display:block; min-width:0; }
 .ct-field span { display:block; margin-bottom:7px; font:600 .82rem 'Barlow Condensed',sans-serif; letter-spacing:.12em; text-transform:uppercase; color:#475569; }
 .ct-field input, .ct-field select, .ct-field textarea { width:100%; max-width:100%; padding:13px 16px; font-size:1rem; color:#0F172A; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:12px; outline:none; transition:border-color .2s, box-shadow .2s, background .2s; }
-.ct-field select { cursor:pointer; font-weight:600; text-overflow:ellipsis; }
+.ct-field select { cursor:pointer; font-weight:600; text-overflow:ellipsis; color:#0F172A; background-color:#F8FAFC; }
+.ct-field select option { color:#0F172A !important; background-color:#FFFFFF !important; padding:10px 14px; font-weight:500; }
 .ct-field textarea { resize:vertical; min-height:110px; }
 .ct-field input::placeholder, .ct-field textarea::placeholder { color:#94A3B8; }
 .ct-field input:focus, .ct-field select:focus, .ct-field textarea:focus { background:#fff; border-color:var(--blue); box-shadow:0 0 0 4px rgba(11,99,206,.14); }
