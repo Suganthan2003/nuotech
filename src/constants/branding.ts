@@ -25,7 +25,7 @@ export const COMPANY_CONTACT = {
   displayWhatsapp: '+91 95850 76764',
   displayWhatsapp2: '+91 95850 76765',
   email: 'info@smartoi.in',
-  address: 'SMARToi - Nuo Technologies, Karur, Tamil Nadu 639002',
+  address: 'D.No: 48, P.Vellalappatti Keelur, 1st Street, Puliyur, Karur - 639 114',
   workingHours: 'Mon - Sat: 9:00 AM - 7:00 PM',
   whatsappDefaultMsg: "Hello SMARToi, I'm interested in discussing an engineering solution.",
 } as const;

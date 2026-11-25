@@ -323,9 +323,9 @@ export const Footer: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <MapPin size={16} style={{ color: '#00D2FF', flexShrink: 0, marginTop: '3px' }} />
                 <div style={{ color: '#E2E8F0', fontSize: '0.88rem', fontWeight: 500, lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: '#FFFFFF', display: 'block' }}>SMARToi, South 6,</span>
-                  <span>Seerangai Thottam, Puliyur,</span><br />
-                  <span>Karur, Tamil Nadu, 639114</span>
+                  <span style={{ fontWeight: 700, color: '#FFFFFF', display: 'block' }}>SMARToi LLP</span>
+                  <span>D.No: 48, P.Vellalappatti Keelur, 1st Street,</span><br />
+                  <span>Puliyur, Karur - 639 114</span>
                 </div>
               </div>
 

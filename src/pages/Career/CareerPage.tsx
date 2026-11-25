@@ -96,7 +96,7 @@ const CONTACT = {
     { label: '+91 9585076764', tel: '+919585076764' },
     { label: '9585076765', tel: '+919585076765' }
   ],
-  address: 'SMARToi, South 6, Seerangai Thottam, Puliyur, Karur, Tamil Nadu, 639114',
+  address: 'D.No: 48, P.Vellalappatti Keelur, 1st Street, Puliyur, Karur - 639 114',
   hours: 'Mon – Sat: 9:00 AM – 7:00 PM'
 };
 

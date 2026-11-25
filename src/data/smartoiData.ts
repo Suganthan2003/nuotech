@@ -40,7 +40,7 @@ export const COMPANY_INFO = {
   tagline: "SMARToi — Smart Automation, IoT & Intelligent Solutions",
   subTagline: "From Ideas to Intelligent Solutions — We Design, Build & Automate.",
   location: "Karur, Tamil Nadu, India",
-  fullAddress: "SMARToi Technologies, South 6, Seerangai Thottam, Puliyur, Karur, Tamil Nadu, 639114",
+  fullAddress: "D.No: 48, P.Vellalappatti Keelur, 1st Street, Puliyur, Karur - 639 114",
   email: "info@smartoi.in",
   phone: "9585076764",
   phone2: "9585076765",
@@ -60,10 +60,10 @@ export const COMPANY_INFO = {
   objective: "To transform ideas and real-world challenges into innovative automated products and sustainable technology solutions.",
   trainingLocations: ["Karur", "Namakkal", "Udumalaipettai", "Coimbatore"],
   socials: {
-    youtube: "#",
-    instagram: "#",
-    facebook: "#",
-    linkedin: "#"
+    youtube: "https://www.youtube.com/channel/UCnLSjmFzTxx4jMHaB_ppfxQ",
+    instagram: "https://www.instagram.com/smartoi.in?utm_source=qr&knvt=MWMwZmJobnNtYjFhYQ%3D%3D",
+    facebook: "https://www.facebook.com/people/Smartoi/61596695948092/?rdid=rlyFEeZNmBcNeTdk&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1E7YNCoq4o%2F",
+    linkedin: "https://www.linkedin.com/company/smartoi/home/?viewAsMember=true"
   }
 };
 
